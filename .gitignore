@@ -25,6 +25,3 @@ yarn-error.log*
 # backend
 /server
 /db
-
-# assets. Because there's a lot...
-/assets
