@@ -1,0 +1,122 @@
+{
+    "fighting": {
+        "name": "Fighting",
+        "type": "Fighting",
+        "finesse": 5,
+        "damage": "(1D10)/2",
+        "melee": null,
+        "parry": null,
+        "one-handed": false,
+        "notes": "One-handed",
+        "cost": 0,
+        "rarity": "Common"
+    },
+    "club": {
+        "name": "Club/Baton",
+        "type": "Melee",
+        "finesse": 6,
+        "damage": "1D10",
+        "melee": null,
+        "parry": null,
+        "one-handed": true,
+        "notes": "One-handed",
+        "cost": 0.5,
+        "rarity": "Common"
+    },
+    "Sword": {
+        "name": "Sword",
+        "type": "Melee",
+        "finesse": 4,
+        "damage": "1D10",
+        "melee": null,
+        "parry": null,
+        "one-handed": true,
+        "notes": "One-handed",
+        "cost": 100,
+        "rarity": "Common"
+    },
+    "knife": {
+        "name": "Knife",
+        "type": "Melee",
+        "finesse": 7,
+        "damage": "1D10",
+        "melee": null,
+        "parry": null,
+        "one-handed": true,
+        "notes": "One-handed",
+        "cost": 1,
+        "rarity": "Common"
+    },
+    "axe/hammer": {
+        "name": "Axe/Hammer",
+        "type": "Melee",
+        "finesse": 8,
+        "damage": "2D10",
+        "melee": null,
+        "parry": null,
+        "one-handed": false,
+        "notes": "",
+        "cost": 1.5,
+        "rarity": "Common"
+    },
+    "spear": {
+        "name": "Spear",
+        "type": "Melee",
+        "finesse": 6,
+        "damage": "1D10 (+2 if used two handed)",
+        "melee": null,
+        "parry": null,
+        "one-handed": true,
+        "notes": "One or two handed",
+        "cost": 5,
+        "rarity": "Common"
+    },
+    "chainsaw": {
+        "name": "Chainsaw",
+        "type": "Melee",
+        "finesse": 8,
+        "damage": "3D10",
+        "melee": null,
+        "parry": null,
+        "one-handed": false,
+        "notes": "When used, you cannot use the Dodge defence until the start of your next turn",
+        "cost": 2,
+        "rarity": "Common"
+    },
+    "nanofibre sword": {
+        "name": "Nanofibre Sword",
+        "type": "Melee",
+        "finesse": 4,
+        "damage": "3D10",
+        "melee": null,
+        "parry": null,
+        "one-handed": true,
+        "notes": "One-handed",
+        "cost": 53000,
+        "rarity": "Rare"
+    },
+    "new-samurai sword": {
+        "name": "Neo-samurai Sword",
+        "type": "Melee",
+        "finesse": 4,
+        "damage": "2D10",
+        "melee": 15,
+        "parry": "",
+        "one-handed": true,
+        "notes": "One-handed. +15 melee weapons score",
+        "cost": 425000,
+        "rarity": "Rare"
+    },
+    "imperial sabre": {
+        "name": "Imperial Sabre",
+        "type": "Melee",
+        "finesse": 4,
+        "damage": "3D10",
+        "melee": 20,
+        "parry": 15,
+        "one-handed": true,
+        "notes": "One-handed. +20 melee weapons score. +15 parry defence score",
+        "cost": 3100000,
+        "rarity": "Rare"
+    }
+}

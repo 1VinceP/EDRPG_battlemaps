@@ -1,0 +1,63 @@
+.space-main {
+    height: var(--page-height);
+    width: 100%;
+    background: url('../../assets/Spaceship\ Combat\ Map.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+}
+.land-main {
+    height: var(--page-height);
+    width: 100%;
+    background: url('../../assets/Vehicle\ Combat\ Map.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+}
+.mixed-main {
+    height: var(--page-height);
+    width: 100%;
+    background: url('../../assets/Full\ Combat\ Map.jpg') no-repeat center center fixed;    
+    background-size: cover;
+    display: flex;
+}
+
+.combat-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tips-button {
+    height: 100%;
+    width: 130px;
+    background: none;
+    border: 1px solid orange;
+    outline: none;
+    cursor: pointer;
+    color: orange;
+}
+
+.select-box {
+    height: 100%;
+    width: 160px;
+    margin: none;
+    background: none;
+    color: #fff;
+    outline: none;
+    border: none;
+}
+
+.option-dropdown {
+    background: #000;
+    border: none;
+}
+
+.combat-tips {
+    height: 80%;
+    width: 90%;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    z-index: 8;
+}

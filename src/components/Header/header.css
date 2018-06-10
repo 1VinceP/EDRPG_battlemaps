@@ -1,0 +1,7 @@
+.header-main {
+    height: 18px;
+    width: 100%;
+    background: #0A0A0Abb;
+    position: fixed;
+    z-index: 3;
+}
