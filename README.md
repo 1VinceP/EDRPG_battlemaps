@@ -12,3 +12,4 @@ This is currently a work in progress. The maps have been added, and many of the 
 - Add all remaining ships
 - Resize Mixed Combat Map to better fit screen
 - Deploy demo
+- Add vehicles

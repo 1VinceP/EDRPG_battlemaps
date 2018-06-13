@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+import { addShip, changeBackground } from '../../redux/reducer';
 import Ship from '../../components/Ship/Ship';
 import Header from '../../components/Header/Header';
+import Tips from '../../components/Tips/Tips';
 import lists from '../../data/items';
 import './combat.css';
 
-class Space extends Component {
+class Combat extends Component {
     constructor() {
         super();
 
         this.state = {
             shipToCreate: '',
-            visible: [],
             background: 'space-main',
             tipOverlay: false
         }
@@ -26,12 +28,10 @@ class Space extends Component {
         for( let key in spaceships ) {
             if( key === name ) {
                 let ship = spaceships[key]
-                ship.index = this.state.visible.length
-                this.setState({
-                    visible: [...this.state.visible, ship]
-                })
+                ship.index = this.props.visible.length
+                this.props.addShip( ship )
             }
-        }    
+        }
     }
 
     displayTips() {
@@ -39,7 +39,7 @@ class Space extends Component {
     }
 
     renderShips() {
-        return this.state.visible.map( ( ship, i ) => {
+        return this.props.visible.map( ( ship, i ) => {
             return <Ship ship={ship} key={i} />
         } )
     }
@@ -54,20 +54,20 @@ class Space extends Component {
         } )
 
         return (
-            <div className={this.state.background}>
+            <div className={this.props.combatBg}>
                 <Header>
-                    <select className='select-box' onChange={e => this.setMap(e.target.value)}>
+                    <select className='select-box' onChange={e => this.props.changeBackground(e.target.value)}>
                         {mapOptions}
                     </select>
                     <select className='select-box' value='Select a Spaceship' onChange={e => this.createShip(e.target.value)}>
-                        {shipOptions}
+                            {shipOptions}
                     </select>
-                    <button className='tips-button' onClick={() => this.displayTips()}>Show Tips</button>
+                    <button className='tips-button' onClick={() => this.displayTips()}>{this.state.tipOverlay ? 'Hide Tips' : 'Show Tips'}</button>
                 </Header>
                 <section className='combat-content'>
                     {this.renderShips()}
-                    <div className={this.state.tipOverlay ? 'combat-tips' : ''}>
-
+                    <div className={this.state.tipOverlay ? 'combat-tips' : 'hide-tips'}>
+                        <Tips />
                     </div>
                 </section>
             </div>
@@ -75,4 +75,13 @@ class Space extends Component {
     }
 }
 
-export default Space;
+function mapStateToProps( state ) {
+    const { visible, combatBg } = state;
+
+    return {
+        visible,
+        combatBg
+    };
+}
+
+export default connect( mapStateToProps, { addShip, changeBackground } )(Combat);

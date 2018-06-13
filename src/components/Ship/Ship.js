@@ -12,7 +12,7 @@ class Ship extends Component {
     componentDidMount() {
         this.setState({ name: this.props.ship.name })
     }
-    
+
     onClick() {
         this.state.side === 'friendly'
         ? this.setState({ side: 'enemy' })
@@ -34,14 +34,15 @@ class Ship extends Component {
     render() {
         const { ship } = this.props
 
-        let inputWidth = ship.size === 's' ? '200%' : '130%'
-        let inputOffset = ship.size === 's' ? '-50%' : '-15%'
+        let inputWidth = ship.size === 's' || ship.size === 'slf' ? '200%' : '130%'
+        let inputOffset = ship.size === 's' || ship.size === 'slf' ? '-50%' : '-15%'
 
         let style = {
             height: ship.height,
             width: ship.width,
             color: 'white',
             position: 'absolute',
+            // border: '1px solid #0f0',
             top: '20px',
             left: '2px',
             zIndex: 1,
@@ -52,7 +53,7 @@ class Ship extends Component {
             width: '100%',
             background: `url( ${ship.image} ) no-repeat`,
             backgroundSize: 'contain'
-        }   
+        }
         let styleButton = {
             height: '18px',
             width: inputWidth,
