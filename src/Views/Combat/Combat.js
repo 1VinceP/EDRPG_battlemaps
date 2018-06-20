@@ -9,14 +9,10 @@ import lists from '../../data/items';
 import './combat.css';
 
 class Combat extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            shipToCreate: '',
-            background: 'space-main',
-            tipOverlay: false
-        }
+    state = {
+        shipToCreate: '',
+        background: 'space-main',
+        tipOverlay: false
     }
 
     setMap( name ) {
@@ -27,9 +23,9 @@ class Combat extends Component {
         const { spaceships } = lists
         for( let key in spaceships ) {
             if( key === name ) {
-                let ship = spaceships[key]
-                ship.index = this.props.visible.length
-                this.props.addShip( ship )
+                let ship = {...spaceships[key]}
+                let index = this.props.visible.length
+                this.props.addShip( ship, index )
             }
         }
     }
@@ -45,12 +41,15 @@ class Combat extends Component {
     }
 
     render() {
-        const shipOptions = lists.names.map( ( name, i ) => {
-            return <option key={i} className='option-dropdown' value={_.camelCase(name)}>{name}</option>
-        })
         const mapOptions = lists.maps.map( ( name, i ) => {
             let displayName = name.split('-')[0]
             return <option key={i} className='option-dropdown' value={name.toLowerCase()}>{displayName}</option>
+        } )
+        const shipOptions = lists.shipNames.map( ( name, i ) => {
+            return <option key={i} className='option-dropdown' value={_.camelCase(name)}>{name}</option>
+        })
+        const vehicleOptions = lists.vehicleNames.map( ( name, i ) => {
+            return <option key={i} className='option-dropdown' value={_.camelCase(name)}>{name}</option>
         } )
 
         return (
@@ -60,8 +59,11 @@ class Combat extends Component {
                         {mapOptions}
                     </select>
                     <select className='select-box' value='Select a Spaceship' onChange={e => this.createShip(e.target.value)}>
-                            {shipOptions}
+                        {shipOptions}
                     </select>
+                    {/* <select className='select-box' value='Select a Vehicle' onChange={e => this.createShip(e.target.value)}>
+                        {vehicleOptions}
+                    </select> */}
                     <button className='tips-button' onClick={() => this.displayTips()}>{this.state.tipOverlay ? 'Hide Tips' : 'Show Tips'}</button>
                 </Header>
                 <section className='combat-content'>
@@ -76,7 +78,7 @@ class Combat extends Component {
 }
 
 function mapStateToProps( state ) {
-    const { visible, combatBg } = state;
+    let { visible, combatBg } = state;
 
     return {
         visible,

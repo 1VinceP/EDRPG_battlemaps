@@ -13,8 +13,12 @@ export default {
         'Space-main', 'Land-main', 'Mixed-main'
     ],
 
-    names: [
+    shipNames: [
         'Select a Spaceship', 'STANDARD SHIPS', 'Alliance Chieftain', 'Adder', 'Anaconda', 'Asp Explorer', 'Asp Scout', 'Beluga Liner', 'Cobra Mk III', 'Cobra Mk IV', 'Diamondback Explorer', 'Diamondback Scout', 'Dolphin', 'Eagle Mk II', 'Federal Assault Ship', 'Federal Corvette', 'Federal Dropship', 'Federal Gunship', 'Fer de Lance', 'Hauler', 'Imperial Clipper', 'Imperial Courier', 'Imperial Cutter', 'Imperial Eagle', 'Keelback', 'Krait', 'Mamba Mk II', 'Merlin', 'Orca', 'Python', 'Sidewinder', 'Thargoid Scout', 'Type 6', 'Type 7', 'Type 9 Heavy', 'Type 10 Defender', 'Viper Mk III', 'Viper Mk IV', 'Vulture', 'FIGHTERS', 'Condor', 'Imperial Fighter', 'Taipan'
+    ],
+
+    vehicleNames: [
+        'Select a Vehicle', 'STANDARD VEHICLES', 'Scarab', 'Garriot Quadbike'
     ],
 
     spaceships:{
@@ -295,5 +299,5 @@ export default {
 
     vehicles: {
 
-    },
+    }
 }

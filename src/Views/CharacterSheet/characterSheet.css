@@ -1,0 +1,221 @@
+.character-main {
+    min-height: 100vh;
+    width: 100%;
+    background: #313132;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input, select, option {
+    height: 24px;
+    background: #212121;
+    color: #fff;
+    border: 1px solid #faa500;
+    outline: none;
+    border-radius: 3px;
+}
+
+input {
+    padding-left: 4px;
+}
+
+.character-body {
+    height: 100%;
+    width: 100%;
+    padding: 40px 30px 20px 30px;
+}
+.character-body input {
+    width: 100%;
+}
+
+.character-info {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.character-info input, .character-info select {
+    width: 48%;
+    margin-bottom: -1px;
+}
+
+.character-group {
+    width: 48%;
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+.character-group input, .character-group select {
+    width: 100% !important;
+}
+[name='karma'] {
+    border: 1px solid #7d00d1;
+    margin-top: 2px;
+}
+[name='endurance'] {
+    border: 1px solid #d50000;
+    margin-top: 2px;
+}
+
+.character-group3 {
+    width: 30%;
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+.character-group3 input {
+    width: 100% !important;
+}
+
+.character-bgs {
+    border-top: 1px solid #777;
+    display: flex;
+    margin-top: 16px;
+    padding-top: 16px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: #fff;
+}
+.character-bgs div, .character-bgs select {
+    width: 48%;
+    margin-top: -1px;
+}
+.bgs-total {
+    width: 100% !important;
+    text-align: right;
+    margin-top: 4px !important;
+    font-size: 13px;
+}
+
+.character-karma {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+.character-karma div {
+    margin-bottom: 3px;
+}
+.character-karma select, .character-karma input {
+    width: 100%;
+    margin-top: -1px;
+    border: 1px solid #7d00d1;
+}
+
+.character-skills {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #777;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: #fff;
+}
+.character-skills > div {
+    width: 100%;
+    border: 1px solid #faa500;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 3px 6px 6px 6px;
+    background: #212121;
+}
+.character-skills > div > div:first-child {
+    border-bottom: 1px solid #faa500;
+    padding: 3px 0;
+    margin-bottom: 6px;
+    text-align: center;
+}
+.character-skills > div > div:not(:first-child) {
+    display: flex;
+    margin-top: 2px;
+}
+.skill-name {
+    flex: 2;
+}
+.skill-value {
+    flex: 1;
+    text-align: center;
+}
+.skill-bonus {
+    flex: 1;
+    text-align: right;
+}
+
+.character-enhance {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #29d9df;
+    border-radius: 3px;
+    color: #fff;
+    background: #212121;
+}
+
+.character-learning {
+    margin-top: 16px;
+    border-top: 1px solid #777;
+    padding-top: 16px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.character-learning > div:first-child {
+    margin-bottom: 3px;
+}
+.each-enhance {
+    display: flex;
+    margin-bottom: -1px;
+}
+.each-enhance div {
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #faa500;
+    border-radius: 3px;
+    border-right: none;
+    background: #212121;
+}
+.each-enhance select {
+    width: 100%;
+}
+
+.character-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 30px;
+}
+
+.character-buttons button {
+    width: 100px;
+    height: 30px;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    color: #fff;
+    box-shadow: 4px 4px 4px #0008;
+    cursor: pointer;
+}
+#character-reset {
+    background: #d50000
+}
+#character-save {
+    background: #29d9df;
+}
+
+@media (min-width: 700px) {
+    .character-body {
+        padding: 40px 20% 20px 20%;
+    }
+    .character-skills > div {
+        width: 32.5%;
+        margin-bottom: 20px;
+    }
+    .character-buttons {
+        padding-right: 20%;
+        padding-left: 20%;
+    }
+}

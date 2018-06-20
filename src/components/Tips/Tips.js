@@ -62,7 +62,7 @@ export default function Tips() {
                     <h3>Zero-G Rush</h3>
                     <p>Turn off Magboots and travel 16m in one direction. Attacks have -1 To Hit. At the end of your turn, decide to gain control or keep drifting. Gain control: Difficulty 10 (12 if no magboots or flying). If you succeed, you stop. If you fail, keep drifting, or crash and spin if you run into anything. If you keep drifting, move another 16m at the start of your next turn. If you crash and spin, take 1D10 damage and lose next turn. If you hit an enemy, they also take 1D10 damage and are knocked over if they are the same size or smaller. You must attempt to regain control at the end of each turn, or keep spinning</p>
                 </div>
-                <div className='tip yellow'>
+                <div className='tip orange'>
                     <h2>Damage</h2>
                     <h3>Being Knocked Over</h3>
                     <p>Except for energy weapons, a damage roll of 10 will knock the target over. Starting your turn knocked over means you can move half your speed, or spend all your movement speed standing up. Attack bonuses are not applied this turn</p>
@@ -185,7 +185,7 @@ export default function Tips() {
                     <h3>Abandoning Ship</h3>
                     <p>All crew and yourself pile into escape pods. There are only enough pods for you and the total crew compliment. Other people must be left behind. If the ship is still intact on your next turn, other passengers eject themselves wearing only their spacesuits</p>
                 </div>
-                <div className='tip yellow'>
+                <div className='tip orange'>
                     <h2>Damage</h2>
                     <h3>Taking Damage</h3>
                     <p>All damage is first applied to shields, then the hull once the shields are down. Burst weapons deal an extra 5 damage for each point they exceed the target's defence score</p>

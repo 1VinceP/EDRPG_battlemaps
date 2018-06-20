@@ -32,10 +32,10 @@
     height: 100%;
     width: 130px;
     background: none;
-    border: 1px solid orange;
+    border: 1px solid #ffa500;
     outline: none;
     cursor: pointer;
-    color: orange;
+    color: #ffa500;
 }
 
 .select-box {
@@ -47,13 +47,6 @@
     outline: none;
     border: none;
     cursor: pointer;
-}
-
-.option-group {
-    color: #fff;
-    /* color: #fff;
-    background: #000;
-    border: none; */
 }
 
 .option-dropdown {

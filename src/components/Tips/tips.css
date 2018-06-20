@@ -85,14 +85,14 @@
     color: #4fb6b6;
 }
 
-.yellow {
-    border-left: 1px solid #ff0;
+.orange {
+    border-left: 1px solid #ffa500;
 }
-.yellow h2 {
-    color: #ff0;
+.orange h2 {
+    color: #ffa500;
 }
-.yellow h3 {
-    color: #cccc68;
+.orange h3 {
+    color: #ddaa4c;
 }
 
 .red {

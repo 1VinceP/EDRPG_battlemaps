@@ -1,7 +1,26 @@
 .header-main {
     height: 18px;
     width: 100%;
-    background: #0A0A0Abb;
+    background: #0A0A0Add;
     position: fixed;
     z-index: 3;
+    display: flex;
+}
+
+.menu-button {
+    height: 100%;
+    width: 80px;
+    color: #ffa500;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ffa500;
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .header-main {
+        height: 24px;
+    }
 }
