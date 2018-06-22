@@ -1,7 +1,7 @@
 export default {
 
     backgrounds: [
-        '', 'Boxer', 'Trained Pilot', 'demo1', 'demo2'
+        '', 'Boxer', 'Trained Pilot', 'demo1', 'demo2', 'demo3'
     ],
 
     backgroundStats: {
@@ -28,21 +28,40 @@ export default {
             }
         },
         demo2: {
-            cost: 2
+            cost: 2,
+            bonuses: {
+                20: [ 'stealth' ],
+                10: [ 'security' ]
+            },
+            enhancements: [ 'Tall' ]
+        },
+        demo3: {
+            cost: 2,
+            bonuses: {
+                10: [ 'computer', 'cyber', 'medicine', 'science', 'tactics' ],
+                20: []
+            }
         }
     },
 
     karma: [
-        '', 'Avoid Lock', 'Escape Death'
+        '', 'Avoid Lock', 'Break Right', 'Escape Death', 'Ninja Roll'
     ],
 
     karmaStats: {
         avoidLock: {
-
+            cost: 2
+        },
+        breakRight: {
+            cost: 4
         },
         escapeDeath: {
             cost: 'all'
+        },
+        ninjaRoll: {
+            cost: 6
         }
+
     },
 
     skills: [
