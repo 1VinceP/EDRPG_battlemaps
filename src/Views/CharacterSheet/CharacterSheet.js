@@ -89,6 +89,8 @@ class CharacterSheet extends Component {
         const { backgroundStats } = data, { name, value } = e.target // value is background name
         const { backgrounds, enhancements } = this.state
         let num = name.split(' ')[1] // The number of the background
+        let flatEnhance = _.flattenDeep( enhancements )
+        let newEnhance = []
         let cost
 
         for( let key in backgroundStats ) {
@@ -98,25 +100,40 @@ class CharacterSheet extends Component {
                 if( backgrounds[num] ) {
                     let oldBg = _.camelCase(backgrounds[num])
                     if( backgroundStats[oldBg].hasOwnProperty( 'enhancements' ) ) {
-                        let newEnhance = enhancements.filter( enhance => enhance === backgroundStats[oldBg].enhancements[0] || enhance === backgroundStats[oldBg].enhancements[1] )
-                        this.setState({ enhancements: newEnhance }) // Remove enhancements
+                        // let newEnhance = enhancements.filter( enhance => enhance === backgroundStats[oldBg].enhancements[0] || enhance === backgroundStats[oldBg].enhancements[1] )
+                        console.log( 'oldBg:', backgroundStats[oldBg] )
+                        // newEnhance = backgroundStats[oldBg].enhancements.forEach( enhancement => {
+                        //     let found = _.flattenDeep( enhancements ).indexOf( enhancement )
+                        //     console.log( found )
+                        //     let answer = enhancements.splice( found, 1 )
+                        //     return answer
+                        // } )
+                        for( let i = 0; i < backgroundStats[oldBg].enhancements.length; i++ ) {
+                            console.log( backgroundStats[oldBg].enhancements[i] )
+                            for( let j = flatEnhance.length; j >= 0; j-- ) {
+                                if( flatEnhance[j] === backgroundStats[oldBg].enhancements[i] )
+                                    flatEnhance.splice( j, 1 )
+                            }
+                        }
+                        console.log( flatEnhance )
+                        this.setState({ enhancements: flatEnhance }) // Remove enhancements
                     }
                     backgroundStats[oldBg].bonuses[10].forEach( skill => this.updateSkills( skill, -10 )) // Remove +10 bonuses
                     backgroundStats[oldBg].bonuses[20].forEach( skill => this.updateSkills( skill, -20 )) // Remove +20 bonuses
-                    for( let key in backgrounds ) {
-                        if( backgrounds[key] === value ) {
+                    for( let prop in backgrounds ) {
+                        if( backgrounds[prop] === value ) {
                             this.resetSelect( name )
-                            this.toasty( `"${backgrounds[key]}" is already assigned as a background, and will not provide an additional bonus` )
+                            this.toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
                             this.updateBgToState( num, '', 0 )
                             return;
                         }
                     }
                 }
 
-                for( let key in backgrounds ) {
-                    if( backgrounds[key] === value ) {
+                for( let prop in backgrounds ) {
+                    if( backgrounds[prop] === value ) {
                         this.resetSelect( name )
-                        this.toasty( `"${backgrounds[key]}" is already assigned as a background, and will not provide an additional bonus` )
+                        this.toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
                         this.updateBgToState( num, '', 0 )
                         return;
                     }
@@ -189,10 +206,9 @@ class CharacterSheet extends Component {
 
     // Fire this function whenever a skill value must be updated
     updateSkills( skill, bonus ) {
-        const { skills } = this.state
 
-        for( let key in skills ) { // Loop through the skill headings
-            for( let prop in skills[key] ) { // Loop through the individual skills of each heading
+        for( let key in this.state.skills ) { // Loop through the skill headings
+            for( let prop in this.state.skills[key] ) { // Loop through the individual skills of each heading
                 if( prop === skill ) { // If there is a match, update the skill value
                     this.setState({
                         skills: { ...this.state.skills, [key]: { ...this.state.skills[key], [prop]: this.state.skills[key][prop] += bonus } }
@@ -241,17 +257,22 @@ class CharacterSheet extends Component {
 
         return skills.map( (skill, i) => {
             let name = this.normalizeString( skill.key )
-            let color
+            let showSkillValue = skill.value
+            if( showSkillValue > 40 )
+                showSkillValue = 40
 
+            let color
+            if( skill.value > 40 )
+                color = '#ff4848'
             if( skill.value === 40 )
-                color = '#e00092'
+                color = '#54e4fd'
             if( skill.value < 40 )
-                color = '#a8006e'
+                color = '#189AD3'
             if( skill.value < 30 )
-                color = '#72004b'
+                color = '#005073'
             if( skill.value < 20 )
-                color = '#44002d'
-            if( skill.value === 10 )
+                color = '#46545a'
+            if( skill.value <= 10 )
                 color = '#fff'
 
             return (
@@ -265,7 +286,7 @@ class CharacterSheet extends Component {
     }
 
     renderLearning() {
-        let skillOptions = data.skills.map( (skill, i) => <option key={i} value={skill}>{skill}</option> )
+        let skillOptions = _.orderBy( data.skills ).map( (skill, i) => <option key={i} value={skill}>{skill}</option> )
         let display = []
 
         for( let i = 10; i > 0; i-- ) {
@@ -285,37 +306,55 @@ class CharacterSheet extends Component {
 
     /////////////////////////// AJAX REQUESTS
     saveCharacter() {
-        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, skills: { personal, vehicle, intelligence, social, espionage }, learning } = this.state
-        let complete = true
+        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, skills, skills: { personal, vehicle, intelligence, social, espionage }, learning } = this.state
+        let acceptOver50 = true
+        let complete = false
 
+        // Check that backgrounds costs to not exceed 5
         if( this.reduceToTotal(this.state.bgCosts) > 5 ) {
             complete = false
             this.toasty( 'You have too many backgrounds! Please limit your background cost to 5' )
         }
 
+        // Check that input values are not empty
         if( name === '' || gender === '' || age === '' || height === '' || weight === '' )
             complete = false
 
-        // _.values( backgrounds ).forEach( bg => bg === '' ? complete = false : null )
-        this.reduceToTotal(this.state.bgCosts) < 5 ? complete = false : null
-        _.values( karmas ).forEach( karma => karma === '' ? complete = false : null )
-        _.values( learning ).forEach( learn => learn === '' ? complete = false : null )
+        // Check that dropdown values are not empty
+        this.reduceToTotal(this.state.bgCosts) < 5 ? complete = false : complete = true
+        _.values( karmas ).forEach( karma => karma === '' ? complete = false : complete = true )
+        _.values( learning ).forEach( learn => learn === '' ? complete = false : complete = true )
+
+        for( let key in skills ) {
+            for( let prop in skills[key] ) {
+                if( skills[key][prop] > 40 )
+                acceptOver50 = window.confirm( 'You have a skill value over 50 when the limit is 40. If you are not ok with losing the extra points, press "cancel".' )
+            }
+        }
+
+        if( !acceptOver50 )
+            return;
 
         console.log( complete )
 
-        // let body = {
-        //     name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage
-        // }
+        if( !complete ) {
+            this.toasty( 'It looks like you left something empty. Please go back and make sure everything is filled in.' )
+            return;
+        }
 
-        // axios.post( '/api/addCharacter', body )
-        //     .then( () => console.log( 'Your character has been saved') )
+        let body = {
+            name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage
+        }
+
+        axios.post( '/api/addCharacter', body )
+            .then( () => console.log( 'Your character has been saved') )
     }
 
     render() {
         let flatEnhance = _.flattenDeep( this.state.enhancements )
         let bgOptions = data.backgrounds.map( (bg, i) => <option key={i} value={bg}>{bg}</option> )
         let karmaOptions = data.karma.map( (karma, i) => <option key={i} value={karma}>{karma}</option> )
-        let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{enhance}</div> )
+        let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{this.normalizeString( enhance )}</div> )
 
         let costStyle ='#fff'
         if( this.reduceToTotal(this.state.bgCosts) > 5 )

@@ -15,7 +15,7 @@ This is currently a work in progress. The maps have been added, and many of the 
 
 
 
-## Goals
+## Todo
 - Update demo
 
 ### Combat maps
@@ -24,9 +24,16 @@ This is currently a work in progress. The maps have been added, and many of the 
 - Add vehicle tips
 
 ### Character Creator
-- Limit skill cap to 40
-- Input all BGs
+- Ability to remove backgrounds
+- Fix removal of Enhancements
+- Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
+  - *If confirmed, reduce value down to 40*
+  - Natural Genius
+- ADD FUNCTIONALITY: Cyborg, Gene Mod Baby, Self Taught, University Graduate
+- ADD FUNCTIONALITY: Enhancements from backgrounds
 - Input all karmic abilities
-- Add Natural Genius functionality
 - Add cyborg options
 - Add companion options
+
+### Database
+- Format height
