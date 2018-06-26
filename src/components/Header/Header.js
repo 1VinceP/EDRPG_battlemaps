@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
-import { handleNav } from '../../redux/reducer';
+import { setUser } from '../../redux/authReducer';
+import { handleNav } from '../../redux/shipReducer';
 import './header.css';
 
 class Header extends Component {
+
+    componentDidMount() {
+        if( !this.props.user.id ) {
+            axios.get( '/auth/me' )
+                .then( response => this.props.setUser( response.data ) )
+        }
+    }
+
     render() {
         const { handleNav, navOpen, children } = this.props
 
@@ -17,11 +27,13 @@ class Header extends Component {
 }
 
 function mapStateToProps( state ) {
-    const { navOpen } = state;
+    const { navOpen } = state.ship;
+    const { user } = state.auth
 
     return {
-        navOpen
+        navOpen,
+        user
     };
 }
 
-export default connect( mapStateToProps, { handleNav } )(Header);
+export default connect( mapStateToProps, { handleNav, setUser } )(Header);

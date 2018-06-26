@@ -1,0 +1,17 @@
+.display-main {
+    min-height: 100vh;
+    width: 100%;
+    background: var(--main-bg);
+}
+
+.display-body {
+    height: 100%;
+    width: 100%;
+    /* padding: var(--body-padding-small); */
+    padding: 40px 0;
+    color: #fff;
+}
+
+.display-title {
+    margin: 20px;
+}

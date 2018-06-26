@@ -1,5 +1,5 @@
 # EDRPG Battlemaps
-This is currently a work in progress. The maps have been added, and many of the ships have been added as well.
+This is currently a work in progress. Please open an issue on this repo to report bugs/feature requests
 
 ## Usage
 ### Combat maps
@@ -14,7 +14,7 @@ This is currently a work in progress. The maps have been added, and many of the 
 - If user is logged in, save completed sheet to database. Otherwise they still have full functionality minus saving
 
 
-
+______________________________________________________________________
 ## Todo
 - Update demo
 
@@ -26,14 +26,15 @@ This is currently a work in progress. The maps have been added, and many of the 
 ### Character Creator
 - Ability to remove backgrounds
 - Fix removal of Enhancements
+  - Works unless you switch an enhancement bg with another
 - Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
   - *If confirmed, reduce value down to 40*
   - Natural Genius
-- ADD FUNCTIONALITY: Cyborg, Gene Mod Baby, Self Taught, University Graduate
+- ADD FUNCTIONALITY: Cyborg, partner, Gene Mod Baby, Self Taught, University Graduate
+  - Add cyborg options
+  - Add partner options
 - ADD FUNCTIONALITY: Enhancements from backgrounds
-- Input all karmic abilities
-- Add cyborg options
-- Add companion options
+- Add karmic abilities
 
 ### Database
 - Format height

@@ -1,19 +1,19 @@
 .space-main {
-    height: var(--page-height);
+    height: 100vh;
     width: 100%;
     background: url('../../assets/Spaceship\ Combat\ Map.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
 }
 .land-main {
-    height: var(--page-height);
+    height: 100vh;
     width: 100%;
     background: url('../../assets/Vehicle\ Combat\ Map.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
 }
 .mixed-main {
-    height: var(--page-height);
+    height: 100vh;
     width: 100%;
     background: url('../../assets/Full\ Combat\ Map.jpg') no-repeat center center fixed;
     background-size: cover;

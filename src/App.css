@@ -1,5 +1,8 @@
 :root {
-    --page-height: 100vh;
+    --main-bg: #313132;
+    --second-bg: #212121;
+    --body-padding-small: 46px 30px 20px 30px;
+    --body-padding-large: 46px 18% 20px 18%;
 }
 
 .link {

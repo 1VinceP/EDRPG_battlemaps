@@ -1,16 +1,22 @@
 let initialState = {
     visible: [],
     combatBg: 'space-main',
-    navOpen: false
+    navOpen: false,
+    user: {
+        username: '',
+        email: '',
+        id: ''
+    }
 }
 
+// SHIP TYPES
 const ADD_SHIP = 'ADD_SHIP'
-const MANAGE_BG = 'MANAGE_BG'
-const HANDLE_NAV = 'HANDLE_NAV'
-const UPDATE_POS = 'UPDATE_POS'
-const CHANGE_SIDES = 'CHANGE_SIDES'
-const HANDLE_NAME = 'HANDLE_NAME'
-const HANDLE_ACTIVE = 'HANDLE_ACTIVE'
+    , MANAGE_BG = 'MANAGE_BG'
+    , HANDLE_NAV = 'HANDLE_NAV'
+    , UPDATE_POS = 'UPDATE_POS'
+    , CHANGE_SIDES = 'CHANGE_SIDES'
+    , HANDLE_NAME = 'HANDLE_NAME'
+    , HANDLE_ACTIVE = 'HANDLE_ACTIVE'
 
 let newVisible
 
@@ -98,8 +104,6 @@ export function updateShipPos( { id, x, y } ) {
 
 export function changeSides( id, side ) {
 
-    console.log( id, side )
-
     return {
         type: CHANGE_SIDES,
         payload: { id, side }
@@ -107,8 +111,6 @@ export function changeSides( id, side ) {
 }
 
 export function handleName( id, val ) {
-
-    console.log( id, val )
 
     return {
         type: HANDLE_NAME,

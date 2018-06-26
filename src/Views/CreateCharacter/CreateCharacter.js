@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { ToastContainer, Slide, toast } from 'react-toastify';
 import Header from '../../components/Header/Header';
 import data from '../../data/characterData';
 import initialState from '../../data/initialStates';
 import 'react-toastify/dist/ReactToastify.css';
-import './characterSheet.css';
+import './createCharacter.css';
 
 
-class CharacterSheet extends Component {
+class CreateCharacter extends Component {
     state = {
         name: '',
         rank: 'Harmless',
@@ -234,15 +235,18 @@ class CharacterSheet extends Component {
         return str.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
     }
 
+    // Resets state back to its empty values
     resetState = () => {
         document.getElementById( 'character-form' ).reset()
         this.setState( _.cloneDeep( initialState.characterSheet ) )
     }
 
+    // Resets a specific select value
     resetSelect = name => {
         document.getElementsByName( name )[0].value = ''
     }
 
+    // Throws a toast notification
     toasty = message => {
         toast.error( message )
     }
@@ -346,7 +350,7 @@ class CharacterSheet extends Component {
             name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage
         }
 
-        axios.post( '/api/addCharacter', body )
+        axios.post( `/api/addCharacter/${this.props.user.id}`, body )
             .then( () => console.log( 'Your character has been saved') )
     }
 
@@ -362,11 +366,16 @@ class CharacterSheet extends Component {
 
         return (
             <div className='character-main'>
-                <Header>
-
-                </Header>
+                <Header />
 
                 <ToastContainer transition={Slide} autoClose={3000} style={{ fontSize: '12px', top: '30px' }} />
+
+                { !this.props.user.id
+                    ? <div className='character-no-user'>
+                        You are not logged in. Changes made to this page will not be saved.
+                    </div>
+                    : null
+                }
 
                 <form id='character-form' className='character-body' autoComplete='off'>
                     <input placeholder='Character Name' name='name' onChange={e => this.handleInfo(e)} />
@@ -475,7 +484,7 @@ class CharacterSheet extends Component {
 
                 <section className='character-buttons'>
                     <button id='character-reset' onClick={() => this.resetState()}>Reset</button>
-                    <button id='character-save' onClick={() => this.saveCharacter()}>Save</button>
+                    <button id='character-save' onClick={() => this.saveCharacter()} disabled={!this.props.user.id}>Save</button>
                 </section>
 
             </div>
@@ -483,4 +492,12 @@ class CharacterSheet extends Component {
     }
 }
 
-export default CharacterSheet;
+function mapStateToProps( state ) {
+    const { user } = state.auth;
+
+    return {
+        user
+    };
+}
+
+export default connect( mapStateToProps, {} )(CreateCharacter);

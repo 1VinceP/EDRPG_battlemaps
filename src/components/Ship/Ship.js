@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
-import { updateShipPos, changeSides, handleName, handleActive } from '../../redux/reducer';
+import { updateShipPos, changeSides, handleName, handleActive } from '../../redux/shipReducer';
 import './ship.css';
 
 class Ship extends Component {
@@ -108,7 +108,7 @@ class Ship extends Component {
 }
 
 function mapStateToProps( state ) {
-    const { deltaPosition } = state;
+    const { deltaPosition } = state.ship;
 
     return {
         deltaPosition

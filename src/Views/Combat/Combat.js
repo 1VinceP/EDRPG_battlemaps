@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { addShip, changeBackground } from '../../redux/reducer';
+import { addShip, changeBackground } from '../../redux/shipReducer';
 import Ship from '../../components/Ship/Ship';
 import Header from '../../components/Header/Header';
 import Tips from '../../components/Tips/Tips';
@@ -78,7 +78,7 @@ class Combat extends Component {
 }
 
 function mapStateToProps( state ) {
-    let { visible, combatBg } = state;
+    let { visible, combatBg } = state.ship;
 
     return {
         visible,

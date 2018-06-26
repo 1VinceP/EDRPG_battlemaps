@@ -49,18 +49,16 @@ passport.use( new Auth0Strategy({
 massive( process.env.DATABASE_URI ).then( db => {
     console.log( chalk.magenta('Connected to Database') );
     app.set( 'db', db );
-    app.get('db').init.seed().then( res => console.log( res ) )
-        .catch( err => console.log( err ) )
+    // app.get('db').init.seed().then( res => console.log( res ) )
+    //     .catch( err => console.log( err ) )
     listener(); // listening inside of massive to prevent attempted DB calls before successful connection
 } );
 
 ////////// Authentication action
 passport.serializeUser( ( user, done ) => {
-    console.log( chalk.yellow( 'User serialized' ) )
     done( null, user )
 } );
 passport.deserializeUser( ( obj, done ) => {
-    console.log( chalk.yellow( 'User deserialized' ) )
     done( null, obj[0] )
 } );
 
@@ -75,8 +73,10 @@ app.get( '/auth/me', authController.login );
 app.get( '/auth/logout', authController.logout );
 
 
-// CHARACTER SHEET ENDPOINTS
-app.post( '/api/addCharacter', charController.addCharacter )
+// CHARACTER ENDPOINTS
+app.post( '/api/addCharacter/:id', charController.addCharacter )
+app.get( '/api/userCharacters/:id', charController.getCharacters )
+app.get( '/api/character/:cid/:uid', charController.getCharacter )
 
 
 // creating function at end of file for readability
