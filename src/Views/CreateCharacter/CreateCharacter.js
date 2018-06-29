@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { ToastContainer, Slide, toast } from 'react-toastify';
 import Header from '../../components/Header/Header';
 import data from '../../data/characterData';
+import karmaData from '../../data/karma.json';
 import initialState from '../../data/initialStates';
 import 'react-toastify/dist/ReactToastify.css';
 import './createCharacter.css';
@@ -75,7 +76,7 @@ class CreateCharacter extends Component {
                 survival: 10
             }
         },
-        karmas: { one: 'Escape Death', two: '', three: '', four: '' },
+        karmas: { one: 'escapeDeath', two: '', three: '', four: '' },
         enhancements: [],
         learning: { 10: '', 9: '', 8: '', 7: '', 6: '', 5: '', 4: '', 3: '', 2: '', 1: '' }
     }
@@ -101,22 +102,12 @@ class CreateCharacter extends Component {
                 if( backgrounds[num] ) {
                     let oldBg = _.camelCase(backgrounds[num])
                     if( backgroundStats[oldBg].hasOwnProperty( 'enhancements' ) ) {
-                        // let newEnhance = enhancements.filter( enhance => enhance === backgroundStats[oldBg].enhancements[0] || enhance === backgroundStats[oldBg].enhancements[1] )
-                        console.log( 'oldBg:', backgroundStats[oldBg] )
-                        // newEnhance = backgroundStats[oldBg].enhancements.forEach( enhancement => {
-                        //     let found = _.flattenDeep( enhancements ).indexOf( enhancement )
-                        //     console.log( found )
-                        //     let answer = enhancements.splice( found, 1 )
-                        //     return answer
-                        // } )
                         for( let i = 0; i < backgroundStats[oldBg].enhancements.length; i++ ) {
-                            console.log( backgroundStats[oldBg].enhancements[i] )
                             for( let j = flatEnhance.length; j >= 0; j-- ) {
                                 if( flatEnhance[j] === backgroundStats[oldBg].enhancements[i] )
                                     flatEnhance.splice( j, 1 )
                             }
                         }
-                        console.log( flatEnhance )
                         this.setState({ enhancements: flatEnhance }) // Remove enhancements
                     }
                     backgroundStats[oldBg].bonuses[10].forEach( skill => this.updateSkills( skill, -10 )) // Remove +10 bonuses
@@ -142,7 +133,7 @@ class CreateCharacter extends Component {
 
                 // Add enhancements if they exist
                 if( backgroundStats[key].hasOwnProperty( 'enhancements' ) ) {
-                    this.setState({ enhancements: [...enhancements, backgroundStats[key].enhancements] })
+                    this.setState({ enhancements: [...flatEnhance, backgroundStats[key].enhancements] })
                 }
 
                 // Apply the new skill bonus
@@ -251,6 +242,15 @@ class CreateCharacter extends Component {
         toast.error( message )
     }
 
+    findFalse( arr ) {
+        console.log( arr )
+        for( let i = 0; i < arr.length; i++ ) {
+            if( !arr[i] ) return false;
+        }
+
+        return true;
+    }
+
 
     /////////////////////////// RENDER METHODS
     renderSkillRow( section ) {
@@ -312,36 +312,40 @@ class CreateCharacter extends Component {
     saveCharacter() {
         const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, skills, skills: { personal, vehicle, intelligence, social, espionage }, learning } = this.state
         let acceptOver50 = true
-        let complete = false
+        , completeInfo = false
+        , completeBg = false
+        , completeKarma = this.findFalse( _.values( karmas ) )
+        , completeLearning = this.findFalse( _.values( learning ) )
 
         // Check that backgrounds costs to not exceed 5
         if( this.reduceToTotal(this.state.bgCosts) > 5 ) {
-            complete = false
             this.toasty( 'You have too many backgrounds! Please limit your background cost to 5' )
+            return;
         }
 
         // Check that input values are not empty
         if( name === '' || gender === '' || age === '' || height === '' || weight === '' )
-            complete = false
+            completeInfo = false
+        else
+            completeInfo = true
 
         // Check that dropdown values are not empty
-        this.reduceToTotal(this.state.bgCosts) < 5 ? complete = false : complete = true
-        _.values( karmas ).forEach( karma => karma === '' ? complete = false : complete = true )
-        _.values( learning ).forEach( learn => learn === '' ? complete = false : complete = true )
+        this.reduceToTotal(this.state.bgCosts) < 5 ? completeBg = false : completeBg = true
 
+        // Throw alert if one or more skills is greater than 40
         for( let key in skills ) {
             for( let prop in skills[key] ) {
-                if( skills[key][prop] > 40 )
-                acceptOver50 = window.confirm( 'You have a skill value over 50 when the limit is 40. If you are not ok with losing the extra points, press "cancel".' )
+                if( skills[key][prop] > 40 ) {
+                    acceptOver50 = window.confirm( 'You have one or more skill values over 40 when the limit is 40. If you are not ok with losing the extra points, press "cancel".' )
+                }
             }
         }
 
         if( !acceptOver50 )
             return;
 
-        console.log( complete )
-
-        if( !complete ) {
+        if( !completeInfo || !completeBg || !completeKarma || !completeLearning ) {
+            console.log( completeInfo, completeBg, completeKarma, completeLearning )
             this.toasty( 'It looks like you left something empty. Please go back and make sure everything is filled in.' )
             return;
         }
@@ -350,14 +354,17 @@ class CreateCharacter extends Component {
             name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage
         }
 
-        axios.post( `/api/addCharacter/${this.props.user.id}`, body )
-            .then( () => console.log( 'Your character has been saved') )
+        axios.post( `/api/addCharacter/${this.props.user.userid}`, body )
+            .then( () => {
+                console.log( 'Your character has been saved')
+                this.props.history.push('/playercharacters')
+            } )
     }
 
     render() {
         let flatEnhance = _.flattenDeep( this.state.enhancements )
         let bgOptions = data.backgrounds.map( (bg, i) => <option key={i} value={bg}>{bg}</option> )
-        let karmaOptions = data.karma.map( (karma, i) => <option key={i} value={karma}>{karma}</option> )
+        let karmaOptions = karmaData.karmaNames.map( (karma, i) => <option key={i} value={_.camelCase(karma)}>{this.normalizeString( karma )}</option> )
         let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{this.normalizeString( enhance )}</div> )
 
         let costStyle ='#fff'
@@ -370,7 +377,7 @@ class CreateCharacter extends Component {
 
                 <ToastContainer transition={Slide} autoClose={3000} style={{ fontSize: '12px', top: '30px' }} />
 
-                { !this.props.user.id
+                { !this.props.user.userid
                     ? <div className='character-no-user'>
                         You are not logged in. Changes made to this page will not be saved.
                     </div>
@@ -409,6 +416,7 @@ class CreateCharacter extends Component {
                             <input type='number' value={this.state.endurance} name='endurance' disabled />
                         </div>
                     </section>
+
 
                     {/* Defence and Initiative scores */}
                     <section className='character-info'>
@@ -484,7 +492,7 @@ class CreateCharacter extends Component {
 
                 <section className='character-buttons'>
                     <button id='character-reset' onClick={() => this.resetState()}>Reset</button>
-                    <button id='character-save' onClick={() => this.saveCharacter()} disabled={!this.props.user.id}>Save</button>
+                    <button id='character-save' onClick={() => this.saveCharacter()} disabled={!this.props.user.userid}>Save</button>
                 </section>
 
             </div>
@@ -495,9 +503,7 @@ class CreateCharacter extends Component {
 function mapStateToProps( state ) {
     const { user } = state.auth;
 
-    return {
-        user
-    };
+    return { user };
 }
 
 export default connect( mapStateToProps, {} )(CreateCharacter);

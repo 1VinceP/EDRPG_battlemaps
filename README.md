@@ -24,9 +24,8 @@ ______________________________________________________________________
 - Add vehicle tips
 
 ### Character Creator
-- Ability to remove backgrounds
-- Fix removal of Enhancements
-  - Works unless you switch an enhancement bg with another
+- Add equipment on save
+- Ability to remove backgrounds/karmas
 - Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
   - *If confirmed, reduce value down to 40*
   - Natural Genius
@@ -34,7 +33,21 @@ ______________________________________________________________________
   - Add cyborg options
   - Add partner options
 - ADD FUNCTIONALITY: Enhancements from backgrounds
-- Add karmic abilities
+
+### Character Sheet
+- Display Dodge/Parry/Initiative
+- Display Karma
+  - Display type
+- Display Equipment
+
+
+### Spaceship Sheet
+
+### Vehicle Sheet
+
+### Navbar
+- Add dice roller
+- Add media player
 
 ### Database
-- Format height
+- Add equipment

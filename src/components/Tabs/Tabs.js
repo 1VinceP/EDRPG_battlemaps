@@ -6,12 +6,12 @@ class Tabs extends Component {
         titles: []
     }
     static propTypes = {
-        titles: PropTypes.arrayOf(PropTypes.string).isRequired,
-        default: PropTypes.string.isRequired,
-        sendTab: PropTypes.func,
+        titles: PropTypes.arrayOf(PropTypes.string).isRequired, // The list of tabs
+        default: PropTypes.string.isRequired, // The starting tab
+        sendTab: PropTypes.func, // The function passed by the parent. The current tab will be passed up through this function
 
-        backgroundColor: PropTypes.string.isRequired,
-        borderColor: PropTypes.string
+        backgroundColor: PropTypes.string.isRequired, // The color of the active tab
+        borderColor: PropTypes.string // The color of the border
     }
 
     state = {
@@ -19,16 +19,14 @@ class Tabs extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            active: this.props.default
-        })
+        // Set the default tab here and on the parent
+        this.setState({ active: this.props.default })
         this.props.sendTab( this.props.default )
     }
 
     handleSwitch( tabName ) {
-        this.setState({
-            active: tabName
-        })
+        // Switch the tab here and on the parent
+        this.setState({ active: tabName })
         this.props.sendTab( tabName )
     }
 
@@ -78,7 +76,6 @@ class Tabs extends Component {
                 display: 'flex',
                 borderBottom: `1px solid ${this.props.borderColor || '#888'}`,
                 padding: '0 10%',
-                marginBottom: '20px'
             }
         }
 

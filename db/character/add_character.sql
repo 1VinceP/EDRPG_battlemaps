@@ -1,4 +1,4 @@
 INSERT INTO Characters
-( userid, "name", "rank", rank_points, gender, age, height, "weight", max_karma, current_karma, max_endurance, current_endurance, backgrounds, karmic_abilites, enhancements, personal, vehicle, intelligence, social, espionage )
+( userid, "name", "rank", rank_points, gender, age, height, "weight", max_karma, current_karma, max_endurance, current_endurance, backgrounds, karmic_abilities, enhancements, personal, vehicle, intelligence, social, espionage, checked, credits, m_cr, units )
     VALUES
-        ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $9, $10, $10, $11, $12, $13, $14, $15, $16, $17, $18 );
+        ( ${userId}, ${cname}, ${crank}, ${rankPoints}, ${gender}, ${age}, ${height}, ${cweight}, ${karma}, ${karma}, ${endurance}, ${endurance}, ${backgroundsArr}, ${karmasArr}, ${enhancementsArr}, ${personalArr}, ${vehicleArr}, ${intelligenceArr}, ${socialArr}, ${espionageArr}, '{}', 1000, 0, 0 );

@@ -49,7 +49,8 @@ passport.use( new Auth0Strategy({
 massive( process.env.DATABASE_URI ).then( db => {
     console.log( chalk.magenta('Connected to Database') );
     app.set( 'db', db );
-    // app.get('db').init.seed().then( res => console.log( res ) )
+    // app.get('db').init.seed()
+    //     .then( res => console.log( res ) )
     //     .catch( err => console.log( err ) )
     listener(); // listening inside of massive to prevent attempted DB calls before successful connection
 } );
@@ -74,9 +75,10 @@ app.get( '/auth/logout', authController.logout );
 
 
 // CHARACTER ENDPOINTS
-app.post( '/api/addCharacter/:id', charController.addCharacter )
-app.get( '/api/userCharacters/:id', charController.getCharacters )
-app.get( '/api/character/:cid/:uid', charController.getCharacter )
+app.post( '/api/addCharacter/:uid', charController.addCharacter )
+app.get( '/api/userCharacters/:uid', charController.getCharacters )
+app.get( '/api/character/:cid/:cname', charController.getCharacter )
+app.put( '/api/smallUpdateCharacter/:cid', charController.smallUpdateCharacter )
 
 
 // creating function at end of file for readability

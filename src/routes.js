@@ -11,6 +11,6 @@ export default (
         <Route exact path='/' component={Combat} />
         <Route path='/createcharacter' component={CreateCharacter} />
         <Route path='/playercharacters' component={UserCharacters} />
-        <Route path='/characterdisplay/:id' component={CharacterDisplay} />
+        <Route path='/characterdisplay/:id/:name' component={CharacterDisplay} />
     </Switch>
 )

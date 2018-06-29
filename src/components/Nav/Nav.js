@@ -15,7 +15,7 @@ class Nav extends Component {
 
         return (
             <div className={navOpen ? 'nav-main nav-show' : 'nav-main'}>
-                { !this.props.user.id
+                { !this.props.user.userid
                     ? <a href={process.env.REACT_APP_LOGIN} className='link'><button className='nav-link nav-auth'>Login</button></a>
                     : <a href={process.env.REACT_APP_LOGOUT} className='link'><button className='nav-link nav-auth'>Logout</button></a>
                 }

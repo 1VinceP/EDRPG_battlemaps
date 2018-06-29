@@ -393,26 +393,6 @@ export default {
         }
     },
 
-    karma: [
-        '', 'Avoid Lock', 'Break Right', 'Escape Death', 'Ninja Roll'
-    ],
-
-    karmaStats: {
-        avoidLock: {
-            cost: 2
-        },
-        breakRight: {
-            cost: 4
-        },
-        escapeDeath: {
-            cost: 'all'
-        },
-        ninjaRoll: {
-            cost: 6
-        }
-
-    },
-
     skills: [
         '',
         'Dodge', 'Energy Weapons', 'Fighting', 'Grenade', 'Heavy Weapons', 'Melee Weapons', 'Parry',

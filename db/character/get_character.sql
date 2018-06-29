@@ -1,3 +1,4 @@
 SELECT *
     FROM Characters
-        WHERE id = $1 AND userid = $2;
+        WHERE cid = $1 AND "name" = $2
+        ORDER BY "name";

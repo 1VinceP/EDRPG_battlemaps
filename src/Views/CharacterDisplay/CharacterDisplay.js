@@ -12,20 +12,35 @@ class CharacterDisplay extends Component {
     state = {
         view: 'character',
         character: {},
+        spaceships: [],
+        vehicles: [],
         activeTab: ''
     }
 
     componentDidMount() {
+        this.getCharacter()
+    }
+
+    getCharacter() {
         const { user, match } = this.props
 
-        console.log( user.id, match.params.id * 1 )
-
-        axios.get( `/api/character/${match.params.id * 1}/${user.id}` )
+        axios.get( `/api/character/${match.params.id * 1}/${match.params.name}` )
             .then( response => {
-                console.log( response )
-                this.setState({ character: response.data[0] })
+                if( !response.data[0] ) {
+                    alert( 'This character does not exist' )
+                    this.props.history.push('/playercharacters')
+                    console.log( 'This character does not exist' )
+                    return;
+                }
+                else
+                    this.setState({ character: response.data[0] })
             } )
             .catch( err => console.log( err ) )
+    }
+
+    componentDidUpdate( prevProps, prevState ) {
+        if( prevState.activeTab !== this.state.activeTab )
+            this.getCharacter()
     }
 
     switchContent = ( tabName ) => {
@@ -51,13 +66,15 @@ class CharacterDisplay extends Component {
                         sendTab={this.switchContent}
                     />
 
-                    { activeTab === 'Character'
-                        ? <CharacterSheet />
-                        : activeTab === 'Spaceship'
-                            ? <SpaceshipSheet />
-                            : activeTab === 'Vehicle'
-                                && <VehicleSheet />
-                    }
+                    <section className='display-content'>
+                        { activeTab === 'Character'
+                            ? <CharacterSheet character={this.state.character} />
+                            : activeTab === 'Spaceships'
+                                ? <SpaceshipSheet ship={this.state.spaceships} />
+                                : activeTab === 'Vehicles'
+                                    && <VehicleSheet vehicle={this.state.vehicles} />
+                        }
+                    </section>
                 </div>
             </div>
         )

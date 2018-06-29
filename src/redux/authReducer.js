@@ -2,7 +2,7 @@ let initialState = {
     user: {
         username: '',
         email: '',
-        id: ''
+        userid: ''
     }
 }
 

@@ -8,7 +8,7 @@ import './header.css';
 class Header extends Component {
 
     componentDidMount() {
-        if( !this.props.user.id ) {
+        if( !this.props.user.userid ) {
             axios.get( '/auth/me' )
                 .then( response => this.props.setUser( response.data ) )
         }

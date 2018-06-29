@@ -1,10 +1,38 @@
 :root {
     --main-bg: #313132;
     --second-bg: #212121;
+    --karmic-purple: #7d00d1;
+    --enduring-red: #d50000;
+
     --body-padding-small: 46px 30px 20px 30px;
     --body-padding-large: 46px 18% 20px 18%;
+
+    --drop-height: 130px;
 }
 
 .link {
     text-decoration: none;
+}
+
+input, select, option {
+    height: 24px;
+    background: var(--second-bg);
+    color: #fff;
+    border: 1px solid #faa500;
+    outline: none;
+    border-radius: 3px;
+}
+
+select {
+    cursor: pointer;
+}
+
+input {
+    padding-left: 4px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

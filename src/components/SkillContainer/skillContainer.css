@@ -1,0 +1,30 @@
+.skill-box {
+    border: 1px solid #faa500;
+    border-radius: 3px;
+    background: var(--second-bg);
+    padding: 3px 6px 6px 6px;
+    margin-bottom: 10px;
+}
+.sb-title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 0;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #faa500;
+}
+.sb-skill {
+    display: flex;
+    /* margin-top: 3px; */
+    margin: 3px 0;
+    align-items: center;
+    color: #ddd;
+}
+.sb-skill:not(:last-child) {
+    border-bottom: 1px solid #8884;
+}
+.sb-check {
+    margin: 0;
+    margin-left: 4px;
+}

@@ -1,0 +1,236 @@
+.cs-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+.cs-head-stats {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+.cs-head p {
+    font-size: 16px;
+}
+.cs-head input {
+    width: 34px;
+    font-size: 20px;
+}
+.cs-head #karma {
+    border: 1px solid var(--karmic-purple);
+}
+.cs-head #endurance {
+    border: 1px solid var(--enduring-red);
+}
+
+.cs-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.cs-body-col {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.cs-info {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: #54e4fd
+}
+.cs-info input, .cs-info select {
+    width: 48%;
+    margin-bottom: -1px;
+}
+
+.cs-karmas {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.cs-karma {
+    width: 100%;
+    height: 30px;
+    border: 1px solid var(--karmic-purple);
+    border-radius: 3px;
+    background: var(--second-bg);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -1px;
+    padding: 0 10px;
+    position: relative;
+    cursor: pointer;
+}
+.cs-selected-karma {
+    transform: scale(1.1);
+    box-shadow: none;
+    z-index: 3;
+    box-shadow: 6px 6px 10px #0008;
+    animation: selectkarma .25s;
+}
+.cs-unselected-karma {
+    z-index: 1;
+    transform: scale(1);
+    box-shadow: 3px 3px 6px #0008;
+    animation: unselectkarma .5s;
+}
+@keyframes selectkarma {
+    from { z-index: 3; transform: scale(1); box-shadow: 3px 3px 6px #0008; }
+    to { transform: scale(1.1); box-shadow: 6px 6px 10px #0008; }
+}
+@keyframes unselectkarma {
+    from { z-index: 3; transform: scale(1.1); box-shadow: 6px 6px 10px #0008; }
+    to { z-index: 3; transform: scale(1); box-shadow: 3px 3px 6px #0008; }
+}
+.cs-kd {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: .9em;
+    transform: scale(.96);
+    position: absolute;
+    top: 27px;
+    left: 0;
+    padding: 10px;
+    padding-bottom: 0px;
+    border: 1px solid var(--karmic-purple);
+    border-top: none;
+    border-radius: 0px 0px 3px 3px;
+    color: #eee;
+    background: #000000; /* Old browsers */
+    background: -moz-linear-gradient(top, #000000 0%, #212121 6%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #000000 0%,#212121 6%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #000000 0%,#212121 6%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#212121',GradientType=0 ); /* IE6-9 */
+    z-index: 2;
+    cursor: default;
+    overflow: hidden;
+}
+.cs-kd-show {
+    height: var(--drop-height);
+    top: 27px;
+    visibility: visible;
+    transform: scale(.96);
+    box-shadow: 6px 6px 10px #0008;
+    animation: karmadrop .45s;
+}
+.cs-kd-hide {
+    height: 0px;
+    top: 29px;
+    visibility: hidden;
+    transform: scale(1);
+    animation: karmarise .35s;
+}
+@keyframes karmadrop {
+    from {
+        height: 0px;
+        padding: 0px 10px;
+        visibility: hidden;
+        top: 29px;
+        box-shadow: none;
+    }
+    to {
+        height: var(--drop-height);
+        padding: 10px;
+        visibility: visible;
+        top: 27px;
+        box-shadow: 6px 6px 10px #0008;
+    }
+}
+@keyframes karmarise {
+    from {
+        height: var(--drop-height);
+        padding: 10px;
+        visibility: visible; z-index: 2;
+        transform: scale(.96);
+        box-shadow: 6px 6px 10px #0008;
+}
+    to {
+        height: 0px;
+        padding: 0px 10px;
+        visibility: hidden; z-index: 4;
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
+
+.cs-k-button {
+    width: calc( 100% - 20px );
+    height: 24px;
+    border: 1px solid var(--karmic-purple);
+    border-radius: 3px;
+    background: #313132;
+    color: #fff;
+    position: absolute;
+    bottom: 6px;
+    cursor: pointer;
+}
+
+.cs-hide-skills-button {
+    width: 100%;
+    height: 20px;
+    border: 1px solid #777;
+    border-radius: 3px;
+    text-align: center;
+    outline: none;
+    color: #ddd;
+    background: var(--second-bg);
+}
+
+.cs-skills-show {
+    padding-top: 6px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+.cs-skills-hide {
+    display: none;
+}
+
+@media (min-width: 750px) {
+    .cs-body {
+        flex-direction: row-reverse;
+    }
+
+    .cs-body-col {
+        width: 30%;
+    }
+    .cs-body-col-equip {
+        width: 66%;
+        border: 1px solid red;
+    }
+
+    .cs-karmas {
+        max-height: 190px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .cs-hide-skills-button {
+        display: none;
+    }
+
+    .cs-skills-show {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #777;
+    }
+}

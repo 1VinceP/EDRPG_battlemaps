@@ -20,22 +20,7 @@
     font-size: 12px;
 }
 
-input, select, option {
-    height: 24px;
-    background: var(--second-bg);
-    color: #fff;
-    border: 1px solid #faa500;
-    outline: none;
-    border-radius: 3px;
-}
-
-select {
-    cursor: pointer;
-}
-
-input {
-    padding-left: 4px;
-}
+/* input, select, and option styling can be found in App.css */
 
 .character-body {
     height: 100%;
@@ -69,11 +54,11 @@ input {
     width: 100% !important;
 }
 [name='karma'] {
-    border: 1px solid #7d00d1;
+    border: 1px solid var(--karmic-purple);
     margin-top: 2px;
 }
 [name='endurance'] {
-    border: 1px solid #d50000;
+    border: 1px solid var(--enduring-red);
     margin-top: 2px;
 }
 
@@ -119,7 +104,7 @@ input {
 .character-karma select, .character-karma input {
     width: 100%;
     margin-top: -1px;
-    border: 1px solid #7d00d1;
+    border: 1px solid var(--karmic-purple);
 }
 
 .character-skills {
@@ -147,8 +132,11 @@ input {
 }
 .character-skills > div > div:not(:first-child) {
     display: flex;
-    margin-top: 2px;
+    padding: 3px 0px;
     align-items: center;
+}
+.character-skills > div > div:not(:first-child):not(:last-child) {
+    border-bottom: 1px solid #8884;
 }
 .skill-name {
     flex: 2;
@@ -174,6 +162,7 @@ input {
 .enhancement-list {
     display: flex;
     flex-direction: column;
+    border: none !important;
 }
 
 .character-learning {
@@ -231,7 +220,7 @@ input {
     transition: all .05s ease-in-out;
 }
 #character-reset {
-    background: #d50000
+    background: var(--enduring-red)
 }
 #character-save {
     background: #11b5bb;

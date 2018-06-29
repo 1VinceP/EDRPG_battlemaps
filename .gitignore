@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# data
+src/data/karma.json
+src/data/melee_weapons.json
+src/data/ranged_weapons.json
