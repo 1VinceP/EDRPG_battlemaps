@@ -79,6 +79,7 @@ app.post( '/api/addCharacter/:uid', charController.addCharacter )
 app.get( '/api/userCharacters/:uid', charController.getCharacters )
 app.get( '/api/character/:cid/:cname', charController.getCharacter )
 app.put( '/api/smallUpdateCharacter/:cid', charController.smallUpdateCharacter )
+// app.put( '/api/smallNotesUpdate/:cid', charController.smallNotesUpdate )
 
 
 // creating function at end of file for readability
@@ -86,6 +87,6 @@ function listener() {
     let port = process.env.NODE_PORT || 7707;
     const portChalk = chalk.cyan.underline;
     app.listen( port, () => {
-        console.log( portChalk(`listening_on_port_${port}`) )
+        console.log( portChalk(`listening on port ${port}`) )
     });
 }

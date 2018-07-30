@@ -35,6 +35,7 @@ class CreateCharacter extends Component {
                 fighting: 10,
                 grenade: 10,
                 heavyWeapons: 10,
+                kineticWeapons: 10,
                 meleeWeapons: 10,
                 parry: 10
             },
@@ -78,7 +79,11 @@ class CreateCharacter extends Component {
         },
         karmas: { one: 'escapeDeath', two: '', three: '', four: '' },
         enhancements: [],
-        learning: { 10: '', 9: '', 8: '', 7: '', 6: '', 5: '', 4: '', 3: '', 2: '', 1: '' }
+        learning: { 10: '', 9: '', 8: '', 7: '', 6: '', 5: '', 4: '', 3: '', 2: '', 1: '' },
+        rangedWeapons: '',
+        meleeWeapons: '',
+        grenades: '',
+        equipment: ''
     }
 
     // Updates the character name
@@ -310,12 +315,13 @@ class CreateCharacter extends Component {
 
     /////////////////////////// AJAX REQUESTS
     saveCharacter() {
-        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, skills, skills: { personal, vehicle, intelligence, social, espionage }, learning } = this.state
+        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, skills, skills: { personal, vehicle, intelligence, social, espionage }, learning, rangedWeapons, meleeWeapons, grenades, equipment } = this.state
         let acceptOver50 = true
         , completeInfo = false
         , completeBg = false
         , completeKarma = this.findFalse( _.values( karmas ) )
         , completeLearning = this.findFalse( _.values( learning ) )
+        , completeRangedWeapons = false
 
         // Check that backgrounds costs to not exceed 5
         if( this.reduceToTotal(this.state.bgCosts) > 5 ) {
@@ -328,6 +334,11 @@ class CreateCharacter extends Component {
             completeInfo = false
         else
             completeInfo = true
+
+        if( !rangedWeapons )
+            completeRangedWeapons = false
+        else
+            completeRangedWeapons = true
 
         // Check that dropdown values are not empty
         this.reduceToTotal(this.state.bgCosts) < 5 ? completeBg = false : completeBg = true
@@ -350,8 +361,16 @@ class CreateCharacter extends Component {
             return;
         }
 
+        if( !completeRangedWeapons ) {
+            this.toasty( 'Please choose whether you would prefer Auto Pistols or Laser Pistols' )
+            return;
+        }
+
+        let rangedArr = [rangedWeapons, rangedWeapons]
+        let meleeArr = ['fighting', meleeWeapons]
+
         let body = {
-            name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage
+            name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, rangedArr, meleeArr, grenades, equipment
         }
 
         axios.post( `/api/addCharacter/${this.props.user.userid}`, body )
@@ -364,8 +383,8 @@ class CreateCharacter extends Component {
     render() {
         let flatEnhance = _.flattenDeep( this.state.enhancements )
         let bgOptions = data.backgrounds.map( (bg, i) => <option key={i} value={bg}>{bg}</option> )
-        let karmaOptions = karmaData.karmaNames.map( (karma, i) => <option key={i} value={_.camelCase(karma)}>{this.normalizeString( karma )}</option> )
-        let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{this.normalizeString( enhance )}</div> )
+        let karmaOptions = karmaData.karmaNames.map( (karma, i) => <option key={i} value={_.camelCase(karma)}>{this.normalizeString(karma)}</option> )
+        let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{this.normalizeString(enhance)}</div> )
 
         let costStyle ='#fff'
         if( this.reduceToTotal(this.state.bgCosts) > 5 )
@@ -487,6 +506,34 @@ class CreateCharacter extends Component {
                     <section className='character-learning'>
                         <div>Independent Learning:</div>
                         {this.renderLearning()}
+                    </section>
+
+                    <section className='character-equipment'>
+                        <div>Equipment:</div>
+
+                        <select name='rangedWeapons' onChange={e => this.handleInfo(e)}>
+                            <option value=''></option>
+                            <option value='autopistol'>Autopistols</option>
+                            <option value='laser pistol'>Laser Pistols</option>
+                        </select>
+
+                        <select name='equipment' onChange={e => this.handleInfo(e)}>
+                            <option value=''></option>
+                            <option value='hand comm'>Hand Comm</option>
+                            <option value='wrist comm'>Wrist Comm</option>
+                        </select>
+
+                        <select name='meleeWeapons' onChange={e => this.handleInfo(e)} disabled={this.state.skills.personal.meleeWeapons < 20}>
+                            <option value=''></option>
+                            <option value='knife'>Knife</option>
+                            <option value='sledgehammer'>Sledgehammer</option>
+                            <option value='sword'>Sword</option>
+                        </select>
+
+                        <select name='grenades' onChange={e => this.handleInfo(e)} disabled={this.state.skills.personal.grenade < 20}>
+                            <option value=''></option>
+                            <option value='frag grenade'>Fragmentation Grenade</option>
+                        </select>
                     </section>
                 </form>
 

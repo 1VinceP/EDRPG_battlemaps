@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
 import karmaData from '../../data/karma.json';
+import rangedData from '../../data/ranged_weapons.json';
 import SkillContainer from '../../components/SkillContainer/SkillContainer';
+import Equipment from '../../components/Equipment/Equipment';
+import Notes from '../../components/Notes/Notes';
 import './characterSheet.css';
 
 class CharacterSheet extends Component {
@@ -12,6 +15,7 @@ class CharacterSheet extends Component {
     }
 
     state = {
+        swirly: true,
         showSkills: true,
         selectedKarma: null,
         character: {
@@ -23,7 +27,16 @@ class CharacterSheet extends Component {
             current_endurance: '',
             current_karma: '',
             karmic_abilities: [],
-            checked: []
+            checked: [],
+            personal: {},
+            vehicle: {},
+            intelligence: {},
+            social: {},
+            espionage: {},
+            ranged_weapons: [],
+            melee_weapons: [],
+            grenades: [],
+            equipment: []
         }
     }
 
@@ -89,6 +102,7 @@ class CharacterSheet extends Component {
         }
     }
 
+    //////////////////// RENDER METHODS
     renderKarma() {
         const { character, selectedKarma } = this.state
 
@@ -107,6 +121,7 @@ class CharacterSheet extends Component {
                     <div>{details.cost}</div>
                     <div className={selectedKarma === i ? 'cs-kd cs-kd-show' : 'cs-kd cs-kd-hide' }>
                         <div>{details.effect}</div>
+                        <div style={{ fontStyle: 'italic', color: '#f0f' }}>{this.normalizeString(details.situation)} - {this.normalizeString(details.type)}</div>
                         <button className='cs-k-button' onClick={() => this.useKarma(details.cost)}>Use this ability</button>
                     </div>
                 </div>
@@ -114,6 +129,29 @@ class CharacterSheet extends Component {
         } )
     }
 
+    renderRangedWeapons() {
+        const { ranged_weapons } = this.state.character
+
+        return ranged_weapons.map( ( weapon, i ) => {
+            let details
+
+            for( let key in rangedData ) {
+                if( _.camelCase(key) === _.camelCase(weapon) ) {
+                    details = rangedData[key]
+                    details.name = key
+                }
+            }
+
+            return (
+                <div key={i}>
+                    <div>{this.normalizeString(details.name)}</div>
+                    <div>{details.type}</div>
+                </div>
+            )
+        } )
+    }
+
+    //////////////////// HELPER METHODS
     normalizeString = str => {
         return str.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
     }
@@ -121,7 +159,7 @@ class CharacterSheet extends Component {
     render() {
         const { showSkills, character } = this.state
 
-        // console.log( character )
+        console.log( character )
 
         return (
             <div>
@@ -141,12 +179,32 @@ class CharacterSheet extends Component {
                 </section>
 
                 <section className='cs-info'>
-                    <div>
-                        <div>{character.dodge}</div>
-                        <div>{character.parry}</div>
-                        <div>{character.initiative}</div>
+
+                    <div className='cs-rank'>
+                        <div>{character.rank}</div>
+                        {/* <div>{character.rank_points}</div> */}
+                        <input value={character.rank_points} name='rank_points' onChange={e => this.handleInfo(e)} />
                     </div>
-                    <div>
+
+                    <div className='cs-defence'>
+                        <div className='cs-d-box deg0'>
+                            <div>Parry</div>
+                            <div>{Math.floor(character.personal.parry / 10) || 0}</div>
+                        </div>
+                        <div className='cs-d-box deg90'>
+                            <div>Speed</div>
+                            <div>10</div>
+                        </div>
+                        <div className='cs-d-box deg180'>
+                            <div>Dodge</div>
+                            <div>{Math.floor(character.personal.dodge / 10) || 0}</div>
+                        </div>
+                        <div className='cs-d-box deg270'>
+                            <div>Tactics</div>
+                            <div>{Math.floor(character.intelligence.tactics / 10) || 0}</div>
+                        </div>
+                    </div>
+                    <div className='cs-info-stats'>
                         <input value={character.gender} name='gender' onChange={e => this.handleInfo(e)} />
                         <input value={character.age} type='number' name='age' onChange={e => this.handleInfo(e)} />
                         <input value={character.height} name='height' onChange={e => this.handleInfo(e)} />
@@ -177,17 +235,10 @@ class CharacterSheet extends Component {
 
                     {/* Equipment section */}
                     <section className='cs-body-col cs-body-col-equip'>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
-                        <div>This is where the equipment goes</div>
+                        <Equipment ownedData={character.ranged_weapons} bonuses={character.personal} type='ranged' />
+                        <Equipment ownedData={character.melee_weapons} bonuses={character.personal} type='melee' />
+                        <Equipment ownedData={character.grenades} bonuses={character.personal} type='grenades' />
+                        <Notes notes={character.notes} cid={character.cid} />
                     </section>
                 </section>
 

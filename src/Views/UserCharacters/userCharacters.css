@@ -10,6 +10,7 @@
 .uc-body {
     height: 100%;
     width: 100%;
+    margin-top: 60px;
     padding:  var(--body-padding-small);
     display: flex;
     flex-direction: column;
@@ -44,6 +45,7 @@
 }
 .uc-name {
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 .uc-rank {
     display: flex;

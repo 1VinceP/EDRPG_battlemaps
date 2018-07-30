@@ -1,3 +1,4 @@
+
 .cs-head {
     width: 100%;
     display: flex;
@@ -28,6 +29,104 @@
     border: 1px solid var(--enduring-red);
 }
 
+.cs-info {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid red;
+    flex-wrap: wrap;
+    /* color: #54e4fd */
+}
+.cs-info input, .cs-info select {
+    width: 48%;
+    margin-bottom: -1px;
+}
+.cs-info > div {
+    border: 1px solid green;
+}
+
+.cs-rank {
+    height: 26px;
+    /* max-width: 300px; */
+    flex: 1;
+    /* margin-bottom: 30px; */
+    display: flex;
+    justify-content: space-between;
+    align-self: flex-start;
+    /* margin-bottom: 60px; */
+    padding: 6px 10px;
+    border-bottom: 1px solid #faa500;
+    border-radius: 20px;
+    background: var(--second-bg);
+    /* align-self: center; */
+}
+.cs-rank input {
+    border: none;
+    border-bottom: 1px solid var(--main-bg);
+    background: none;
+    text-align: right;
+    padding: none;
+    margin: none;
+    height: auto;
+}
+
+.cs-defence {
+    width: 250px;
+    height: 100px;
+    display: flex;
+    flex: 2;
+    position: relative;
+    align-self: center;
+    margin-bottom: 60px;
+}
+
+.cs-d-box {
+    height: 50px;
+    width: 90px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px -45px -45px -45px; /* (Mostly) half div width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-style: italic;
+}
+.cs-d-box div:first-child {
+    width: 100%;
+    border-bottom: 1px solid #54e4fd;
+    text-align: left;
+}
+.cs-d-box div:last-child {
+    width: 100%;
+    text-align: right;
+    font-size: 30px;
+}
+
+.deg0 { /* Parry */
+    transform: translate(125px);
+}
+.deg90 { /* Speed */
+    transform: rotate(90deg) translate(50px) rotate(-90deg);
+}
+.deg180 { /* Dodge */
+    transform:translate(-125px);
+}
+.deg270 { /* Tactics */
+    transform: rotate(270deg) translate(50px) rotate(-270deg);
+}
+
+.cs-info-stats {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-self: flex-start;
+    /* width: 100%; */
+    flex: 1;
+    justify-content: space-between;
+}
+
 .cs-body {
     width: 100%;
     display: flex;
@@ -40,18 +139,6 @@
 .cs-body-col {
     width: 100%;
     margin-bottom: 20px;
-}
-
-.cs-info {
-    display: flex;
-    margin-top: 10px;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    color: #54e4fd
-}
-.cs-info input, .cs-info select {
-    width: 48%;
-    margin-bottom: -1px;
 }
 
 .cs-karmas {
@@ -101,6 +188,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     text-align: center;
     font-size: .9em;
     transform: scale(.96);
@@ -108,7 +196,7 @@
     top: 27px;
     left: 0;
     padding: 10px;
-    padding-bottom: 0px;
+    padding-bottom: 6px;
     border: 1px solid var(--karmic-purple);
     border-top: none;
     border-radius: 0px 0px 3px 3px;
@@ -127,7 +215,7 @@
     top: 27px;
     visibility: visible;
     transform: scale(.96);
-    box-shadow: 6px 6px 10px #0008;
+    box-shadow: 6px 6px 20px #0008;
     animation: karmadrop .45s;
 }
 .cs-kd-hide {
@@ -171,14 +259,12 @@
 }
 
 .cs-k-button {
-    width: calc( 100% - 20px );
+    width: 100%;
     height: 24px;
     border: 1px solid var(--karmic-purple);
     border-radius: 3px;
     background: #313132;
     color: #fff;
-    position: absolute;
-    bottom: 6px;
     cursor: pointer;
 }
 
@@ -205,6 +291,12 @@
 }
 
 @media (min-width: 750px) {
+    .cs-info {
+        /* margin-top: 60px; */
+        align-items: center;
+        flex-direction: row;
+    }
+
     .cs-body {
         flex-direction: row-reverse;
     }
@@ -214,7 +306,10 @@
     }
     .cs-body-col-equip {
         width: 66%;
-        border: 1px solid red;
+    }
+
+    .cs-rank {
+        align-self: center;
     }
 
     .cs-karmas {

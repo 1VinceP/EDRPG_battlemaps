@@ -4,7 +4,7 @@ const chalk = require('chalk');
 module.exports = {
 
     addCharacter: ( req, res ) => {
-        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage } = req.body
+        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, rangedArr, meleeArr, grenades, equipment } = req.body
         const { uid } = req.params
 
         let backgroundsArr = _.compact( _.values( backgrounds ) )
@@ -18,7 +18,7 @@ module.exports = {
 
         console.log( 'hit endpoint' )
 
-        req.app.get('db').character.add_character({ userId: uid, cname: name, crank: rank, rankPoints, gender, age, height, cweight: weight, karma, endurance, backgroundsArr, karmasArr, enhancementsArr, personalArr, vehicleArr, intelligenceArr, socialArr, espionageArr })
+        req.app.get('db').character.add_character({ userId: uid, cname: name, crank: rank, rankPoints, gender, age, height, cweight: weight, karma, endurance, backgroundsArr, karmasArr, enhancementsArr, personalArr, vehicleArr, intelligenceArr, socialArr, espionageArr, rangedWeapons: rangedArr, meleeWeapons: meleeArr, grenades: [grenades], equipment: [equipment] })
             .then( () => res.sendStatus(200) )
             .catch( err => console.log( err ) )
     },
@@ -53,6 +53,16 @@ module.exports = {
         req.app.get('db').character.small_update_character({ cid, rank_points, gender, age, height, cweight: weight, current_endurance, current_karma, checked })
             .then( () => res.sendStatus(200) )
             .catch( err => console.log( err ) )
+    },
+
+    smallNotesUpdate: ( req, res, next ) => {
+        const { notes } = req.body
+        const { cid } = req.params
+
+        console.log( notes )
+
+        req.app.get('db').character.small_update_notes({ notes, cid })
+            .then( res.status(200).send( 'fulfilled' ) )
     }
 
 }
@@ -79,8 +89,9 @@ function reorganizeSkills( title, skillsArr ) {
                 fighting: skillsArr[2],
                 grenade: skillsArr[3],
                 heavyWeapons: skillsArr[4],
-                meleeWeapons: skillsArr[5],
-                parry: skillsArr[6]
+                kineticWeapons: skillsArr[5],
+                meleeWeapons: skillsArr[6],
+                parry: skillsArr[7]
             }
             return obj;
         case 'vehicle':

@@ -9,6 +9,7 @@ module.exports = {
 
     logout: function( req, res ) {
         req.logOut(); // Logout function given from passport
-        return res.redirect( 302, '/' ); // res.redirect comes from express
+        return res.redirect( 302, 'http://localhost:3000/' ); // res.redirect comes from express
     }
+
 }

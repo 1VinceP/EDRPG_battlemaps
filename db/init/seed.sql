@@ -45,6 +45,7 @@ CREATE TABLE Characters
     units BIGINT,
     ranged_weapons TEXT[],
     melee_weapons TEXT[],
+    grenades TEXT[],
     clothing TEXT[],
     armor TEXT[],
     equipment TEXT[],

@@ -194,6 +194,29 @@
     width: 100%;
 }
 
+.character-equipment {
+    width: 100%;
+    margin-top: 16px;
+    border-top: 1px solid #777;
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.character-equipment div {
+    width: 100%;
+    color: #fff;
+    margin-bottom: 3px;
+}
+.character-equipment select {
+    width: 48%;
+    margin-bottom: -1px;
+}
+.character-equipment select:disabled {
+    color: #777;
+    background: #313132;
+}
+
 .character-buttons {
     width: 100%;
     display: flex;
@@ -201,7 +224,6 @@
     margin-bottom: 30px;
     padding: 30px;
 }
-
 .character-buttons button {
     width: 100px;
     height: 30px;

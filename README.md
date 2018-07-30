@@ -13,6 +13,9 @@ This is currently a work in progress. Please open an issue on this repo to repor
 - Input character data and experience dynamic updating
 - If user is logged in, save completed sheet to database. Otherwise they still have full functionality minus saving
 
+### Nav Menu
+- Dice Roller added
+
 
 ______________________________________________________________________
 ## Todo
@@ -24,7 +27,6 @@ ______________________________________________________________________
 - Add vehicle tips
 
 ### Character Creator
-- Add equipment on save
 - Ability to remove backgrounds/karmas
 - Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
   - *If confirmed, reduce value down to 40*
@@ -35,11 +37,12 @@ ______________________________________________________________________
 - ADD FUNCTIONALITY: Enhancements from backgrounds
 
 ### Character Sheet
-- Display Dodge/Parry/Initiative
-- Display Karma
-  - Display type
-- Display Equipment
-
+- Buy Equipment
+- Display Enhancements
+- Add Enhancements
+- Display Credits
+- Edit Credits
+- Style for tablets
 
 ### Spaceship Sheet
 
@@ -50,4 +53,4 @@ ______________________________________________________________________
 - Add media player
 
 ### Database
-- Add equipment
+- Add Speed

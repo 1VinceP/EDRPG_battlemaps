@@ -1,7 +1,8 @@
 {
+    "meleeNames":["","fighting","club/baton","sword","knife","axe/hammer","spear","chainsaw","nanofibre sword","neo-samurai sword","imperial sabre"],
     "fighting": {
         "name": "Fighting",
-        "type": "Fighting",
+        "type": "fighting",
         "finesse": 5,
         "damage": "(1D10)/2",
         "melee": null,
@@ -13,7 +14,7 @@
     },
     "club": {
         "name": "Club/Baton",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 6,
         "damage": "1D10",
         "melee": null,
@@ -23,9 +24,9 @@
         "cost": 0.5,
         "rarity": "Common"
     },
-    "Sword": {
+    "sword": {
         "name": "Sword",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 4,
         "damage": "1D10",
         "melee": null,
@@ -37,7 +38,7 @@
     },
     "knife": {
         "name": "Knife",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 7,
         "damage": "1D10",
         "melee": null,
@@ -49,19 +50,19 @@
     },
     "axe/hammer": {
         "name": "Axe/Hammer",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 8,
         "damage": "2D10",
         "melee": null,
         "parry": null,
         "one-handed": false,
-        "notes": "",
+        "notes": "Two-handed",
         "cost": 1.5,
         "rarity": "Common"
     },
     "spear": {
         "name": "Spear",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 6,
         "damage": "1D10 (+2 if used two handed)",
         "melee": null,
@@ -73,7 +74,7 @@
     },
     "chainsaw": {
         "name": "Chainsaw",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 8,
         "damage": "3D10",
         "melee": null,
@@ -85,7 +86,7 @@
     },
     "nanofibre sword": {
         "name": "Nanofibre Sword",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 4,
         "damage": "3D10",
         "melee": null,
@@ -95,9 +96,9 @@
         "cost": 53000,
         "rarity": "Rare"
     },
-    "new-samurai sword": {
+    "neo-samurai sword": {
         "name": "Neo-samurai Sword",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 4,
         "damage": "2D10",
         "melee": 15,
@@ -109,7 +110,7 @@
     },
     "imperial sabre": {
         "name": "Imperial Sabre",
-        "type": "Melee",
+        "type": "melee",
         "finesse": 4,
         "damage": "3D10",
         "melee": 20,
