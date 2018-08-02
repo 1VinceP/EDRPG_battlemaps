@@ -1,10 +1,12 @@
 import { createStore, combineReducers } from 'redux';
-import reducer from './redux/shipReducer';
 import authReducer from './redux/authReducer';
+import characterReducer from './redux/characterReducer';
+import reducer from './redux/shipReducer';
 
 let reducers = combineReducers({
-    ship: reducer,
-    auth: authReducer
+    auth: authReducer,
+    character: characterReducer,
+    ship: reducer
 })
 
 export default createStore( reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() );

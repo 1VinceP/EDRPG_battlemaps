@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+import { importCharacter, updateInfo } from '../../redux/characterReducer';
 import karmaData from '../../data/karma.json';
 import rangedData from '../../data/ranged_weapons.json';
 import SkillContainer from '../../components/SkillContainer/SkillContainer';
@@ -40,33 +42,36 @@ class CharacterSheet extends Component {
         }
     }
 
-    componentDidMount() {
-        if( this.props.character.cid ) {
-            this.setState({ character: this.props.character })
-        }
-    }
+    // componentDidMount() {
+    //     if( this.props.character.cid ) {
+    //         this.setState({ character: this.props.character })
+    //         // this.props.importCharacter( this.props.character )
+    //     }
+    // }
 
-    componentDidUpdate( prevProps ) {
-        if( this.props.character !== prevProps.character ) {
-            this.setState({ character: this.props.character })
-        }
-    }
+    // componentDidUpdate( prevProps ) {
+    //     if( this.props.character !== prevProps.character ) {
+    //         this.setState({ character: this.props.character })
+    //         // this.props.importCharacter( this.props.character )
+    //     }
+    // }
 
-    componentWillUnmount() {
-        if( this.props.character.cid && this.state.character !== this.props.character ) {
-            let body = this.state.character
+    // componentWillUnmount() {
+    //     if( this.props.character.cid && this.state.character !== this.props.character ) {
+    //         let body = this.state.character
 
-            console.log( 'UNMOUNTING and SAVING' )
+    //         console.log( 'UNMOUNTING and SAVING' )
 
-            axios.put( `/api/smallUpdateCharacter/${this.state.character.cid}`, body )
-                .then( () => console.log( 'character updated!' ) )
-        }
-    }
+    //         axios.put( `/api/smallUpdateCharacter/${this.state.character.cid}`, body )
+    //             .then( () => console.log( 'character updated!' ) )
+    //     }
+    // }
 
     handleInfo( e ) {
-        const { name, value } = e.target
+        // const { name, value } = e.target
 
-        this.setState({ character: {...this.state.character, [name]: value} })
+        // this.setState({ character: {...this.state.character, [name]: value} })
+        this.props.updateInfo( e )
     }
 
     selectKarma( i ) {
@@ -77,7 +82,7 @@ class CharacterSheet extends Component {
     }
 
     useKarma( cost ) {
-        const { character } = this.state
+        const { character } = this.props
 
         if( character.current_karma - cost < 0 || character.current_karma === 0 ) {
             console.log( 'Not enough karma left' )
@@ -102,9 +107,14 @@ class CharacterSheet extends Component {
         }
     }
 
+    fireWeapon( index ) {
+        console.log( `%cThe weapon is ${this.state.character.ranged_weapons[index]}`, 'color: orange;' )
+    }
+
     //////////////////// RENDER METHODS
     renderKarma() {
-        const { character, selectedKarma } = this.state
+        const { selectedKarma } = this.state
+        const { character } = this.props
 
         return character.karmic_abilities.map( ( karma, i ) => {
             let details
@@ -130,7 +140,7 @@ class CharacterSheet extends Component {
     }
 
     renderRangedWeapons() {
-        const { ranged_weapons } = this.state.character
+        const { ranged_weapons } = this.props.character
 
         return ranged_weapons.map( ( weapon, i ) => {
             let details
@@ -157,7 +167,8 @@ class CharacterSheet extends Component {
     }
 
     render() {
-        const { showSkills, character } = this.state
+        const { showSkills } = this.state
+        const { character } = this.props
 
         console.log( character )
 
@@ -225,6 +236,7 @@ class CharacterSheet extends Component {
                             {showSkills ? 'Hide' : 'Show' } skills
                         </button>
                         <div className={showSkills ? 'cs-skills-show' : 'cs-skills-hide'}>
+                        {/* <div className='cs-skills-show'> */}
                             <SkillContainer title='Personal' skills={character.personal} onCheck={s => this.onCheck(s)} checkedArr={character.checked} />
                             <SkillContainer title='Vehicle' skills={character.vehicle} onCheck={s => this.onCheck(s)} checkedArr={character.checked} />
                             <SkillContainer title='Intelligence' skills={character.intelligence} onCheck={s => this.onCheck(s)} checkedArr={character.checked} />
@@ -249,4 +261,12 @@ class CharacterSheet extends Component {
     }
 }
 
-export default CharacterSheet;
+function mapStateToProps( state ) {
+    const { character } = state.character;
+
+    return {
+        character
+    };
+}
+
+export default connect( mapStateToProps, { importCharacter, updateInfo } )(CharacterSheet);

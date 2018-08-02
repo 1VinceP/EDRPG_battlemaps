@@ -79,7 +79,7 @@ app.post( '/api/addCharacter/:uid', charController.addCharacter )
 app.get( '/api/userCharacters/:uid', charController.getCharacters )
 app.get( '/api/character/:cid/:cname', charController.getCharacter )
 app.put( '/api/smallUpdateCharacter/:cid', charController.smallUpdateCharacter )
-// app.put( '/api/smallNotesUpdate/:cid', charController.smallNotesUpdate )
+app.put( '/api/smallNotesUpdate/:cid', charController.smallNotesUpdate )
 
 
 // creating function at end of file for readability

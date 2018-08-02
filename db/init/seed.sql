@@ -53,6 +53,6 @@ CREATE TABLE Characters
 );
 
 INSERT INTO Characters
-    ( userid, "name", "rank", rank_points, gender, age, height, "weight", max_karma, current_karma, max_endurance, current_endurance, backgrounds, karmic_abilities, enhancements, personal, vehicle, intelligence, social, espionage, credits, m_cr, units )
+    ( userid, "name", "rank", rank_points, gender, age, height, "weight", max_karma, current_karma, max_endurance, current_endurance, backgrounds, karmic_abilities, enhancements, personal, vehicle, intelligence, social, espionage, credits, m_cr, units, ranged_weapons, melee_weapons, grenades, notes )
     VALUES
-        ( 2, 'Garrett Fletcher', 'Harmless', 0, 'male', 24, '5.11', '160lbs', 10, 10, 20, 20, '{"pilotTrained", "highTechWorld", "vehicleNut", "corporateSecurity", "militaryCourier"}', '{"escapeDeath", "breakLeft", "burnout", "duck!"}', '{}', '{10, 11, 12, 13, 14, 15, 16}', '{20, 21, 22, 23, 24, 25, 26}', '{30, 31, 32, 33, 34, 35, 36, 37}', '{40, 41, 42, 43, 44, 45, 46, 47}', '{50, 51, 52, 53, 54, 55}', 10000, 500, 100 );
+        ( 2, 'Garrett Fletcher', 'Harmless', 0, 'male', 24, '5.11', '160lbs', 10, 10, 20, 20, '{"pilotTrained", "highTechWorld", "vehicleNut", "corporateSecurity", "militaryCourier"}', '{"escapeDeath", "breakLeft", "burnout", "duck!"}', '{}', '{10, 11, 12, 13, 14, 15, 16}', '{20, 21, 22, 23, 24, 25, 26}', '{30, 31, 32, 33, 34, 35, 36, 37}', '{40, 41, 42, 43, 44, 45, 46, 47}', '{50, 51, 52, 53, 54, 55}', 10000, 500, 100, '{{autopistol, 3}, {autopistol, 3}}', '{fighting, sword}', '{"frag grenade"}', 'Garrett<br>Fletcher' );

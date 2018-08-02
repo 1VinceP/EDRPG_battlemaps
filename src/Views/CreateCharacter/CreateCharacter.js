@@ -358,53 +358,54 @@ class CreateCharacter extends Component {
         if( !completeInfo || !completeBg || !completeKarma || !completeLearning ) {
             console.log( completeInfo, completeBg, completeKarma, completeLearning )
             this.toasty( 'It looks like you left something empty. Please go back and make sure everything is filled in.' )
-            return;
-        }
+ return;
+ }
 
-        if( !completeRangedWeapons ) {
-            this.toasty( 'Please choose whether you would prefer Auto Pistols or Laser Pistols' )
-            return;
-        }
+ if( !completeRangedWeapons ) {
+ this.toasty( 'Please choose whether you would prefer Autopistols or Laser Pistols' )
+ return;
+ }
 
-        let rangedArr = [rangedWeapons, rangedWeapons]
-        let meleeArr = ['fighting', meleeWeapons]
+ let ammo = rangedWeapons === 'autopistol' ? '3' : null
+ let rangedArr = [[rangedWeapons, ammo], [rangedWeapons, ammo]]
+ let meleeArr = ['fighting', meleeWeapons]
 
-        let body = {
-            name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, rangedArr, meleeArr, grenades, equipment
-        }
+ let body = {
+ name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, rangedArr, meleeArr, grenades, equipment
+ }
 
-        axios.post( `/api/addCharacter/${this.props.user.userid}`, body )
-            .then( () => {
-                console.log( 'Your character has been saved')
-                this.props.history.push('/playercharacters')
-            } )
-    }
+ axios.post( `/api/addCharacter/${this.props.user.userid}`, body )
+ .then( () => {
+ console.log( 'Your character has been saved')
+ this.props.history.push('/playercharacters')
+ } )
+ }
 
-    render() {
-        let flatEnhance = _.flattenDeep( this.state.enhancements )
-        let bgOptions = data.backgrounds.map( (bg, i) => <option key={i} value={bg}>{bg}</option> )
-        let karmaOptions = karmaData.karmaNames.map( (karma, i) => <option key={i} value={_.camelCase(karma)}>{this.normalizeString(karma)}</option> )
-        let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{this.normalizeString(enhance)}</div> )
+ render() {
+ let flatEnhance = _.flattenDeep( this.state.enhancements )
+ let bgOptions = data.backgrounds.map( (bg, i) => <option key={i} value={bg}>{bg}</option> )
+ let karmaOptions = karmaData.karmaNames.map( (karma, i) => <option key={i} value={_.camelCase(karma)}>{this.normalizeString(karma)}</option> )
+ let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{this.normalizeString(enhance)}</div> )
 
-        let costStyle ='#fff'
-        if( this.reduceToTotal(this.state.bgCosts) > 5 )
-            costStyle = '#ff4848'
+ let costStyle ='#fff'
+ if( this.reduceToTotal(this.state.bgCosts) > 5 )
+ costStyle = '#ff4848'
 
-        return (
-            <div className='character-main'>
-                <Header />
+ return (
+ <div className='character-main'>
+ <Header />
 
-                <ToastContainer transition={Slide} autoClose={3000} style={{ fontSize: '12px', top: '30px' }} />
+ <ToastContainer transition={Slide} autoClose={3000} style={{ fontSize: '12px', top: '30px' }} />
 
-                { !this.props.user.userid
-                    ? <div className='character-no-user'>
-                        You are not logged in. Changes made to this page will not be saved.
-                    </div>
-                    : null
-                }
+ { !this.props.user.userid
+ ? <div className='character-no-user'>
+ You are not logged in. Changes made to this page will not be saved.
+ </div>
+ : null
+ }
 
-                <form id='character-form' className='character-body' autoComplete='off'>
-                    <input placeholder='Character Name' name='name' onChange={e => this.handleInfo(e)} />
+ <form id='character-form' className='character-body' autoComplete='off'>
+                  <input placeholder='Character Name' name='name' onChange={e => this.handleInfo(e)} />
                     <section className='character-info'>
                         <div className='character-group'>
                             Rank

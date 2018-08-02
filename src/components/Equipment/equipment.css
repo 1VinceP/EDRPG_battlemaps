@@ -8,6 +8,8 @@
 
 .equip-head {
     display: flex;
+    /* background: #004ca3; */
+    border-radius: 0 3px 0 0;
 }
 .equip-head-name {
     height: 22px;
@@ -16,6 +18,7 @@
     padding: 3px 10px;
     background: #007bff;
     border-radius: 3px 0 0 0;
+    text-shadow: 2px 2px 2px #000;
 }
 .equip-head-tri {
 	width: 0;
@@ -27,7 +30,7 @@
 .equip-data {
     min-height: 45px;
     border: 2px solid #007bff;
-    border-radius: 0 3px 3px 3px;
+    border-radius: 0 0px 3px 3px;
     padding: 6px 10px;
 }
 
@@ -41,19 +44,23 @@
     margin-bottom: 5px;
 }
 
-.ei-ranged {
-    /* display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 60px 30px 30px 30px 30px;
-    grid-auto-flow: row; */
+/* Showing labels on smaller screens */
+.ei-name {
+    text-decoration: underline;
 }
-.ei-r-name {
-    /* display: flex;
-    flex-direction: row;
-    align-items: center;
-    grid-column: 1;
-    grid-row: 1 / span 2; */
+.ei-bonus::before {
+    content: 'Bonus: ';
 }
+.ei-damage::before {
+    content: 'Damage: ';
+}
+.ei-ammo::before {
+    content: 'Ammo: ';
+}
+.ei-cost::before {
+    content: 'Cost: ';
+}
+
 .ei-r-ranges {
     display: flex;
     justify-content: space-between;
@@ -61,52 +68,158 @@
 .ei-r-ranges::before {
     content: "Range:";
 }
-.ei-r-notes {
-    /* grid-column: 1 / span 3;
-    grid-row: 4; */
+
+.ei-notes {
+
 }
 
-.ei-melee {
-    /* display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 30px 30px 30px 30px 30px; */
+.ei-m-finesse::before {
+    content: 'Finesse: ';
 }
 
 @media (min-width: 750px) {
-    .equip-item div {
+    .equip-item {
         height: 100%;
-        padding: 0 6px;
-    }
-    .equip-item div:not(:first-child) {
-        border-left: 1px solid #777;
+        width: 100%;
+        display: flex;
+        /* border: 1px solid red; */
     }
 
-    .ei-ranged {
-        display: grid;      /* name  bon  range dmg   ammo notes cost */
-        grid-template-columns: 150px 40px 250px 120px 30px 100px;
-        grid-template-rows: 20px 24px;
+    .ei-left {
+        /* height: 100%; */
+        /* width: 26%; */
     }
-    .ei-r-name {
+
+    .ei-name {
+        height: 100%;
+        width: 160px;
+        text-decoration: none;
+        padding-left: 6px;
         display: flex;
         align-items: center;
-        grid-column: 1;
-        grid-row: 1 / span 2;
+        justify-content: flex-start;
+        border-right: 1px solid #444;
+        transition: all .15s ease-in-out;
+    }
+    .ei-name:hover {
+        background: #3697ff;
+        border-radius: 3px;
+        text-shadow: 2px 2px 6px #000;
+        cursor: pointer;
+    }
+
+    .ei-right {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ei-top {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #444;
+        padding: 3px 0;
+    }
+    .ei-top > div {
+        width: 10%;
+    }
+    .ei-top div {
+        display: flex;
+        justify-content: center;
+    }
+
+    .ei-r-ranges {
+        width: 40% !important;
+    }
+    .ei-damage {
+        width: 20% !important;
+    }
+    .ei-g-damage {
+        width: 30% !important;
+    }
+    .ei-ammo {
+        background: none;
+        transition: all .15s ease-in-out;
+    }
+    .ei-ammo:hover {
+        background: #3697ff;
+        border-radius: 3px;
+        text-shadow: 2px 2px 6px #000;
+        cursor: pointer;
+    }
+    .ei-cost {
+        width: 20% !important;
+        transition: all .15s ease-in-out;
+    }
+    .ei-cost:hover {
+        background: #ff4736;
+        border-radius: 3px;
+        text-shadow: 2px 2px 6px #000;
+        cursor: pointer;
+    }
+
+    .ei-bottom {
+        padding: 3px;
+    }
+
+    /* Hiding labels on larger screens */
+    .ei-bonus::before {
+        display: none;
+    }
+    .ei-damage::before {
+        display: none;
+    }
+    .ei-ammo::before {
+        display: none;
+    }
+    .ei-cost::before {
+        display: none;
+    }
+    .ei-r-ranges > div {
+        padding: 0 6px;
+        border-right: 1px solid #444;
     }
     .ei-r-ranges::before {
         display: none;
     }
-    .ei-r-notes {
-        height: 30px;
-        grid-column: 2 / span 7;
-        grid-row: 2;
-        border-top: 1px solid #444;
-        display: flex;
-        align-items: center;
-    }
-
-    .ei-melee {
-        display: grid;      /* name  bon  f    dmg  notes cost */
-        grid-template-columns: 150px 40px 40px 120px 280px 100px;
-        grid-template-rows: none;
+    .ei-m-finesse::before {
+        display: none;
     }
 }
+
+
+
+/* .equip-item div {
+    height: 100%;
+    padding: 0 6px;
+}
+.equip-item div:not(:first-child) {
+    border-left: 1px solid #777;
+} */
+
+/* .ei-ranged {
+    display: grid;      name  bon  range dmg   ammo notes cost
+    grid-template-columns: 150px 40px 250px 120px 60px 100px;
+    grid-template-rows: 20px 24px;
+}
+.ei-name {
+    display: flex;
+    align-items: center;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    text-decoration: none;
+}
+
+
+
+.ei-r-notes {
+    height: 30px;
+    grid-column: 2 / span 7;
+    grid-row: 2;
+    border-top: 1px solid #444;
+    display: flex;
+    align-items: center;
+} */

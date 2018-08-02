@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { importCharacter } from '../../redux/characterReducer';
 import Header from '../../components/Header/Header';
 import Tabs from '../../components/Tabs/Tabs';
 import CharacterSheet from '../../components/Sheets/CharacterSheet';
@@ -33,7 +34,8 @@ class CharacterDisplay extends Component {
                     return;
                 }
                 else
-                    this.setState({ character: response.data[0] })
+                    // this.setState({ character: response.data[0] })
+                    this.props.importCharacter( response.data[0] )
             } )
             .catch( err => console.log( err ) )
     }
@@ -50,7 +52,8 @@ class CharacterDisplay extends Component {
     }
 
     render() {
-        const { character, activeTab } = this.state
+        const { activeTab } = this.state
+        const { character } = this.props
 
         return (
             <div className='display-main'>
@@ -68,7 +71,7 @@ class CharacterDisplay extends Component {
 
                     <section className='display-content'>
                         { activeTab === 'Character'
-                            ? <CharacterSheet character={this.state.character} />
+                            ? <CharacterSheet character={character} />
                             : activeTab === 'Spaceships'
                                 ? <SpaceshipSheet ship={this.state.spaceships} />
                                 : activeTab === 'Vehicles'
@@ -83,10 +86,12 @@ class CharacterDisplay extends Component {
 
 function mapStateToProps( state ) {
     const { user } = state.auth;
+    const { character } = state.character
 
     return {
-        user
+        user,
+        character
     };
 }
 
-export default connect( mapStateToProps, {} )(CharacterDisplay);
+export default connect( mapStateToProps, { importCharacter } )(CharacterDisplay);
