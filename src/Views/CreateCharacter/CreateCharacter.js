@@ -3,7 +3,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { ToastContainer, Slide, toast } from 'react-toastify';
-import { findFalse, normalizeString, resetSelect, reduceToTotal, toasty } from '../../utils/helperMethods';
+import { findFalse, manageEnhancements, normalizeString, resetSelect, reduceToTotal, toasty } from '../../utils/helperMethods';
 import Header from '../../components/Header/Header';
 import data from '../../data/characterData';
 import karmaData from '../../data/karma.json';
@@ -328,25 +328,27 @@ class CreateCharacter extends Component {
 
         if( !acceptOver50 )
             return;
-
         if( !completeInfo || !completeBg || !completeKarma || !completeLearning ) {
             console.log( completeInfo, completeBg, completeKarma, completeLearning )
             toasty( 'It looks like you left something empty. Please go back and make sure everything is filled in.' )
             return;
         }
-
         if( !completeRangedWeapons ) {
             toasty( 'Please choose whether you would prefer Autopistols or Laser Pistols' )
             return;
         }
 
+        let traits = manageEnhancements( enhancements );
+
         let body = {
             character: {
-                name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, grenades, equipment
+                name, rank, rankPoints, gender, age, height, weight, karma, endurance: traits.newEndurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, grenades, equipment, speed: traits.speed, strong: traits.strong
             },
             rangedWeapons,
             meleeWeapons
         }
+
+        console.log({ body })
 
         axios.post( `/api/addCharacter/${this.props.user.userid}`, body )
             .then( response => {

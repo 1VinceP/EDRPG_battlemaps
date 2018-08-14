@@ -20,12 +20,13 @@ This is currently a work in progress. Please open an issue on this repo to repor
 ______________________________________________________________________
 ## Todo
 - Update demo
-<!-- - Change char_??? location = integer (where 0 is self) -->
+- Improve location data for items
 
 ### Combat maps
-- Add all remaining ships ( now only missing Huge size ships )
+- Add all remaining ships ( now only missing Huge size and Beyond 3.2 ships )
 - Add vehicles
 - Add vehicle tips
+- ? Add character combat
 
 ### Character Creator
 - Add two ranged weapons on create

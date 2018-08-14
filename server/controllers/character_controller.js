@@ -7,7 +7,7 @@ module.exports = {
 
     // save new character to db
     addCharacter: ( req, res ) => {
-        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, grenades, equipment } = req.body.character;
+        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, grenades, equipment, speed, strong } = req.body.character;
         const { rangedWeapons, meleeWeapons } =  req.body
         const { uid } = req.params;
 
@@ -23,7 +23,7 @@ module.exports = {
 
         console.log( 'hit endpoint' );
 
-        req.app.get('db').character.add_character({ userId: uid, cname: name, crank: rank, rankPoints, gender, age, height, cweight: weight, karma, endurance, backgroundsArr, karmasArr, enhancementsArr, personalArr, vehicleArr, intelligenceArr, socialArr, espionageArr,  grenades: [grenades], equipment: [equipment] })
+        req.app.get('db').character.add_character({ userId: uid, cname: name, crank: rank, rankPoints, gender, age, height, cweight: weight, karma, endurance, backgroundsArr, karmasArr, enhancementsArr, personalArr, vehicleArr, intelligenceArr, socialArr, espionageArr,  grenades: [grenades], equipment: [equipment], speed, strong })
             .then( response => {
                 let ammo = rangedWeapons === '1' ? 3 : null;
                 let alias = meleeWeapons === '5' ? 'Sledgehammer' : null;

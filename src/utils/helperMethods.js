@@ -9,7 +9,32 @@ export function findFalse( arr ) {
     }
 
     return true;
-}
+};
+
+export function manageEnhancements( enhancements, endurance = 20 ) {
+    let traits = {
+        speed: 10,
+        strong: 0,
+        newEndurance: endurance
+    }
+
+      _.flattenDeep( enhancements ).forEach( enhance => {
+        switch( enhance ) {
+            case 'quickRunner':
+                traits.speed += 2;
+                break;
+            case 'tough':
+                traits.newEndurance += 5;
+                break;
+            case 'strong':
+                traits.strong += 2;
+                break;
+        };
+    } );
+
+    return traits
+
+};
 
 // Converts from camelCase to A String Like This
 export function normalizeString(str) {
