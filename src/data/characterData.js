@@ -248,13 +248,6 @@ export default {
                 10: [ 'fighting', 'kineticWeapons', 'parry', 'sleightOfHand', 'streetwise' ]
             }
         },
-        geneModBaby: {
-            cost: 1,
-            bonuses: {
-                20: [  ],
-                10: [  ]
-            }
-        },
         pilotTrained: {
             cost: 1,
             bonuses: {

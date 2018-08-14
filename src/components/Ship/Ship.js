@@ -107,12 +107,4 @@ class Ship extends Component {
     }
 }
 
-function mapStateToProps( state ) {
-    const { deltaPosition } = state.ship;
-
-    return {
-        deltaPosition
-    };
-}
-
 export default connect( null, { updateShipPos, changeSides, handleName, handleActive } )(Ship);

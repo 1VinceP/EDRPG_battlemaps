@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { importCharacter, updateInfo } from '../../redux/characterReducer';
+import { importCharacter, updateInfo, assignCheck, saveCharacter } from '../../redux/characterReducer';
+import { normalizeString } from '../../utils/helperMethods';
 import karmaData from '../../data/karma.json';
 import rangedData from '../../data/ranged_weapons.json';
 import SkillContainer from '../../components/SkillContainer/SkillContainer';
@@ -43,10 +44,7 @@ class CharacterSheet extends Component {
     }
 
     // componentDidMount() {
-    //     if( this.props.character.cid ) {
-    //         this.setState({ character: this.props.character })
-    //         // this.props.importCharacter( this.props.character )
-    //     }
+    //     axios.get( `/api/equip/${this.props.character.cid}?type=ranged` )
     // }
 
     // componentDidUpdate( prevProps ) {
@@ -96,14 +94,16 @@ class CharacterSheet extends Component {
     }
 
     onCheck( skill ) {
-        let checked = [...this.state.character.checked]
+        let checked = [...this.props.character.checked]
         let found = _.findIndex( checked, s => s === skill )
 
         if( found === -1 )
-            this.setState({ character: {...this.state.character, checked: [...checked, skill]} })
+            // this.setState({ character: {...this.state.character, checked: [...checked, skill]} })
+            this.props.assignCheck( [...checked, skill] )
         else {
             checked.splice( found, 1 )
-            this.setState({ character: {...this.state.character, checked: [...checked]} })
+            // this.setState({ character: {...this.state.character, checked: [...checked]} })
+            this.props.assignCheck( [...checked] )
         }
     }
 
@@ -127,11 +127,11 @@ class CharacterSheet extends Component {
 
             return (
                 <div key={i} className={selectedKarma === i ? 'cs-karma cs-selected-karma' : 'cs-karma cs-unselected-karma' } onClick={() => this.selectKarma(i)}>
-                    <div>{this.normalizeString(karma)}</div>
+                    <div>{normalizeString(karma)}</div>
                     <div>{details.cost}</div>
                     <div className={selectedKarma === i ? 'cs-kd cs-kd-show' : 'cs-kd cs-kd-hide' }>
                         <div>{details.effect}</div>
-                        <div style={{ fontStyle: 'italic', color: '#f0f' }}>{this.normalizeString(details.situation)} - {this.normalizeString(details.type)}</div>
+                        <div style={{ fontStyle: 'italic', color: '#f0f' }}>{normalizeString(details.situation)} - {normalizeString(details.type)}</div>
                         <button className='cs-k-button' onClick={() => this.useKarma(details.cost)}>Use this ability</button>
                     </div>
                 </div>
@@ -139,36 +139,9 @@ class CharacterSheet extends Component {
         } )
     }
 
-    renderRangedWeapons() {
-        const { ranged_weapons } = this.props.character
-
-        return ranged_weapons.map( ( weapon, i ) => {
-            let details
-
-            for( let key in rangedData ) {
-                if( _.camelCase(key) === _.camelCase(weapon) ) {
-                    details = rangedData[key]
-                    details.name = key
-                }
-            }
-
-            return (
-                <div key={i}>
-                    <div>{this.normalizeString(details.name)}</div>
-                    <div>{details.type}</div>
-                </div>
-            )
-        } )
-    }
-
-    //////////////////// HELPER METHODS
-    normalizeString = str => {
-        return str.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
-    }
-
     render() {
         const { showSkills } = this.state
-        const { character } = this.props
+        const { character, characterIsSaved } = this.props
 
         console.log( character )
 
@@ -216,10 +189,10 @@ class CharacterSheet extends Component {
                         </div>
                     </div>
                     <div className='cs-info-stats'>
-                        <input value={character.gender} name='gender' onChange={e => this.handleInfo(e)} />
-                        <input value={character.age} type='number' name='age' onChange={e => this.handleInfo(e)} />
-                        <input value={character.height} name='height' onChange={e => this.handleInfo(e)} />
-                        <input value={character.weight} name='weight' onChange={e => this.handleInfo(e)} />
+                        <input value={character.gender} name='gender' onChange={e => this.props.updateInfo(e)} />
+                        <input value={character.age} type='number' name='age' onChange={e => this.props.updateInfo(e)} />
+                        <input value={character.height} name='height' onChange={e => this.props.updateInfo(e)} />
+                        <input value={character.weight} name='weight' onChange={e => this.props.updateInfo(e)} />
                     </div>
 
                 </section>
@@ -254,7 +227,10 @@ class CharacterSheet extends Component {
                     </section>
                 </section>
 
-
+                { characterIsSaved === 'pending'
+                    ? <div>Saving...</div>
+                    : <button onClick={() => this.props.saveCharacter( character )} disabled={!!characterIsSaved}>Save Character</button>
+                }
 
             </div>
         )
@@ -262,11 +238,12 @@ class CharacterSheet extends Component {
 }
 
 function mapStateToProps( state ) {
-    const { character } = state.character;
+    const { character, characterIsSaved } = state.character;
 
     return {
-        character
+        character,
+        characterIsSaved
     };
 }
 
-export default connect( mapStateToProps, { importCharacter, updateInfo } )(CharacterSheet);
+export default connect( mapStateToProps, { importCharacter, updateInfo, assignCheck, saveCharacter } )(CharacterSheet);

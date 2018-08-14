@@ -81,7 +81,6 @@ app.get( '/api/character/:cid/:cname', charController.getCharacter )
 app.put( '/api/smallUpdateCharacter/:cid', charController.smallUpdateCharacter )
 app.put( '/api/smallNotesUpdate/:cid', charController.smallNotesUpdate )
 
-
 // creating function at end of file for readability
 function listener() {
     let port = process.env.NODE_PORT || 7707;

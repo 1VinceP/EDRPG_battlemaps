@@ -16,10 +16,46 @@
 }
 
 .display-title {
-    margin: 20px;
+    margin: 20px 0;
+    font-size: 30px;
+}
+
+.display-cash {
+    height: 130px;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: -60px;
+    margin-bottom: 20px;
+}
+.display-cash > div {
+    width: 50%;
+    display: flex;
+    align-items: flex-end;
+    margin-top: -1px;
+}
+.display-cash input {
+    width: 100px;
+    border: 1px solid #0f0;
+    text-align: right;
+    padding: 0 3px;
+    margin-right: 3px;
+}
+#cash-second {
+    margin-top: 60px;
+}
+#cash-third {
+    margin-top: 120px;
 }
 
 .display-content {
     width: 100%;
     padding: var(--body-padding-small);
+}
+
+@media (min-width: 750px) {
+    #cash-second, #cash-third {
+        margin-top: 0px;
+    }
 }

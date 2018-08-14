@@ -3,6 +3,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { ToastContainer, Slide, toast } from 'react-toastify';
+import { findFalse, normalizeString, resetSelect, reduceToTotal, toasty } from '../../utils/helperMethods';
 import Header from '../../components/Header/Header';
 import data from '../../data/characterData';
 import karmaData from '../../data/karma.json';
@@ -13,6 +14,8 @@ import './createCharacter.css';
 
 class CreateCharacter extends Component {
     state = {
+        canMakeMore: true,
+
         name: '',
         rank: 'Harmless',
         rankPoints: 0,
@@ -86,6 +89,10 @@ class CreateCharacter extends Component {
         equipment: ''
     }
 
+    // componentDidMount() {
+    //     // Check that the user can make more characters
+    // }
+
     // Updates the character name
     handleInfo( e ) {
         this.setState({ [e.target.name]: e.target.value })
@@ -97,7 +104,7 @@ class CreateCharacter extends Component {
         const { backgrounds, enhancements } = this.state
         let num = name.split(' ')[1] // The number of the background
         let flatEnhance = _.flattenDeep( enhancements )
-        let newEnhance = []
+        // let newEnhance = []
         let cost
 
         for( let key in backgroundStats ) {
@@ -119,8 +126,8 @@ class CreateCharacter extends Component {
                     backgroundStats[oldBg].bonuses[20].forEach( skill => this.updateSkills( skill, -20 )) // Remove +20 bonuses
                     for( let prop in backgrounds ) {
                         if( backgrounds[prop] === value ) {
-                            this.resetSelect( name )
-                            this.toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
+                            resetSelect( name )
+                            toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
                             this.updateBgToState( num, '', 0 )
                             return;
                         }
@@ -129,8 +136,8 @@ class CreateCharacter extends Component {
 
                 for( let prop in backgrounds ) {
                     if( backgrounds[prop] === value ) {
-                        this.resetSelect( name )
-                        this.toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
+                        resetSelect( name )
+                        toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
                         this.updateBgToState( num, '', 0 )
                         return;
                     }
@@ -166,8 +173,8 @@ class CreateCharacter extends Component {
 
         for( let key in karmas ) {
             if( karmas[key] === value ) {
-                this.toasty( `"${karmas[key]}" has already been chosen. Please pick another karmic ability` )
-                this.resetSelect( name )
+                toasty( `"${normalizeString( karmas[key] )}" has already been chosen. Please pick another karmic ability` )
+                resetSelect( name )
                 this.setState({ karmas: { ...karmas, [num]: '' } })
                 return;
             }
@@ -185,8 +192,8 @@ class CreateCharacter extends Component {
         // Do not add points if the skill is already being given points
         for( let key in learning ) {
             if( skill === learning[key] ) {
-                this.toasty( `"${skill}" is already assigned to a different value and will not receive anymore points` )
-                this.resetSelect( name )
+                toasty( `"${skill}" is already assigned to a different value and will not receive anymore points` )
+                resetSelect( name )
                 this.setState({ learning: { ...this.state.learning, [bonus]: '' } })
                 learning[bonus] ? this.updateSkills( learning[bonus], -bonus ) : null
                 return;
@@ -217,43 +224,10 @@ class CreateCharacter extends Component {
 
 
     /////////////////////////// HELPER METHODS
-    // Calculates the total numerical value of an object's keys
-    reduceToTotal = obj => {
-        return _.reduce( obj, ( result, value ) => {
-            if( value >= 10 )
-                value = Math.floor( value / 10 )
-            return result += value
-        }, 0 )
-    }
-
-    // Converts from camelCase to A String Like This
-    normalizeString = str => {
-        return str.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
-    }
-
     // Resets state back to its empty values
     resetState = () => {
         document.getElementById( 'character-form' ).reset()
         this.setState( _.cloneDeep( initialState.characterSheet ) )
-    }
-
-    // Resets a specific select value
-    resetSelect = name => {
-        document.getElementsByName( name )[0].value = ''
-    }
-
-    // Throws a toast notification
-    toasty = message => {
-        toast.error( message )
-    }
-
-    findFalse( arr ) {
-        console.log( arr )
-        for( let i = 0; i < arr.length; i++ ) {
-            if( !arr[i] ) return false;
-        }
-
-        return true;
     }
 
 
@@ -265,7 +239,7 @@ class CreateCharacter extends Component {
         }
 
         return skills.map( (skill, i) => {
-            let name = this.normalizeString( skill.key )
+            let name = normalizeString( skill.key )
             let showSkillValue = skill.value
             if( showSkillValue > 40 )
                 showSkillValue = 40
@@ -319,13 +293,13 @@ class CreateCharacter extends Component {
         let acceptOver50 = true
         , completeInfo = false
         , completeBg = false
-        , completeKarma = this.findFalse( _.values( karmas ) )
-        , completeLearning = this.findFalse( _.values( learning ) )
+        , completeKarma = findFalse( _.values( karmas ) )
+        , completeLearning = findFalse( _.values( learning ) )
         , completeRangedWeapons = false
 
         // Check that backgrounds costs to not exceed 5
-        if( this.reduceToTotal(this.state.bgCosts) > 5 ) {
-            this.toasty( 'You have too many backgrounds! Please limit your background cost to 5' )
+        if( reduceToTotal(this.state.bgCosts) > 5 ) {
+            toasty( 'You have too many backgrounds! Please limit your background cost to 5' )
             return;
         }
 
@@ -341,7 +315,7 @@ class CreateCharacter extends Component {
             completeRangedWeapons = true
 
         // Check that dropdown values are not empty
-        this.reduceToTotal(this.state.bgCosts) < 5 ? completeBg = false : completeBg = true
+        reduceToTotal(this.state.bgCosts) < 5 ? completeBg = false : completeBg = true
 
         // Throw alert if one or more skills is greater than 40
         for( let key in skills ) {
@@ -357,54 +331,54 @@ class CreateCharacter extends Component {
 
         if( !completeInfo || !completeBg || !completeKarma || !completeLearning ) {
             console.log( completeInfo, completeBg, completeKarma, completeLearning )
-            this.toasty( 'It looks like you left something empty. Please go back and make sure everything is filled in.' )
- return;
- }
+            toasty( 'It looks like you left something empty. Please go back and make sure everything is filled in.' )
+            return;
+        }
 
- if( !completeRangedWeapons ) {
- this.toasty( 'Please choose whether you would prefer Autopistols or Laser Pistols' )
- return;
- }
+        if( !completeRangedWeapons ) {
+            toasty( 'Please choose whether you would prefer Autopistols or Laser Pistols' )
+            return;
+        }
 
- let ammo = rangedWeapons === 'autopistol' ? '3' : null
- let rangedArr = [[rangedWeapons, ammo], [rangedWeapons, ammo]]
- let meleeArr = ['fighting', meleeWeapons]
+        let body = {
+            character: {
+                name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, grenades, equipment
+            },
+            rangedWeapons,
+            meleeWeapons
+        }
 
- let body = {
- name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, rangedArr, meleeArr, grenades, equipment
- }
+        axios.post( `/api/addCharacter/${this.props.user.userid}`, body )
+            .then( response => {
+                console.log( response.data )
+                // this.props.history.push('/playercharacters')
+            } )
+    }
 
- axios.post( `/api/addCharacter/${this.props.user.userid}`, body )
- .then( () => {
- console.log( 'Your character has been saved')
- this.props.history.push('/playercharacters')
- } )
- }
+    render() {
+        let flatEnhance = _.flattenDeep( this.state.enhancements )
+        let bgOptions = data.backgrounds.map( (bg, i) => <option key={i} value={bg}>{bg}</option> )
+        let karmaOptions = karmaData.karmaNames.map( (karma, i) => <option key={i} value={_.camelCase(karma)}>{normalizeString(karma)}</option> )
+        let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{normalizeString(enhance)}</div> )
 
- render() {
- let flatEnhance = _.flattenDeep( this.state.enhancements )
- let bgOptions = data.backgrounds.map( (bg, i) => <option key={i} value={bg}>{bg}</option> )
- let karmaOptions = karmaData.karmaNames.map( (karma, i) => <option key={i} value={_.camelCase(karma)}>{this.normalizeString(karma)}</option> )
- let enhancementList = flatEnhance.map( (enhance, i) => <div key={i}>{this.normalizeString(enhance)}</div> )
+        let costStyle ='#fff'
+        if( reduceToTotal(this.state.bgCosts) > 5 )
+            costStyle = '#ff4848'
 
- let costStyle ='#fff'
- if( this.reduceToTotal(this.state.bgCosts) > 5 )
- costStyle = '#ff4848'
+        return (
+            <div className='character-main'>
+                <Header />
 
- return (
- <div className='character-main'>
- <Header />
+                <ToastContainer transition={Slide} autoClose={3000} style={{ fontSize: '12px', top: '30px' }} />
 
- <ToastContainer transition={Slide} autoClose={3000} style={{ fontSize: '12px', top: '30px' }} />
+                { !this.props.user.userid
+                    ? <div className='character-no-user'>
+                        You are not logged in. Changes made to this page will not be saved.
+                        </div>
+                    : null
+                }
 
- { !this.props.user.userid
- ? <div className='character-no-user'>
- You are not logged in. Changes made to this page will not be saved.
- </div>
- : null
- }
-
- <form id='character-form' className='character-body' autoComplete='off'>
+                <form id='character-form' className='character-body' autoComplete='off'>
                   <input placeholder='Character Name' name='name' onChange={e => this.handleInfo(e)} />
                     <section className='character-info'>
                         <div className='character-group'>
@@ -462,7 +436,7 @@ class CreateCharacter extends Component {
                         <select name='bgCosts three' onChange={e => this.handleBg(e)}>{bgOptions}</select>
                         <select name='bgCosts four' onChange={e => this.handleBg(e)}>{bgOptions}</select>
                         <select name='bgCosts five' onChange={e => this.handleBg(e)}>{bgOptions}</select>
-                        <div className='bgs-total' style={{color: costStyle}}>Cost: {this.reduceToTotal(this.state.bgCosts)}/5</div>
+                        <div className='bgs-total' style={{color: costStyle}}>Cost: {reduceToTotal(this.state.bgCosts)}/5</div>
                     </section>
 
                     {/* Karma selection */}
@@ -514,8 +488,8 @@ class CreateCharacter extends Component {
 
                         <select name='rangedWeapons' onChange={e => this.handleInfo(e)}>
                             <option value=''></option>
-                            <option value='autopistol'>Autopistols</option>
-                            <option value='laser pistol'>Laser Pistols</option>
+                            <option value='1'>Autopistols</option>
+                            <option value='11'>Laser Pistols</option>
                         </select>
 
                         <select name='equipment' onChange={e => this.handleInfo(e)}>
@@ -526,9 +500,9 @@ class CreateCharacter extends Component {
 
                         <select name='meleeWeapons' onChange={e => this.handleInfo(e)} disabled={this.state.skills.personal.meleeWeapons < 20}>
                             <option value=''></option>
-                            <option value='knife'>Knife</option>
-                            <option value='sledgehammer'>Sledgehammer</option>
-                            <option value='sword'>Sword</option>
+                            <option value='4'>Knife</option>
+                            <option value='5'>Sledgehammer</option>
+                            <option value='3'>Sword</option>
                         </select>
 
                         <select name='grenades' onChange={e => this.handleInfo(e)} disabled={this.state.skills.personal.grenade < 20}>

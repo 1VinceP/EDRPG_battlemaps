@@ -27,4 +27,5 @@ yarn-error.log*
 # src/data/melee_weapons.json
 # src/data/ranged_weapons.json
 
-src/data
+/src/data
+/db/init

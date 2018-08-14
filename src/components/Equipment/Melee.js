@@ -1,12 +1,14 @@
 import React from 'react';
 
 export default function Melee({ details }) {
-    const { name, bonus, finesse, damage, notes, cost } = details
+    const { name, alias, bonus, finesse, damage, notes, cost } = details
 
     return (
         <div className='equip-item' >
             <section className='ei-left'>
-                <div className='ei-name'>{name}</div>
+                <div className='ei-name'>
+                    { alias && <div style={{fontSize: '8px'}}>{name}</div> }
+                    { alias || name }</div>
             </section>
 
             <section className='ei-right'>

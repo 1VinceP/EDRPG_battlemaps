@@ -101,7 +101,7 @@ export default function Tips() {
             <section className='tips-col'>
                 <h1>Vehicle Combat</h1>
                 <div className='tip'>
-                    <h2></h2>
+                    {/* <h2></h2> */}
                 </div>
             </section>
 

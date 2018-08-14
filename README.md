@@ -20,6 +20,7 @@ This is currently a work in progress. Please open an issue on this repo to repor
 ______________________________________________________________________
 ## Todo
 - Update demo
+<!-- - Change char_??? location = integer (where 0 is self) -->
 
 ### Combat maps
 - Add all remaining ships ( now only missing Huge size ships )
@@ -27,6 +28,7 @@ ______________________________________________________________________
 - Add vehicle tips
 
 ### Character Creator
+- Add two ranged weapons on create
 - Ability to remove backgrounds/karmas
 - Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
   - *If confirmed, reduce value down to 40*
@@ -37,10 +39,10 @@ ______________________________________________________________________
 - ADD FUNCTIONALITY: Enhancements from backgrounds
 
 ### Character Sheet
+- Fix fire weapon
 - Buy Equipment
 - Display Enhancements
 - Add Enhancements
-- Display Credits
 - Edit Credits
 - Style for tablets
 

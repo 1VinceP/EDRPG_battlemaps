@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { importCharacter } from '../../redux/characterReducer';
+import { importCharacter, updateInfo } from '../../redux/characterReducer';
 import Header from '../../components/Header/Header';
 import Tabs from '../../components/Tabs/Tabs';
 import CharacterSheet from '../../components/Sheets/CharacterSheet';
@@ -12,7 +12,6 @@ import './characterDisplay.css';
 class CharacterDisplay extends Component {
     state = {
         view: 'character',
-        character: {},
         spaceships: [],
         vehicles: [],
         activeTab: ''
@@ -27,22 +26,31 @@ class CharacterDisplay extends Component {
 
         axios.get( `/api/character/${match.params.id * 1}/${match.params.name}` )
             .then( response => {
-                if( !response.data[0] ) {
+                if( !response.data ) {
                     alert( 'This character does not exist' )
                     this.props.history.push('/playercharacters')
                     console.log( 'This character does not exist' )
                     return;
                 }
-                else
-                    // this.setState({ character: response.data[0] })
-                    this.props.importCharacter( response.data[0] )
+                else {
+                    console.log( 'CHARACTER DATA', response.data)
+                    this.props.importCharacter( response.data )
+                }
             } )
             .catch( err => console.log( err ) )
     }
 
     componentDidUpdate( prevProps, prevState ) {
-        if( prevState.activeTab !== this.state.activeTab )
+        // if( prevState.activeTab !== this.state.activeTab )
+        //     this.getCharacter()
+        if( prevProps.character.name && prevProps.character.name !== this.props.character.name ) {
+            console.log( `Character changed from ${prevProps.character.name} to ${this.props.character.name}` )
             this.getCharacter()
+        }
+    }
+
+    componentWillUnmount() {
+        console.log( 'UNMOUNTING' )
     }
 
     switchContent = ( tabName ) => {
@@ -51,9 +59,23 @@ class CharacterDisplay extends Component {
         })
     }
 
+    saveCharacter = ( sheetType ) => {
+        let body = this.props.character
+
+        if( this.props.character.userId === this.props.user.id ) {
+
+            console.log( `UNMOUNTING and SAVING ${sheetType}` )
+
+            axios.put( `/api/smallUpdateCharacter/${this.props.character.cid}`, body )
+                .then( () => console.log( 'character updated!' ) )
+        }
+        else
+            alert( 'You are not authorized to save changes to this sheet' )
+    }
+
     render() {
         const { activeTab } = this.state
-        const { character } = this.props
+        const { character, updateInfo } = this.props
 
         return (
             <div className='display-main'>
@@ -61,6 +83,20 @@ class CharacterDisplay extends Component {
 
                 <div className='display-body'>
                     <h1 className='display-title'>{character.name}</h1>
+                    <div className='display-cash'>
+                        <div>
+                            <input name='credits' onChange={e => updateInfo(e)} value={character.credits} />
+                            Cr
+                        </div>
+                        <div id='cash-second'>
+                            <input name='m_cr' onChange={e => updateInfo(e)} value={character.m_cr} />
+                            mCr
+                        </div>
+                        <div id='cash-third'>
+                            <input name='units' onChange={e => updateInfo(e)} value={character.units} />
+                            u
+                        </div>
+                    </div>
 
                     <Tabs
                         titles={[ 'Character', 'Spaceships', 'Vehicles' ]}
@@ -94,4 +130,4 @@ function mapStateToProps( state ) {
     };
 }
 
-export default connect( mapStateToProps, { importCharacter } )(CharacterDisplay);
+export default connect( mapStateToProps, { importCharacter, updateInfo } )(CharacterDisplay);
