@@ -113,12 +113,11 @@ export function reloadWeapon( index, weapons, ammo ) {
     }
 }
 
-export function saveCharacter( character ) {
-    let body = character
+export function saveCharacter( character, userid ) {
 
-    console.log( 'Character saved to Database from Redux' )
+    console.log( 'Character saving to Database from Redux...', {character, userid} )
 
-    let saved = axios.put( `/api/smallUpdateCharacter/${character.cid}`, body )
+    let saved = axios.put( `/api/saveCharacter/${userid}/${character.cid}`, character )
         .then( () => {
             console.log( 'character updated!' )
             return true

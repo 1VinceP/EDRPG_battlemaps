@@ -11,6 +11,8 @@ const express = require('express')
 const authController = require('./controllers/auth_controller');
 const charController = require('./controllers/character_controller');
 
+const validateSave = require('./middlewares/validateSave');
+
 let app = express();
 
 app.use( bodyParser.json() );
@@ -78,7 +80,7 @@ app.get( '/auth/logout', authController.logout );
 app.post( '/api/addCharacter/:uid', charController.addCharacter )
 app.get( '/api/userCharacters/:uid', charController.getCharacters )
 app.get( '/api/character/:cid/:cname', charController.getCharacter )
-app.put( '/api/smallUpdateCharacter/:cid', charController.smallUpdateCharacter )
+app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter )
 app.put( '/api/smallNotesUpdate/:cid', charController.smallNotesUpdate )
 
 // creating function at end of file for readability

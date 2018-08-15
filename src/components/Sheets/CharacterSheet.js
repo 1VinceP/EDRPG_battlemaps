@@ -141,7 +141,7 @@ class CharacterSheet extends Component {
 
     render() {
         const { showSkills } = this.state
-        const { character, characterIsSaved } = this.props
+        const { character, characterIsSaved, userid } = this.props
 
         console.log( character )
 
@@ -227,9 +227,11 @@ class CharacterSheet extends Component {
                     </section>
                 </section>
 
-                { characterIsSaved === 'pending'
-                    ? <div>Saving...</div>
-                    : <button onClick={() => this.props.saveCharacter( character )} disabled={!!characterIsSaved}>Save Character</button>
+                { userid === character.userid
+                    ? characterIsSaved === 'pending'
+                        ? <div>Saving...</div>
+                        : <button onClick={() => this.props.saveCharacter( character, userid )} disabled={!!characterIsSaved}>Save Character</button>
+                    : null
                 }
 
             </div>
@@ -239,10 +241,12 @@ class CharacterSheet extends Component {
 
 function mapStateToProps( state ) {
     const { character, characterIsSaved } = state.character;
+    const { userid } = state.auth.user;
 
     return {
         character,
-        characterIsSaved
+        characterIsSaved,
+        userid
     };
 }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { importCharacter, updateInfo } from '../../redux/characterReducer';
+import { commaFormatted } from '../../utils/helperMethods';
 import Header from '../../components/Header/Header';
 import Tabs from '../../components/Tabs/Tabs';
 import CharacterSheet from '../../components/Sheets/CharacterSheet';
@@ -57,20 +58,6 @@ class CharacterDisplay extends Component {
         this.setState({
             activeTab: tabName
         })
-    }
-
-    saveCharacter = ( sheetType ) => {
-        let body = this.props.character
-
-        if( this.props.character.userId === this.props.user.id ) {
-
-            console.log( `UNMOUNTING and SAVING ${sheetType}` )
-
-            axios.put( `/api/smallUpdateCharacter/${this.props.character.cid}`, body )
-                .then( () => console.log( 'character updated!' ) )
-        }
-        else
-            alert( 'You are not authorized to save changes to this sheet' )
     }
 
     render() {

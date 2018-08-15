@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Exo+2');
+
 :root {
     --main-bg: #313132;
     --second-bg: #212121;
@@ -14,6 +16,10 @@
     text-decoration: none;
 }
 
+html * {
+    font-family: 'Exo 2', sans-serif;
+    letter-spacing: .5px;
+}
 
 html *::-webkit-scrollbar {
     width: 10px;

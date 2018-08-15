@@ -40,8 +40,11 @@ ______________________________________________________________________
 - ADD FUNCTIONALITY: Enhancements from backgrounds
 
 ### Character Sheet
+- Able to save character
+- Fix user karma buttons
 - Fix fire weapon
 - Buy Equipment
+- Sell Equipment
 - Display Enhancements
 - Add Enhancements
 - Edit Credits

@@ -83,33 +83,16 @@ module.exports = {
             } );
     },
 
-    // get equipment for specific char
-    getCharEquip: ( req, res ) => {
-        const { cid } = req.params;
-        const { type } = req.query;
-
-        switch( type ) {
-            case 'ranged':
-                req.app.get('db').character.get_ranged( cid )
-                    .then( response => res.status(200).send( response ) )
-                    .catch( err => console.log( errChalk( err ) ) );
-                break;
-            case 'melee':
-                req.app.get('db').character.get_melee( cid )
-                    .then( response => res.status(200).send( response ) )
-                    .catch( err => console.log( errChalk( err ) ) );
-                break;
-        };
-    },
-
     // save changes to character
-    smallUpdateCharacter: ( req, res ) => {
-        const { rank_points, gender, age, height, weight, current_endurance, current_karma, checked } = req.body;
+    saveCharacter: ( req, res ) => {
+        const { name, rank_points, gender, age, height, weight, current_endurance, current_karma, checked, notes } = req.body;
         const { cid } = req.params;
 
-        console.log( 'Small Update to', cid );
+        console.log( 'Small update to', name );
 
-        req.app.get('db').character.small_update_character({ cid, rank_points, gender, age, height, cweight: weight, current_endurance, current_karma, checked })
+        let charUpdate = req.app.get('db').character.update_character({ cid, rank_points, gender, age, height, cweight: weight, current_endurance, current_karma, checked, notes })
+
+        Promise.all([charUpdate])
             .then( () => res.sendStatus(200) )
             .catch( err => console.log( errChalk(err) ) );
     },
