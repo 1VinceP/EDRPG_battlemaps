@@ -30,7 +30,7 @@
 .equip-data {
     min-height: 45px;
     border: 2px solid #007bff;
-    border-radius: 0 0px 3px 3px;
+    border-radius: 0 3px 3px 3px;
     padding: 6px 10px;
 }
 
@@ -47,6 +47,10 @@
 /* Showing labels on smaller screens */
 .ei-name {
     text-decoration: underline;
+}
+.ei-name input {
+    width: 90%;
+    margin-top: 1px;
 }
 .ei-bonus::before {
     content: 'Bonus: ';
@@ -71,6 +75,18 @@
 
 .ei-notes {
 
+}
+
+.ei-bottom-button {
+    min-height: 16px;
+    min-width: 86px;
+    border: 1px solid #007bff;
+    border-radius: 3px;
+    color: #3697ff;
+    background: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 10px;
 }
 
 .ei-m-finesse::before {
@@ -146,7 +162,7 @@
         transition: all .15s ease-in-out;
     }
     .ei-ammo:hover {
-        background: #36ff36;
+        background: #00c700;
         border-radius: 3px;
         text-shadow: 2px 2px 6px #000;
         cursor: pointer;
@@ -163,7 +179,11 @@
     }
 
     .ei-bottom {
+        width: 100%;
         padding: 3px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     /* Hiding labels on larger screens */
@@ -190,37 +210,3 @@
         display: none;
     }
 }
-
-
-
-/* .equip-item div {
-    height: 100%;
-    padding: 0 6px;
-}
-.equip-item div:not(:first-child) {
-    border-left: 1px solid #777;
-} */
-
-/* .ei-ranged {
-    display: grid;      name  bon  range dmg   ammo notes cost
-    grid-template-columns: 150px 40px 250px 120px 60px 100px;
-    grid-template-rows: 20px 24px;
-}
-.ei-name {
-    display: flex;
-    align-items: center;
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    text-decoration: none;
-}
-
-
-
-.ei-r-notes {
-    height: 30px;
-    grid-column: 2 / span 7;
-    grid-row: 2;
-    border-top: 1px solid #444;
-    display: flex;
-    align-items: center;
-} */

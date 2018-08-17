@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { importCharacter, updateInfo, assignCheck, saveCharacter } from '../../redux/characterReducer';
+import { importCharacter, updateInfo, assignCheck, useKarma, saveCharacter } from '../../redux/characterReducer';
 import { normalizeString } from '../../utils/helperMethods';
 import karmaData from '../../data/karma.json';
 import rangedData from '../../data/ranged_weapons.json';
@@ -79,19 +79,19 @@ class CharacterSheet extends Component {
             this.setState({ selectedKarma: null })
     }
 
-    useKarma( cost ) {
-        const { character } = this.props
+    // useKarma( cost ) {
+    //     const { character } = this.props
 
-        if( character.current_karma - cost < 0 || character.current_karma === 0 ) {
-            console.log( 'Not enough karma left' )
-            return;
-        }
+    //     if( character.current_karma - cost < 0 || character.current_karma === 0 ) {
+    //         console.log( 'Not enough karma left' )
+    //         return;
+    //     }
 
-        if( cost === 'All' )
-            cost = character.current_karma
+    //     if( cost === 'All' )
+    //         cost = character.current_karma
 
-        this.setState({ character: {...character, current_karma: character.current_karma - cost} })
-    }
+    //     this.setState({ character: {...character, current_karma: character.current_karma - cost} })
+    // }
 
     onCheck( skill ) {
         let checked = [...this.props.character.checked]
@@ -132,7 +132,7 @@ class CharacterSheet extends Component {
                     <div className={selectedKarma === i ? 'cs-kd cs-kd-show' : 'cs-kd cs-kd-hide' }>
                         <div>{details.effect}</div>
                         <div style={{ fontStyle: 'italic', color: '#f0f' }}>{normalizeString(details.situation)} - {normalizeString(details.type)}</div>
-                        <button className='cs-k-button' onClick={() => this.useKarma(details.cost)}>Use this ability</button>
+                        <button className='cs-k-button' onClick={() => this.props.useKarma(character.current_karma, details.cost)}>Use this ability</button>
                     </div>
                 </div>
             )
@@ -250,4 +250,4 @@ function mapStateToProps( state ) {
     };
 }
 
-export default connect( mapStateToProps, { importCharacter, updateInfo, assignCheck, saveCharacter } )(CharacterSheet);
+export default connect( mapStateToProps, { importCharacter, updateInfo, assignCheck, useKarma, saveCharacter } )(CharacterSheet);

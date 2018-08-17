@@ -29,7 +29,7 @@ export default function Equipment({ ownedData, bonuses, type }) {
             return <Ranged key={i} details={details} index={i} weapons={ownedData} />
 
         else if( type === 'melee' && details )
-            return <Melee details={details} key={i} />
+            return <Melee details={details} key={i} weapons={ownedData} />
 
         else if( type === 'grenades' && details )
             return <Grenade details={details} key={i} />

@@ -29,7 +29,6 @@ ______________________________________________________________________
 - ? Add character combat
 
 ### Character Creator
-- Add two ranged weapons on create
 - Ability to remove backgrounds/karmas
 - Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
   - *If confirmed, reduce value down to 40*
@@ -40,9 +39,8 @@ ______________________________________________________________________
 - ADD FUNCTIONALITY: Enhancements from backgrounds
 
 ### Character Sheet
-- Able to save character
-- Fix user karma buttons
-- Fix fire weapon
+- Able to save equipment
+<!-- - Fix fire weapon -->
 - Buy Equipment
 - Sell Equipment
 - Display Enhancements

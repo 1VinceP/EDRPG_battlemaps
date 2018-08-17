@@ -2,4 +2,5 @@ SELECT cr.id, r.id as stat_id, r.name, cr.alias, r.kind, r.type, r.sr, r.mr, r.l
     FROM characters c
     JOIN char_ranged cr ON c.cid = cr.char_id
     JOIN ranged_stats r ON cr.weapon_id = r.id
-        WHERE c.cid = $1;
+        WHERE c.cid = $1
+        ORDER BY r.id;

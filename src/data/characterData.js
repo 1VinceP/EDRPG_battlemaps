@@ -1,7 +1,9 @@
 export default {
 
     backgrounds: [
-        '', 'Accountant', 'Anarchist', 'Army Trained', 'Borderland Homeworld', 'Born on the Streets', 'Boxer', 'Cheerleader', 'Child Actor', 'Community Youth Worker', 'Computer Game Designer', 'Criminal Family', 'Cyborg', 'Docking Bay Operative', 'Engineer', 'Explorer Corp', 'Fighter Pilot', 'Freedom Fighter', 'Frontier Trader', 'Fuel Rat', 'Gene Mod Baby', 'Gym Freak', 'Hacker', 'High Tech Homeworld', 'Hoopy Casino Croupier', 'Lave Radio Host', 'Martial Artist', 'Mercenary', 'Mining Engineer', 'Minor Politician', 'Monk or Nun', 'Navy Trained', 'Officer', 'Partner', 'Petty Criminal', 'Pilot Trained', 'Police Officer', 'Private Detective', 'Ran Away from Home', 'Scientist', 'Scout Leader', 'Second Hand Spaceship Dealer', 'Secret Agent', 'Self Taught', 'Ship Hand', 'Sports College', 'Stock Broker', 'Teacher', 'Trained Doctor', 'Treasure Hunter', 'Trucker', 'University Graduate', 'Vehicle Nut', 'Wise Guy'
+        '', 'Accountant', 'Anarchist', 'Army Trained', 'Borderland Homeworld', 'Born on the Streets', 'Boxer', 'Cheerleader', 'Child Actor', 'Community Youth Worker', 'Computer Game Designer', 'Criminal Family', 'Cyborg', 'Docking Bay Operative', 'Engineer', 'Explorer Corp', 'Fighter Pilot', 'Freedom Fighter', 'Frontier Trader', 'Fuel Rat', 'Gene Mod Baby', 'Gym Freak', 'Hacker', 'High Tech Homeworld', 'Hoopy Casino Croupier', 'Lave Radio Host', 'Martial Artist', 'Mercenary', 'Mining Engineer', 'Minor Politician', 'Monk or Nun', 'Navy Trained', 'Officer', 'Partner', 'Petty Criminal', 'Pilot Trained', 'Police Officer', 'Private Detective', 'Ran Away from Home', 'Scientist', 'Scout Leader', 'Second Hand Spaceship Dealer', 'Secret Agent', 'Self Taught', 'Ship Hand', 'Sports College', 'Stock Broker', 'Teacher', 'Trained Doctor', 'Treasure Hunter', 'Trucker', 'University Graduate', 'Vehicle Nut', 'Wise Guy',
+        // ESPIONAGE SUPPLEMENT
+        'Insurgent'
     ],
 
     backgroundStats: {
@@ -383,6 +385,15 @@ export default {
                 20: [ 'streetwise' ],
                 10: [ 'dodge', 'gambling', 'heavyWeapons', 'kineticWeapons', 'medicine', 'meleeWeapons', 'tactics', 'vehicleWeapons' ]
             }
+        },
+
+        /////////////////// ESPIONAGE SUPPLEMENT
+        insurgent: {
+            cost: 1,
+            bonuses: {
+                20: [ 'bluff' ],
+                10: [ 'fighting', 'security', 'stealth' ]
+            }
         }
     },
 
@@ -392,6 +403,6 @@ export default {
         'Navigation', 'Repair', 'Spaceship Piloting', 'Spaceship Weapons', 'Systems', 'Vehicle Piloting', 'Vehicle Weapons',
         'Computer', 'Culture and Law', 'Cyber', 'Medicine', 'Planetary Knowledge', 'Science', 'Tactics', 'Trading',
         'Bargain', 'Bluff', 'Charm', 'Diplomacy', 'Gambling', 'Insight', 'Intimidation', 'Streetwise',
-        'Athletics', 'Perception', 'Security', 'Slight of Hand', 'Stealth', 'Survival'
+        'Athletics', 'Perception', 'Security', 'Sleight of Hand', 'Stealth', 'Survival'
     ]
 }

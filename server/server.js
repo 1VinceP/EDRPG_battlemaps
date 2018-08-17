@@ -77,11 +77,12 @@ app.get( '/auth/logout', authController.logout );
 
 
 // CHARACTER ENDPOINTS
-app.post( '/api/addCharacter/:uid', charController.addCharacter )
-app.get( '/api/userCharacters/:uid', charController.getCharacters )
-app.get( '/api/character/:cid/:cname', charController.getCharacter )
-app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter )
-app.put( '/api/smallNotesUpdate/:cid', charController.smallNotesUpdate )
+app.post( '/api/addCharacter/:uid', charController.addCharacter );
+app.get( '/api/userCharacters/:uid', charController.getCharacters );
+app.get( '/api/character/:cid/:cname', charController.getCharacter );
+app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter );
+app.put( '/api/saveRanged/:userid/:cid', validateSave, charController.saveRanged );
+app.put( '/api/saveMelee/:userid/:cid', validateSave, charController.saveMelee );
 
 // creating function at end of file for readability
 function listener() {

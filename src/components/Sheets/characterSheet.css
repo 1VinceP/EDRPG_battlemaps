@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     flex-wrap: wrap;
     /* color: #54e4fd */
 }
@@ -42,7 +42,7 @@
     margin-bottom: -1px;
 }
 .cs-info > div {
-    border: 1px solid green;
+    /* border: 1px solid green; */
 }
 
 .cs-rank {

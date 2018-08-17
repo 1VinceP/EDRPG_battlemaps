@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { updateInfo } from '../../redux/characterReducer';
 import './notes.css';
 
 class Notes extends Component {
@@ -24,21 +26,22 @@ class Notes extends Component {
         }
     }
 
-    componentWillUnmount() {
-        if( this.props.notes !== this.state.saveNotes ) {
-            axios.put( `/api/smallNotesUpdate/${this.props.cid}`, { notes: this.state.saveNotes } )
-        }
-
-    }
-
     updateNotes( e ) {
         const { value } = e.target
         let saveFormat = value.replace( /\n/g, '<br>' )
 
         this.setState({
             displayNotes: value,
-            saveNotes: saveFormat
+            // saveNotes: saveFormat
         })
+
+        let obj = {
+            target: {
+                name: 'notes',
+                value: saveFormat
+            }
+        }
+        this.props.updateInfo( obj )
     }
 
     render() {
@@ -57,4 +60,12 @@ class Notes extends Component {
     }
 }
 
-export default Notes;
+function mapStateToProps( state ) {
+    const { notes } = state.character.character;
+
+    return {
+        notes
+    };
+}
+
+export default connect( null, { updateInfo } )(Notes);

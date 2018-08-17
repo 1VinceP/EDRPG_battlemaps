@@ -8,4 +8,7 @@ UPDATE Characters
     , current_karma = ${current_karma}
     , checked = ${checked}
     , notes = ${notes}
+    , credits = ${credits}
+    , m_cr = ${m_cr}
+    , units = ${units}
         WHERE cid = ${cid}

@@ -85,28 +85,49 @@ module.exports = {
 
     // save changes to character
     saveCharacter: ( req, res ) => {
-        const { name, rank_points, gender, age, height, weight, current_endurance, current_karma, checked, notes } = req.body;
+        const { name, rank_points, gender, age, height, weight, current_endurance, current_karma, checked, notes, credits, m_cr, units } = req.body;
         const { cid } = req.params;
 
         console.log( 'Small update to', name );
 
-        let charUpdate = req.app.get('db').character.update_character({ cid, rank_points, gender, age, height, cweight: weight, current_endurance, current_karma, checked, notes })
+        let charUpdate = req.app.get('db').character.update_character({ cid, rank_points, gender, age, height, cweight: weight, current_endurance, current_karma, checked, notes, credits, m_cr, units })
 
         Promise.all([charUpdate])
             .then( () => res.sendStatus(200) )
             .catch( err => console.log( errChalk(err) ) );
     },
 
-    // save changes to character notes
-    smallNotesUpdate: ( req, res, next ) => {
-        const { notes } = req.body;
-        const { cid } = req.params;
+    saveRanged: ( req, res ) => {
+        const { id, current_ammo, alias } = req.body.weapon;
 
-        console.log( notes );
+        req.app.get('db').character.update_ranged({ id, current_ammo, alias })
+            .then( () => {
+                console.log( chalk.blue('ranged update!') );
+                res.sendStatus(200);
+            } )
+            .catch( err => console.log( err ) );
+    },
 
-        req.app.get('db').character.small_update_notes({ notes, cid })
-            .then( res.status(200).send( 'fulfilled' ) );
-    }
+    deleteRanged: ( req, res ) => {
+        const { id, cid, value } = req.body;
+
+        req.app.get('db').character.delete_ranged({ id, cid, value })
+            .then( response => {
+
+            } )
+            .catch( err => console.log( err ) );
+    },
+
+    saveMelee: ( req, res ) => {
+        const { id, alias } = req.body.weapon;
+
+        req.app.get('db').character.update_melee({ id, alias })
+            .then( () => {
+                console.log( chalk.blue('melee update!') );
+                res.sendStatus(200);
+            } )
+            .catch( err => console.log( err ) );
+    },
 
 }
 
@@ -180,7 +201,7 @@ function reorganizeSkills( title, skillsArr ) {
                 athletics: skillsArr[0],
                 perception: skillsArr[1],
                 security: skillsArr[2],
-                slightOfHand: skillsArr[3],
+                sleightOfHand: skillsArr[3],
                 stealth: skillsArr[4],
                 survival: skillsArr[5],
             }

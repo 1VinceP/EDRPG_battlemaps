@@ -75,7 +75,7 @@ class CreateCharacter extends Component {
                 athletics: 10,
                 perception: 10,
                 security: 10,
-                slightOfHand: 10,
+                sleightOfHand: 10,
                 stealth: 10,
                 survival: 10
             }
@@ -353,7 +353,7 @@ class CreateCharacter extends Component {
         axios.post( `/api/addCharacter/${this.props.user.userid}`, body )
             .then( response => {
                 console.log( response.data )
-                // this.props.history.push('/playercharacters')
+                this.props.history.push('/playercharacters')
             } )
     }
 
