@@ -83,6 +83,8 @@ app.get( '/api/character/:cid/:cname', charController.getCharacter );
 app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter );
 app.put( '/api/saveRanged/:userid/:cid', validateSave, charController.saveRanged );
 app.put( '/api/saveMelee/:userid/:cid', validateSave, charController.saveMelee );
+app.delete( '/api/deleteRanged/:userid/:uid/:cid/:id', validateSave, charController.deleteRanged );
+app.delete( '/api/deleteMelee/:userid/:uid/:cid/:id', validateSave, charController.deleteMelee );
 
 // creating function at end of file for readability
 function listener() {

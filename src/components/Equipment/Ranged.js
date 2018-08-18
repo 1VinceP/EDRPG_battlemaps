@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
-import { fireWeapon, reloadWeapon, updateAlias } from '../../redux/characterReducer';
+import { fireWeapon, reloadWeapon, updateAlias, importCharacter } from '../../redux/characterReducer';
 
 class Ranged extends Component {
         state = {
@@ -16,9 +17,21 @@ class Ranged extends Component {
         this.props.updateAlias( this.props.details.id, this.props.weapons, e.target.value, 'ranged_weapons' )
     }
 
+    sellEquipment( id, cost, credits, userid, uid, cid ) {
+        let value = prompt('Sell value (standard 70% of purchase cost)', Math.ceil(cost * .7))
+
+        if( value ) {
+            value = value * 1 + credits * 1
+            axios.delete(`/api/deleteRanged/${userid}/${uid}/${cid}/${id}?value=${value}`)
+                .then( () => {
+                    this.props.importCharacter( cid, this.props.name )
+                } )
+        }
+    }
+
     render() {
         const { showEdit } = this.state
-        const { details, index, weapons, fireWeapon, reloadWeapon } = this.props
+        const { details, index, weapons, userid, uid, cid, credits, fireWeapon, reloadWeapon, sellEquipment } = this.props
         const { id, name, bonus, sr, sd, mr, md, lr, ld, damage, current_ammo, ammo, cost, notes, alias } = details
         // console.log( details )
 
@@ -46,7 +59,7 @@ class Ranged extends Component {
                         <div className='ei-ammo' onClick={() => reloadWeapon(id, weapons)}>
                             {current_ammo !== null && `${current_ammo} / `}{ammo}
                         </div>
-                        <div className='ei-cost'>{cost} Cr</div>
+                        <div className='ei-cost' onClick={() => this.sellEquipment(id, cost, credits, userid, uid, cid)}>{cost} Cr</div>
                     </div>
 
                     <div className='ei-bottom'>
@@ -59,4 +72,17 @@ class Ranged extends Component {
     }
 }
 
-export default connect( null, { fireWeapon, reloadWeapon, updateAlias } )(Ranged);
+function mapStateToProps( state ) {
+    const { userid } = state.auth.user;
+    const { userid: uid, cid, credits, name } = state.character.character
+
+    return {
+        userid,
+        uid,
+        cid,
+        credits,
+        name
+    };
+}
+
+export default connect( mapStateToProps, { fireWeapon, reloadWeapon, updateAlias, importCharacter } )(Ranged);

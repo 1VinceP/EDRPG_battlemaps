@@ -23,22 +23,9 @@ class CharacterDisplay extends Component {
     }
 
     getCharacter() {
-        const { user, match } = this.props
+        const { id, name } = this.props.match.params
 
-        axios.get( `/api/character/${match.params.id * 1}/${match.params.name}` )
-            .then( response => {
-                if( !response.data ) {
-                    alert( 'This character does not exist' )
-                    this.props.history.push('/playercharacters')
-                    console.log( 'This character does not exist' )
-                    return;
-                }
-                else {
-                    console.log( 'CHARACTER DATA', response.data)
-                    this.props.importCharacter( response.data )
-                }
-            } )
-            .catch( err => console.log( err ) )
+        this.props.importCharacter( id, name );
     }
 
     componentDidUpdate( prevProps, prevState ) {
@@ -64,46 +51,55 @@ class CharacterDisplay extends Component {
         const { activeTab } = this.state
         const { character, updateInfo } = this.props
 
-        return (
-            <div className='display-main'>
-                <Header />
+        if( character.cid == this.props.match.params.id ) {
+            return (
+                <div className='display-main'>
+                    <Header />
 
-                <div className='display-body'>
-                    <h1 className='display-title'>{character.name}</h1>
-                    <div className='display-cash'>
-                        <div>
-                            <input name='credits' onChange={e => updateInfo(e)} value={character.credits} />
-                            Cr
+                    <div className='display-body'>
+                        <h1 className='display-title'>{character.name}</h1>
+                        <div className='display-cash'>
+                            <div>
+                                <input name='credits' onChange={e => updateInfo(e)} value={character.credits} />
+                                Cr
+                            </div>
+                            <div id='cash-second'>
+                                <input name='m_cr' onChange={e => updateInfo(e)} value={character.m_cr} />
+                                mCr
+                            </div>
+                            <div id='cash-third'>
+                                <input name='units' onChange={e => updateInfo(e)} value={character.units} />
+                                u
+                            </div>
                         </div>
-                        <div id='cash-second'>
-                            <input name='m_cr' onChange={e => updateInfo(e)} value={character.m_cr} />
-                            mCr
-                        </div>
-                        <div id='cash-third'>
-                            <input name='units' onChange={e => updateInfo(e)} value={character.units} />
-                            u
-                        </div>
+
+                        <Tabs
+                            titles={[ 'Character', 'Spaceships', 'Vehicles' ]}
+                            default='Character'
+                            backgroundColor='#313132'
+                            sendTab={this.switchContent}
+                        />
+
+                        <section className='display-content'>
+                            { activeTab === 'Character'
+                                ? <CharacterSheet character={character} />
+                                : activeTab === 'Spaceships'
+                                    ? <SpaceshipSheet ship={this.state.spaceships} />
+                                    : activeTab === 'Vehicles'
+                                        && <VehicleSheet vehicle={this.state.vehicles} />
+                            }
+                        </section>
                     </div>
-
-                    <Tabs
-                        titles={[ 'Character', 'Spaceships', 'Vehicles' ]}
-                        default='Character'
-                        backgroundColor='#313132'
-                        sendTab={this.switchContent}
-                    />
-
-                    <section className='display-content'>
-                        { activeTab === 'Character'
-                            ? <CharacterSheet character={character} />
-                            : activeTab === 'Spaceships'
-                                ? <SpaceshipSheet ship={this.state.spaceships} />
-                                : activeTab === 'Vehicles'
-                                    && <VehicleSheet vehicle={this.state.vehicles} />
-                        }
-                    </section>
                 </div>
-            </div>
-        )
+            )
+        }
+        else {
+            return (
+                <div className='equip-loading-main'>
+                    <h1>Fetching Character Data...</h1>
+                </div>
+            )
+        }
     }
 }
 

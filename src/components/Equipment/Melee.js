@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
-import { updateAlias } from '../../redux/characterReducer';
+import { updateAlias, importCharacter } from '../../redux/characterReducer';
 
 class Melee extends Component {
     state = {
@@ -16,8 +17,21 @@ class Melee extends Component {
         this.props.updateAlias( this.props.details.id, this.props.weapons, e.target.value, 'melee_weapons' )
     }
 
+    sellEquipment( id, cost ) {
+        const { userid, uid, cid, credits } = this.props
+        let value = prompt('Sell value (standard 70% of purchase cost)', Math.ceil(cost * .7))
+
+        if( value && credits !== 'N/A' ) {
+            value = value * 1 + credits * 1
+            axios.delete(`/api/deleteMelee/${userid}/${uid}/${cid}/${id}?value=${value}`)
+                .then( () => {
+                    this.props.importCharacter( cid, this.props.name )
+                } )
+        }
+    }
+
     render() {
-        const { name, alias, bonus, finesse, damage, notes, cost } = this.props.details
+        const { id, name, alias, bonus, finesse, damage, notes, cost } = this.props.details
         const { showEdit } = this.state
 
         return (
@@ -37,7 +51,7 @@ class Melee extends Component {
                         <div className='ei-bonus'>+{bonus}</div>
                         <div className='ei-m-finesse'>{finesse}</div>
                         <div className='ei-damage'>{damage}</div>
-                        <div className='ei-cost'>{cost} Cr</div>
+                        <div className='ei-cost' onClick={() => this.sellEquipment(id, cost)}>{cost} Cr</div>
                     </div>
 
                     <div className='ei-bottom'>
@@ -51,4 +65,17 @@ class Melee extends Component {
     }
 }
 
-export default connect( null, { updateAlias } )(Melee)
+function mapStateToProps( state ) {
+    const { userid } = state.auth.user;
+    const { userid: uid, cid, credits, name } = state.character.character
+
+    return {
+        userid,
+        uid,
+        cid,
+        credits,
+        name
+    };
+}
+
+export default connect( mapStateToProps, { updateAlias, importCharacter } )(Melee)

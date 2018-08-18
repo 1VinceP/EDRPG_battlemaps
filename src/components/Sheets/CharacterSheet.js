@@ -20,50 +20,8 @@ class CharacterSheet extends Component {
     state = {
         swirly: true,
         showSkills: true,
-        selectedKarma: null,
-        character: {
-            rank_points: 0,
-            gender: '',
-            age: '',
-            height: '',
-            weight: '',
-            current_endurance: '',
-            current_karma: '',
-            karmic_abilities: [],
-            checked: [],
-            personal: {},
-            vehicle: {},
-            intelligence: {},
-            social: {},
-            espionage: {},
-            ranged_weapons: [],
-            melee_weapons: [],
-            grenades: [],
-            equipment: []
-        }
+        selectedKarma: null
     }
-
-    // componentDidMount() {
-    //     axios.get( `/api/equip/${this.props.character.cid}?type=ranged` )
-    // }
-
-    // componentDidUpdate( prevProps ) {
-    //     if( this.props.character !== prevProps.character ) {
-    //         this.setState({ character: this.props.character })
-    //         // this.props.importCharacter( this.props.character )
-    //     }
-    // }
-
-    // componentWillUnmount() {
-    //     if( this.props.character.cid && this.state.character !== this.props.character ) {
-    //         let body = this.state.character
-
-    //         console.log( 'UNMOUNTING and SAVING' )
-
-    //         axios.put( `/api/smallUpdateCharacter/${this.state.character.cid}`, body )
-    //             .then( () => console.log( 'character updated!' ) )
-    //     }
-    // }
 
     handleInfo( e ) {
         // const { name, value } = e.target
@@ -78,20 +36,6 @@ class CharacterSheet extends Component {
         else
             this.setState({ selectedKarma: null })
     }
-
-    // useKarma( cost ) {
-    //     const { character } = this.props
-
-    //     if( character.current_karma - cost < 0 || character.current_karma === 0 ) {
-    //         console.log( 'Not enough karma left' )
-    //         return;
-    //     }
-
-    //     if( cost === 'All' )
-    //         cost = character.current_karma
-
-    //     this.setState({ character: {...character, current_karma: character.current_karma - cost} })
-    // }
 
     onCheck( skill ) {
         let checked = [...this.props.character.checked]

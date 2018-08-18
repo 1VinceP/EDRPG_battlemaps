@@ -2,7 +2,10 @@ const chalk = require('chalk');
 
 module.exports = function( req, res, next ) {
     const { userid } = req.params;
-    const { userid: uid } = req.body;
+
+    let uid = req.body.userid || req.params.uid
+
+    console.log({ userid, uid })
 
     if( userid == uid )
         next();

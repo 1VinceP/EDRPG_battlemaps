@@ -109,11 +109,13 @@ module.exports = {
     },
 
     deleteRanged: ( req, res ) => {
-        const { id, cid, value } = req.body;
+        const { id, cid } = req.params;
+        const { value } = req.query;
 
         req.app.get('db').character.delete_ranged({ id, cid, value })
             .then( response => {
-
+                console.log( 'SUCCESS!!' );
+                res.sendStatus(200);
             } )
             .catch( err => console.log( err ) );
     },
@@ -128,6 +130,18 @@ module.exports = {
             } )
             .catch( err => console.log( err ) );
     },
+
+    deleteMelee: ( req, res ) => {
+        const { id, cid } = req.params;
+        const { value } = req.query;
+
+        req.app.get('db').character.delete_melee({ id, cid, value })
+            .then( () => {
+                console.log( 'SUCCESS!' );
+                res.sendStatus(200);
+            } )
+            .catch( err => console.log( err ) )
+    }
 
 }
 

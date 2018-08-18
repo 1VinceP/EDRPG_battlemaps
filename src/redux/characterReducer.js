@@ -36,11 +36,10 @@ const IMPORT_CHARACTER = 'IMPORT_CHARACTER'
     , RELOAD_WEAPON = 'RELOAD_WEAPON'
     , SAVE_CHARACTER = 'SAVE_CHARACTER'
     , UPDATE_ALIAS = 'UPDATE_ALIAS'
-    , SELL_EQUIP = 'SELL_EQUIP'
 
 export default ( state = initialState, action ) => {
     switch( action.type ) {
-        case IMPORT_CHARACTER:
+        case IMPORT_CHARACTER + '_FULFILLED':
             return { ...state, character: action.payload };
 
         case UPDATE_INFO:
@@ -54,13 +53,6 @@ export default ( state = initialState, action ) => {
             return { ...state, character: { ...state.character, ranged_weapons: action.payload }, characterIsSaved: false }
         case RELOAD_WEAPON:
             return { ...state, character: { ...state.character, ranged_weapons: action.payload }, characterIsSaved: false }
-
-        case SELL_EQUIP + '_REJECTED':
-            alert( 'Your item was not successfully sold and has been returned to your inventory. Please try again.' )
-            return state;
-        case SELL_EQUIP + '_FULFILLED':
-            const { equipment: sellE, kind: sellK, value: sellV } = action.payload;
-            return { ...state, character: { ...state.character, [sellK]: sellE, credits: state.credits += sellV } }
 
         case SAVE_CHARACTER + '_REJECTED':
             alert( 'Your character was not saved correctly. Make sure you are connected to the internet and try again.' )
@@ -80,7 +72,21 @@ export default ( state = initialState, action ) => {
     }
 }
 
-export function importCharacter( character ) {
+export function importCharacter( cid, name ) {
+    let character = axios.get( `/api/character/${cid * 1}/${name}` )
+    .then( response => {
+        if( !response.data ) {
+            alert( 'This character does not exist' )
+            this.props.history.push('/playercharacters')
+            console.log( 'This character does not exist' )
+            return;
+        }
+        else {
+            console.log( 'CHARACTER DATA', response.data)
+            return response.data
+        }
+    } )
+    .catch( err => console.log( err ) )
 
     return {
         type: IMPORT_CHARACTER,
@@ -152,19 +158,6 @@ export function reloadWeapon( id, weapons ) {
         type: RELOAD_WEAPON,
         payload: weapons
     }
-}
-
-export function sellEquipment( id, cost, type, userid, cid ) {
-    let value = prompt('Sell value (standard 70% of purchase cost)', Math.ceil(cost * .7))
-
-    let equip = axios.delete(`/api/deleteWeapon/${userid}/${cid}/${id}`)
-        .then( res => res.data )
-
-    return {
-        type: SELL_EQUIP,
-        payload: { equip, type, value }
-    }
-
 }
 
 export function saveCharacter( character, userid ) {
