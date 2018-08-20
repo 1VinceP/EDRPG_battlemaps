@@ -82,6 +82,7 @@ app.post( '/api/addCharacter/:uid', charController.addCharacter );
 app.get( '/api/userCharacters/:uid', charController.getCharacters );
 app.get( '/api/character/:cid/:cname', charController.getCharacter );
 app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter );
+app.delete( '/api/deleteCharacter/:userid/:uid/:cid', validateSave, charController.deleteCharacter );
 
 // EQUIPMENT ENDPOINTS
 app.post( '/api/addRanged/:userid/:cid', validateSave, equipController.addRanged );

@@ -89,7 +89,7 @@ class CharacterDisplay extends Component {
 
                         <section className='display-content'>
                             { activeTab === 'Character'
-                                ? <CharacterSheet character={character} />
+                                ? <CharacterSheet character={character} routeHistory={this.props.history} />
                                 : activeTab === 'Spaceships'
                                     ? <SpaceshipSheet ship={this.state.spaceships} />
                                     : activeTab === 'Vehicles'

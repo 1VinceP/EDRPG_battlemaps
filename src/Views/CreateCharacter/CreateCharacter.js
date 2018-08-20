@@ -14,7 +14,7 @@ import './createCharacter.css';
 
 class CreateCharacter extends Component {
     state = {
-        canMakeMore: true,
+        userCharCount: 0,
 
         name: '',
         rank: 'Harmless',
@@ -89,9 +89,13 @@ class CreateCharacter extends Component {
         equipment: ''
     }
 
-    // componentDidMount() {
-    //     // Check that the user can make more characters
-    // }
+    componentDidMount() {
+        // Check that the user can make more characters
+        if( this.props.user.userid ) {
+            axios.get( `/api/userCharacters/${this.props.user.userid}` )
+                .then( res => this.setState({ userCharCount: res.data.length }) )
+        }
+    }
 
     // Updates the character name
     handleInfo( e ) {
@@ -296,6 +300,10 @@ class CreateCharacter extends Component {
         , completeKarma = findFalse( _.values( karmas ) )
         , completeLearning = findFalse( _.values( learning ) )
         , completeRangedWeapons = false
+
+        // Check that user can make more characters
+        if( this.props.user.userid !== 2 && this.state.userCharCount > 2 )
+            return;
 
         // Check that backgrounds costs to not exceed 5
         if( reduceToTotal(this.state.bgCosts) > 5 ) {

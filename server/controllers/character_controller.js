@@ -101,6 +101,20 @@ module.exports = {
         Promise.all([charUpdate])
             .then( () => res.sendStatus(200) )
             .catch( err => console.log( err ) );
+    },
+
+    deleteCharacter: ( req, res ) => {
+        const { uid, cid } = req.params;
+
+        req.app.get('db').character.delete_character({ uid, cid })
+            .then( () => {
+                console.log( 'deleted' )
+                res.sendStatus(200)
+            } )
+            .catch( err => {
+                console.log( err )
+                res.status(500).send( err )
+            } );
     }
 
 }

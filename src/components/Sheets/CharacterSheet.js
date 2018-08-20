@@ -57,15 +57,15 @@ class CharacterSheet extends Component {
 
     deleteCharacter() {
         const { userid } = this.props;
-        const { userid: uid, cid } = this.props.character
-        let confirmed = window.confirm('You are about to permanently delete this character. Are you sure you wish to continue?');
+        const { userid: uid, cid, name } = this.props.character
+        let confirmed = window.prompt('You are about to permanently delete this character. If you are sure, type your character\'s name below');
 
-        if( confirmed ) {
-            // axios.delete( `/api/deleteCharacter/${userid}/${uid}/${cid}` )
-            //     .then( () => {
-            //         this.props.history.push('/playercharacters')
-            //     } )
-            console.log( this.props.history )
+        if( confirmed === name ) {
+            axios.delete( `/api/deleteCharacter/${userid}/${uid}/${cid}` )
+                .then( () => {
+                    this.props.routeHistory.push('/playercharacters')
+                } )
+            console.log( 'This character would be deleted' )
         }
     }
 
