@@ -55,6 +55,20 @@ class CharacterSheet extends Component {
         console.log( `%cThe weapon is ${this.state.character.ranged_weapons[index]}`, 'color: orange;' )
     }
 
+    deleteCharacter() {
+        const { userid } = this.props;
+        const { userid: uid, cid } = this.props.character
+        let confirmed = window.confirm('You are about to permanently delete this character. Are you sure you wish to continue?');
+
+        if( confirmed ) {
+            // axios.delete( `/api/deleteCharacter/${userid}/${uid}/${cid}` )
+            //     .then( () => {
+            //         this.props.history.push('/playercharacters')
+            //     } )
+            console.log( this.props.history )
+        }
+    }
+
     //////////////////// RENDER METHODS
     renderKarma() {
         const { selectedKarma } = this.state
@@ -172,9 +186,7 @@ class CharacterSheet extends Component {
                 </section>
 
                 { userid === character.userid
-                    ? characterIsSaved === 'pending'
-                        ? <div>Saving...</div>
-                        : <button onClick={() => this.props.saveCharacter( character, userid )} disabled={!!characterIsSaved}>Save Character</button>
+                    ? <button onClick={() => this.deleteCharacter()}>Delete Character</button>
                     : null
                 }
 

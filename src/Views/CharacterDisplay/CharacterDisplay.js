@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { importCharacter, updateInfo } from '../../redux/characterReducer';
+import { importCharacter, updateInfo, saveCharacter } from '../../redux/characterReducer';
 import { commaFormatted } from '../../utils/helperMethods';
 import Header from '../../components/Header/Header';
 import Tabs from '../../components/Tabs/Tabs';
@@ -49,12 +49,19 @@ class CharacterDisplay extends Component {
 
     render() {
         const { activeTab } = this.state
-        const { character, updateInfo } = this.props
+        const { character, user, updateInfo, characterIsSaved } = this.props
 
         if( character.cid == this.props.match.params.id ) {
             return (
                 <div className='display-main'>
-                    <Header />
+                    <Header>
+                        { user.userid === character.userid
+                            ? characterIsSaved === 'pending'
+                                ? <div style={{color: '#fff'}}>Saving...</div>
+                                : <button onClick={() => this.props.saveCharacter( character, user.userid )} disabled={!!characterIsSaved}>Save Character</button>
+                            : null
+                        }
+                    </Header>
 
                     <div className='display-body'>
                         <h1 className='display-title'>{character.name}</h1>
@@ -105,12 +112,13 @@ class CharacterDisplay extends Component {
 
 function mapStateToProps( state ) {
     const { user } = state.auth;
-    const { character } = state.character
+    const { character, characterIsSaved } = state.character
 
     return {
         user,
-        character
+        character,
+        characterIsSaved
     };
 }
 
-export default connect( mapStateToProps, { importCharacter, updateInfo } )(CharacterDisplay);
+export default connect( mapStateToProps, { importCharacter, updateInfo, saveCharacter } )(CharacterDisplay);

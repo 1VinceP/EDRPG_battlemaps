@@ -19,6 +19,8 @@ This is currently a work in progress. Please open an issue on this repo to repor
 
 ______________________________________________________________________
 ## Todo
+- Fix add character (weapons)
+
 - Update demo
 - Improve location data for items
 

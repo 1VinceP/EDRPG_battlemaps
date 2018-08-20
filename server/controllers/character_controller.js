@@ -7,8 +7,8 @@ module.exports = {
 
     // save new character to db
     addCharacter: ( req, res ) => {
-        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, grenades, equipment, speed, strong } = req.body.character;
-        const { rangedWeapons, meleeWeapons } =  req.body
+        const { name, rank, rankPoints, gender, age, height, weight, karma, endurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, equipment, speed, strong } = req.body.character;
+        const { rangedWeapons, meleeWeapons, grenades } =  req.body
         const { uid } = req.params;
 
         // converting input data into arrays for db
@@ -23,21 +23,22 @@ module.exports = {
 
         console.log( 'hit endpoint' );
 
-        req.app.get('db').character.add_character({ userId: uid, cname: name, crank: rank, rankPoints, gender, age, height, cweight: weight, karma, endurance, backgroundsArr, karmasArr, enhancementsArr, personalArr, vehicleArr, intelligenceArr, socialArr, espionageArr,  grenades: [grenades], equipment: [equipment], speed, strong })
+        req.app.get('db').character.add_character({ userId: uid, cname: name, crank: rank, rankPoints, gender, age, height, cweight: weight, karma, endurance, backgroundsArr, karmasArr, enhancementsArr, personalArr, vehicleArr, intelligenceArr, socialArr, espionageArr, equipment: [equipment], speed, strong })
             .then( response => {
+                let addRanged, addRanged2, addMelee, addGrenade
                 let ammo = rangedWeapons === '1' ? 3 : null;
                 let alias = meleeWeapons === '5' ? 'Sledgehammer' : null;
 
                 const newCharId = response[0].cid * 1
-                let addRanged = req.app.get('db').character.add_ranged([newCharId, rangedWeapons * 1, ammo, null]);
-                let addRanged2 = req.app.get('db').character.add_ranged([newCharId, rangedWeapons * 1, ammo, null]);
-                let addMelee = req.app.get('db').character.add_melee([newCharId, meleeWeapons * 1, alias]);
-                let addGrenade = req.app.get('db').character.add_grenade([newCharId, grenades * 1]);
+                addRanged = req.app.get('db').equipment.add_ranged({cid: newCharId, id: rangedWeapons * 1, ammo, alias: '', value: 1000});
+                addRanged2 = req.app.get('db').equipment.add_ranged({cid: newCharId, id: rangedWeapons * 1, ammo, alias: '', value: 1000});
+                addMelee = meleeWeapons[0] ? req.app.get('db').equipment.add_melee({cid: newCharId, id: meleeWeapons * 1, alias, value: 1000}) : [];
+                addGrenade = grenades[0] ? req.app.get('db').equipment.add_grenade({cid: newCharId, id: grenades * 1, value: 1000}) : [];
 
                 Promise.all([ addRanged, addRanged2, addMelee, addGrenade ])
                     .then( () => res.status(200).send( 'New character saved to database') )
                     .catch( err => {
-                        console.log( chalk.red( err ) )
+                        console.log( err )
                         res.status(500).send( 'Your character was not saved to the database. Please send the request again' );
                      } );
             } );
@@ -58,8 +59,9 @@ module.exports = {
         let character = req.app.get('db').character.get_character([ cid, cname ]);
         let ranged = req.app.get('db').character.get_ranged( cid );
         let melee = req.app.get('db').character.get_melee( cid );
+        let grenade = req.app.get('db').character.get_grenade( cid );
 
-        Promise.all([character, ranged, melee])
+        Promise.all([character, ranged, melee, grenade])
             .then( response => {
 
                 let resChar = { ...response[0] }; // Get character and assign skill values to properties
@@ -74,6 +76,10 @@ module.exports = {
                 let resMelee = { ...response[2] }; // Assign melee weapons to character
                 for( let key in resMelee )
                     { resChar[0].melee_weapons.push( resMelee[key] ) };
+
+                let resGrenade = { ...response[3] }; // Assign grenades to character
+                for( let key in resGrenade )
+                    { resChar[0].grenades.push( resGrenade[key] ) };
 
                 res.status(200).send( resChar[0] );
             } )
@@ -94,53 +100,7 @@ module.exports = {
 
         Promise.all([charUpdate])
             .then( () => res.sendStatus(200) )
-            .catch( err => console.log( errChalk(err) ) );
-    },
-
-    saveRanged: ( req, res ) => {
-        const { id, current_ammo, alias } = req.body.weapon;
-
-        req.app.get('db').character.update_ranged({ id, current_ammo, alias })
-            .then( () => {
-                console.log( chalk.blue('ranged update!') );
-                res.sendStatus(200);
-            } )
             .catch( err => console.log( err ) );
-    },
-
-    deleteRanged: ( req, res ) => {
-        const { id, cid } = req.params;
-        const { value } = req.query;
-
-        req.app.get('db').character.delete_ranged({ id, cid, value })
-            .then( response => {
-                console.log( 'SUCCESS!!' );
-                res.sendStatus(200);
-            } )
-            .catch( err => console.log( err ) );
-    },
-
-    saveMelee: ( req, res ) => {
-        const { id, alias } = req.body.weapon;
-
-        req.app.get('db').character.update_melee({ id, alias })
-            .then( () => {
-                console.log( chalk.blue('melee update!') );
-                res.sendStatus(200);
-            } )
-            .catch( err => console.log( err ) );
-    },
-
-    deleteMelee: ( req, res ) => {
-        const { id, cid } = req.params;
-        const { value } = req.query;
-
-        req.app.get('db').character.delete_melee({ id, cid, value })
-            .then( () => {
-                console.log( 'SUCCESS!' );
-                res.sendStatus(200);
-            } )
-            .catch( err => console.log( err ) )
     }
 
 }

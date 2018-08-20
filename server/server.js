@@ -10,6 +10,7 @@ const express = require('express')
 
 const authController = require('./controllers/auth_controller');
 const charController = require('./controllers/character_controller');
+const equipController = require('./controllers/equipment_controller');
 
 const validateSave = require('./middlewares/validateSave');
 
@@ -81,10 +82,22 @@ app.post( '/api/addCharacter/:uid', charController.addCharacter );
 app.get( '/api/userCharacters/:uid', charController.getCharacters );
 app.get( '/api/character/:cid/:cname', charController.getCharacter );
 app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter );
-app.put( '/api/saveRanged/:userid/:cid', validateSave, charController.saveRanged );
-app.put( '/api/saveMelee/:userid/:cid', validateSave, charController.saveMelee );
-app.delete( '/api/deleteRanged/:userid/:uid/:cid/:id', validateSave, charController.deleteRanged );
-app.delete( '/api/deleteMelee/:userid/:uid/:cid/:id', validateSave, charController.deleteMelee );
+
+// EQUIPMENT ENDPOINTS
+app.post( '/api/addRanged/:userid/:cid', validateSave, equipController.addRanged );
+app.post( '/api/addMelee/:userid/:cid', validateSave, equipController.addMelee );
+app.post( '/api/addGrenade/:userid/:cid', validateSave, equipController.addGrenade );
+app.put( '/api/saveRanged/:userid/:cid', validateSave, equipController.saveRanged );
+app.put( '/api/saveMelee/:userid/:cid', validateSave, equipController.saveMelee );
+app.delete(
+    '/api/deleteRanged/:userid/:uid/:cid/:id', validateSave, equipController.deleteRanged
+);
+app.delete(
+    '/api/deleteMelee/:userid/:uid/:cid/:id', validateSave, equipController.deleteMelee
+);
+app.delete(
+    '/api/deleteGrenade/:userid/:uid/:cid/:id', validateSave, equipController.deleteGrenade
+);
 
 // creating function at end of file for readability
 function listener() {

@@ -19,14 +19,21 @@ class Melee extends Component {
 
     sellEquipment( id, cost ) {
         const { userid, uid, cid, credits } = this.props
-        let value = prompt('Sell value (standard 70% of purchase cost)', Math.ceil(cost * .7))
 
-        if( value && credits !== 'N/A' ) {
-            value = value * 1 + credits * 1
-            axios.delete(`/api/deleteMelee/${userid}/${uid}/${cid}/${id}?value=${value}`)
-                .then( () => {
-                    this.props.importCharacter( cid, this.props.name )
-                } )
+        if( userid == uid ) { // Check if user is logged in and owns the character
+            if( id != 1 ) {
+                console.log( id )
+                let value = prompt('Sell value (standard 70% of purchase cost)', Math.round(cost * .7))
+
+                if( value && credits !== 'N/A' ) {
+
+                    value = value * 1 + credits * 1
+                    axios.delete(`/api/deleteMelee/${userid}/${uid}/${cid}/${id}?value=${value}`)
+                        .then( () => {
+                            this.props.importCharacter( cid, this.props.name )
+                        } )
+                }
+            }
         }
     }
 

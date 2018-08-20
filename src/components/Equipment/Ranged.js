@@ -18,14 +18,16 @@ class Ranged extends Component {
     }
 
     sellEquipment( id, cost, credits, userid, uid, cid ) {
-        let value = prompt('Sell value (standard 70% of purchase cost)', Math.ceil(cost * .7))
+        if( userid == uid ) {
+            let value = prompt('Sell value (standard 70% of purchase cost)', Math.round(cost * .7))
 
-        if( value ) {
-            value = value * 1 + credits * 1
-            axios.delete(`/api/deleteRanged/${userid}/${uid}/${cid}/${id}?value=${value}`)
-                .then( () => {
-                    this.props.importCharacter( cid, this.props.name )
-                } )
+            if( value ) {
+                value = value * 1 + credits * 1
+                axios.delete(`/api/deleteRanged/${userid}/${uid}/${cid}/${id}?value=${value}`)
+                    .then( () => {
+                        this.props.importCharacter( cid, this.props.name )
+                    } )
+            }
         }
     }
 

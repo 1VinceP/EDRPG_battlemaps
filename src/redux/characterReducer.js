@@ -48,11 +48,11 @@ export default ( state = initialState, action ) => {
         case ASSIGN_CHECK:
             return { ...state, character: { ...state.character, checked: action.payload }, characterIsSaved: false };
         case USE_KARMA:
-            return { ...state, character: { ...state.character, current_karma: state.character.current_karma - action.payload } }
+            return { ...state, character: { ...state.character, current_karma: state.character.current_karma - action.payload }, characterIsSaved: false };
         case FIRE_WEAPON:
-            return { ...state, character: { ...state.character, ranged_weapons: action.payload }, characterIsSaved: false }
+            return { ...state, character: { ...state.character, ranged_weapons: action.payload }, characterIsSaved: false };
         case RELOAD_WEAPON:
-            return { ...state, character: { ...state.character, ranged_weapons: action.payload }, characterIsSaved: false }
+            return { ...state, character: { ...state.character, ranged_weapons: action.payload }, characterIsSaved: false };
 
         case SAVE_CHARACTER + '_REJECTED':
             alert( 'Your character was not saved correctly. Make sure you are connected to the internet and try again.' )

@@ -342,10 +342,11 @@ class CreateCharacter extends Component {
 
         let body = {
             character: {
-                name, rank, rankPoints, gender, age, height, weight, karma, endurance: traits.newEndurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, grenades, equipment, speed: traits.speed, strong: traits.strong
+                name, rank, rankPoints, gender, age, height, weight, karma, endurance: traits.newEndurance, backgrounds, karmas, enhancements, personal, vehicle, intelligence, social, espionage, equipment, speed: traits.speed, strong: traits.strong
             },
             rangedWeapons,
-            meleeWeapons
+            meleeWeapons,
+            grenades
         }
 
         console.log({ body })
@@ -509,7 +510,7 @@ class CreateCharacter extends Component {
 
                         <select name='grenades' onChange={e => this.handleInfo(e)} disabled={this.state.skills.personal.grenade < 20}>
                             <option value=''></option>
-                            <option value='frag grenade'>Fragmentation Grenade</option>
+                            <option value='54'>Frag Grenade</option>
                         </select>
                     </section>
                 </form>

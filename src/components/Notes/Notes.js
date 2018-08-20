@@ -54,7 +54,7 @@ class Notes extends Component {
             {/* <div className='notes-data'>
                 {notes}
             </div> */}
-            <textarea className='notes-data' value={this.state.displayNotes} onChange={e => this.updateNotes(e)} />
+            <textarea className='notes-data' value={this.props.notes.replace( /[<]\bbr\b[>]/g, '\n' )} onChange={e => this.updateNotes(e)} />
         </div>
         )
     }
