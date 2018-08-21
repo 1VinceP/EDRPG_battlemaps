@@ -8,6 +8,7 @@ import { normalizeString } from '../../utils/helperMethods';
 import karmaData from '../../data/karma.json';
 import rangedData from '../../data/ranged_weapons.json';
 import SkillContainer from '../../components/SkillContainer/SkillContainer';
+import StatContainer from '../../components/StatContainer/StatContainer'
 import Equipment from '../../components/Equipment/Equipment';
 import Notes from '../../components/Notes/Notes';
 import './characterSheet.css';
@@ -42,11 +43,9 @@ class CharacterSheet extends Component {
         let found = _.findIndex( checked, s => s === skill )
 
         if( found === -1 )
-            // this.setState({ character: {...this.state.character, checked: [...checked, skill]} })
             this.props.assignCheck( [...checked, skill] )
         else {
             checked.splice( found, 1 )
-            // this.setState({ character: {...this.state.character, checked: [...checked]} })
             this.props.assignCheck( [...checked] )
         }
     }
@@ -94,6 +93,22 @@ class CharacterSheet extends Component {
                     </div>
                 </div>
             )
+        } )
+    }
+
+    renderBackgrounds() {
+
+        return this.props.character.backgrounds.map( (bg, i) => {
+            return <StatContainer key={i} stat={bg} border='#faa500' />
+        })
+    }
+
+    renderEnhancements() {
+
+        return this.props.character.enhancements.map( (en, i) => {
+            let large = false
+            if( i > 5 ) { let large = true }
+            return <StatContainer key={i} stat={en} border='#54e4fd' large={large} />
         } )
     }
 
@@ -178,6 +193,16 @@ class CharacterSheet extends Component {
 
                     {/* Equipment section */}
                     <section className='cs-body-col cs-body-col-equip'>
+                        <div className='cs-backgrounds'>
+                            <StatContainer
+                                stats={this.props.character.backgrounds}
+                                border='#faa500'
+                            />
+                            <StatContainer
+                                stats={this.props.character.enhancements}
+                                border='#54e4fd'
+                            />
+                        </div>
                         <Equipment ownedData={character.ranged_weapons} bonuses={character.personal} type='ranged' />
                         <Equipment ownedData={character.melee_weapons} bonuses={character.personal} type='melee' />
                         <Equipment ownedData={character.grenades} bonuses={character.personal} type='grenades' />

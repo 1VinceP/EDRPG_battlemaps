@@ -19,8 +19,6 @@ This is currently a work in progress. Please open an issue on this repo to repor
 
 ______________________________________________________________________
 ## Todo
-- Fix add character (weapons)
-
 - Update demo
 - Improve location data for items
 
@@ -41,13 +39,20 @@ ______________________________________________________________________
 - ADD FUNCTIONALITY: Enhancements from backgrounds
 
 ### Character Sheet
-- Able to save equipment
+<!-- - Able to save equipment -->
 <!-- - Fix fire weapon -->
-- Buy Equipment
-- Sell Equipment
+<!-- - Display backgrounds -->
+- Buy/sell Equipment
+    <!-- - Ranged -->
+    <!-- - Melee -->
+    <!-- - Grenades -->
+    - Armor
+    - Clothing
+    - Items
 - Display Enhancements
-- Add Enhancements
-- Edit Credits
+- Display Cybernetics
+- End of Adventure screen
+- Rank up screen
 - Style for tablets
 
 ### Spaceship Sheet

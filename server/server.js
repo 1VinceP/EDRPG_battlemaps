@@ -78,9 +78,9 @@ app.get( '/auth/logout', authController.logout );
 
 
 // CHARACTER ENDPOINTS
-app.post( '/api/addCharacter/:uid', charController.addCharacter );
 app.get( '/api/userCharacters/:uid', charController.getCharacters );
 app.get( '/api/character/:cid/:cname', charController.getCharacter );
+app.post( '/api/addCharacter/:uid', charController.addCharacter );
 app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter );
 app.delete( '/api/deleteCharacter/:userid/:uid/:cid', validateSave, charController.deleteCharacter );
 
