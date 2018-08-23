@@ -71,7 +71,7 @@ class CharacterSheet extends Component {
     //////////////////// RENDER METHODS
     renderKarma() {
         const { selectedKarma } = this.state
-        const { character } = this.props
+        const { character, userid } = this.props
 
         return character.karmic_abilities.map( ( karma, i ) => {
             let details
@@ -89,7 +89,7 @@ class CharacterSheet extends Component {
                     <div className={selectedKarma === i ? 'cs-kd cs-kd-show' : 'cs-kd cs-kd-hide' }>
                         <div>{details.effect}</div>
                         <div style={{ fontStyle: 'italic', color: '#f0f' }}>{normalizeString(details.situation)} - {normalizeString(details.type)}</div>
-                        <button className='cs-k-button' onClick={() => this.props.useKarma(character.current_karma, details.cost)}>Use this ability</button>
+                        { userid === character.userid * 1 && <button className='cs-k-button' onClick={() => this.props.useKarma(character.current_karma, details.cost)}>Use this ability</button> }
                     </div>
                 </div>
             )
@@ -124,13 +124,21 @@ class CharacterSheet extends Component {
                     <div className='cs-head-stats'>
                         <p>Karma</p>
                         <div>
-                            <input id='karma' value={character.current_karma} type='number' max={character.max_karma} name='current_karma' onChange={e => this.handleInfo(e)} /> / {character.max_karma}
+                            { userid === character.userid * 1
+                                ? <div><input id='karma' value={character.current_karma} type='number' max={character.max_karma} name='current_karma' onChange={e => this.handleInfo(e)} /> / {character.max_karma}</div>
+                                : <div>{character.current_karma} / {character.max_karma}</div>
+                            }
+
                         </div>
                     </div>
                     <div className='cs-head-stats'>
                         <p>Endurance</p>
                         <div>
-                            <input id='endurance' value={character.current_endurance} type='number' max={character.max_endurance} name='current_endurance' onChange={e => this.handleInfo(e)} /> / {character.max_endurance}
+                            { userid === character.userid * 1
+                                ? <div><input id='endurance' value={character.current_endurance} type='number' max={character.max_endurance} name='current_endurance' onChange={e => this.handleInfo(e)} /> / {character.max_endurance}</div>
+                                : <div>{character.current_endurance} / {character.max_endurance}</div>
+                            }
+
                         </div>
                     </div>
                 </section>
@@ -139,7 +147,6 @@ class CharacterSheet extends Component {
 
                     <div className='cs-rank'>
                         <div>{character.rank}</div>
-                        {/* <div>{character.rank_points}</div> */}
                         <input value={character.rank_points} name='rank_points' onChange={e => this.handleInfo(e)} />
                     </div>
 
@@ -206,11 +213,12 @@ class CharacterSheet extends Component {
                         <Equipment ownedData={character.ranged_weapons} bonuses={character.personal} type='ranged' />
                         <Equipment ownedData={character.melee_weapons} bonuses={character.personal} type='melee' />
                         <Equipment ownedData={character.grenades} bonuses={character.personal} type='grenades' />
-                        <Notes notes={character.notes} cid={character.cid} />
+                        <Equipment ownedData={character.armor} type='armor' />
+                        { userid === character.userid * 1 && <Notes notes={character.notes} cid={character.cid} /> }
                     </section>
                 </section>
 
-                { userid === character.userid
+                { userid === character.userid * 1
                     ? <button onClick={() => this.deleteCharacter()}>Delete Character</button>
                     : null
                 }

@@ -6,6 +6,7 @@ import PurchaseModule from './PurchaseModule';
 import Ranged from './Ranged';
 import Melee from './Melee';
 import Grenade from './Grenade';
+import Armor from './Armor';
 import { normalizeString } from '../../utils/helperMethods';
 import './equipment.css';
 
@@ -20,7 +21,8 @@ class Equipment extends Component {
 
     render() {
         const { ownedData, bonuses, type, userid, uid } = this.props;
-        const { energyWeapons, kineticWeapons, heavyWeapons, meleeWeapons, fighting, grenade } = bonuses;
+        if( type !== 'armor' )
+            var { energyWeapons, kineticWeapons, heavyWeapons, meleeWeapons, fighting, grenade } = bonuses;
         let mappedData = [];
 
         mappedData = ownedData.map( (item, i) => {
@@ -33,18 +35,21 @@ class Equipment extends Component {
                                 : details.type.match(/Heavy/) ? Math.floor((heavyWeapons + details.heavy) / 10)
                                 : details.type === 'Melee' ? Math.floor(meleeWeapons / 10)
                                 : details.type === 'Fighting' ? Math.floor(fighting / 10)
-                                : details.type === 'Grenade' && Math.floor(grenade / 10)
+                                : details.type === 'Explosive' && Math.floor(grenade / 10)
             }
 
             // Styling for these components found in ./equipment.css
             if( type === 'ranged' && details )
-                return <Ranged key={i} details={details} index={i} weapons={ownedData} />
+                return <Ranged key={i} details={details} type={details.type} weapons={ownedData} />
 
             else if( type === 'melee' && details )
                 return <Melee details={details} key={i} weapons={ownedData} />
 
             else if( type === 'grenades' && details )
                 return <Grenade details={details} key={i} />
+
+            else if( type === 'armor' && details )
+                return <Armor details={details} key={i} />
         } )
 
         return (
@@ -52,7 +57,7 @@ class Equipment extends Component {
                 <div className='equip-head'>
                     <div className='equip-head-name'>
                         {normalizeString(type)}
-                        { userid && userid == uid ? <div onClick={() => this.handlePurchase()}>+</div> : null}
+                        { userid && userid == uid ? <div onClick={() => this.handlePurchase()}>{this.state.purchase ? 'x' : '+'}</div> : null}
                     </div>
                     <div className='equip-head-tri' />
                 </div>

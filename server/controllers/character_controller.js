@@ -57,11 +57,12 @@ module.exports = {
         const { cid, cname } = req.params;
 
         let character = req.app.get('db').character.get_character([ cid, cname ]);
-        let ranged = req.app.get('db').character.get_ranged( cid );
-        let melee = req.app.get('db').character.get_melee( cid );
-        let grenade = req.app.get('db').character.get_grenade( cid );
+        let ranged = req.app.get('db').equipment.get_ranged( cid );
+        let melee = req.app.get('db').equipment.get_melee( cid );
+        let grenade = req.app.get('db').equipment.get_grenade( cid );
+        let armor = req.app.get('db').equipment.get_armor( cid );
 
-        Promise.all([character, ranged, melee, grenade])
+        Promise.all([character, ranged, melee, grenade, armor])
             .then( response => {
 
                 let resChar = { ...response[0] }; // Get character and assign skill values to properties
@@ -80,6 +81,10 @@ module.exports = {
                 let resGrenade = { ...response[3] }; // Assign grenades to character
                 for( let key in resGrenade )
                     { resChar[0].grenades.push( resGrenade[key] ) };
+
+                let resArmor = { ...response[4] }; // Assign armor to character
+                for( let key in resArmor )
+                    { resChar[0].armor.push( resArmor[key] ) };
 
                 res.status(200).send( resChar[0] );
             } )

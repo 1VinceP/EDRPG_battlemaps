@@ -3,44 +3,45 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { importCharacter } from '../../redux/characterReducer';
 
-function Grenade( props ) {
+function Armor( props ) {
     const { userid, uid } = props;
-    const {id, name, damage, cost, notes, bonus, location } = props.details
+    const { id, name, kinetic, energy, melee, fighting, explosive, toxic, hardened, intimidate, athletics, cost, notes, location } = props.details
 
-    function sellEquipment( id, cost, thrown ) {
-        const { userid, uid, cid, credits } = props;
-        let value = credits * 1;
+    function sellEquipment( id, cost ) {
+        const { userid, uid, cid, credits, name } = props;
 
-        if( thrown )
-            value = credits * 1
-        else if( !thrown && userid == uid ) {
-            value = prompt('Sell value (standard 70% of purchase cost)', Math.round(cost * .7)) * 1
-            if( value )
-                value += credits * 1
-            else if( !value )
-                return;
-        }
+        if( userid === uid * 1 ) {
+            let value = prompt('Sell value (standard 70% of purchase cost)', Math.round(cost * .7))
 
-        if( userid == uid && value !== null ) { // Check if user is logged in and owns the character
+            if( value && credits !== 'N/A' ) {
 
-            axios.delete( `/api/deleteGrenade/${userid}/${uid}/${cid}/${id}?value=${value}` )
-                .then( () => {
-                    props.importCharacter( cid, props.name )
-                } )
+                value = value * 1 + credits * 1
+                axios.delete(`/api/deleteArmor/${userid}/${uid}/${cid}/${id}?value=${value}`)
+                    .then( () => {
+                        props.importCharacter( cid, name )
+                    } )
+            }
         }
     }
 
     return (
         <div className='equip-item'>
             <section className='ei-left'>
-                <div className='ei-name' onClick={() => sellEquipment(id, cost, true)}>{name}</div>
+                <div className='ei-name'>{name}</div>
             </section>
 
             <section className='ei-right'>
                 <div className='ei-top'>
-                    <div className='ei-bonus'>+{bonus}</div>
-                    <div className='ei-g-damage'>{damage}</div>
-                    <div className='ei-cost' onClick={() => sellEquipment(id, cost, false)}>{cost} Cr</div>
+                    <div>{kinetic}</div>
+                    <div>{energy}</div>
+                    <div>{melee}</div>
+                    <div>{fighting}</div>
+                    <div>{explosive}</div>
+                    <div>{toxic}</div>
+                    <div>{hardened}</div>
+                    <div>{intimidate}</div>
+                    <div>{athletics}</div>
+                    <div className='ei-cost' onClick={() => sellEquipment( id, cost )}>{cost}Cr</div>
                 </div>
 
                 <div className='ei-bottom'>
@@ -61,6 +62,7 @@ function Grenade( props ) {
                     </div>
                     : <div className='ei-bottom ei-base'><div />Location: {location}</div>
                 }
+
             </section>
         </div>
     )
@@ -72,11 +74,8 @@ function mapStateToProps( state ) {
 
     return {
         userid,
-        uid,
-        cid,
-        credits,
-        name
+        uid, cid, credits, name
     };
 }
 
-export default connect( mapStateToProps, { importCharacter } )(Grenade);
+export default connect( mapStateToProps, { importCharacter } )(Armor)

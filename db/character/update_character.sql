@@ -11,4 +11,4 @@ UPDATE Characters
     , credits = ${credits}
     , m_cr = ${m_cr}
     , units = ${units}
-        WHERE cid = ${cid}
+        WHERE cid = ${cid};

@@ -35,7 +35,7 @@ const IMPORT_CHARACTER = 'IMPORT_CHARACTER'
     , FIRE_WEAPON = 'FIRE_WEAPON'
     , RELOAD_WEAPON = 'RELOAD_WEAPON'
     , SAVE_CHARACTER = 'SAVE_CHARACTER'
-    , UPDATE_ALIAS = 'UPDATE_ALIAS'
+    , UPDATE_EQUIPMENT = 'UPDATE_EQUIPMENT'
 
 export default ( state = initialState, action ) => {
     switch( action.type ) {
@@ -63,7 +63,7 @@ export default ( state = initialState, action ) => {
             console.log( 'Fulfilled!!' )
             return { ...state, characterIsSaved: action.payload };
 
-        case UPDATE_ALIAS:
+        case UPDATE_EQUIPMENT:
             const { equipment, kind } = action.payload
             return { ...state, character: { ...state.character, [kind]: equipment }, characterIsSaved: false }
 
@@ -200,7 +200,24 @@ export function updateAlias( id, equipment, alias, kind ) {
     } )
 
     return {
-        type: UPDATE_ALIAS,
+        type: UPDATE_EQUIPMENT,
         payload: { equipment, kind }
     }
+}
+
+export function updateLocation( id, equipment, location, kind ) {
+    console.log( 'location update' )
+    equipment = equipment.map( equip => {
+        if( equip.id === id ) {
+            equip.location = location
+        }
+
+        return equip
+    } )
+
+    return {
+        type: UPDATE_EQUIPMENT,
+        payload: { equipment, kind }
+    }
+
 }

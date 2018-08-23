@@ -3,7 +3,13 @@ export default {
     backgrounds: [
         '', 'Accountant', 'Anarchist', 'Army Trained (2)', 'Borderland Homeworld', 'Born on the Streets', 'Boxer', 'Cheerleader', 'Child Actor', 'Community Youth Worker', 'Computer Game Designer', 'Criminal Family', 'Cyborg', 'Docking Bay Operative', 'Engineer', 'Explorer Corp', 'Fighter Pilot', 'Freedom Fighter', 'Frontier Trader', 'Fuel Rat', 'Gene Mod Baby', 'Gym Freak', 'Hacker', 'High Tech Homeworld', 'Hoopy Casino Croupier', 'Lave Radio Host', 'Martial Artist (2)', 'Mercenary (2)', 'Mining Engineer', 'Minor Politician', 'Monk or Nun', 'Navy Trained (2)', 'Officer', 'Partner', 'Petty Criminal', 'Pilot Trained', 'Police Officer (2)', 'Private Detective', 'Ran Away from Home', 'Scientist', 'Scout Leader', 'Second Hand Spaceship Dealer', 'Secret Agent (2)', 'Self Taught', 'Ship Hand', 'Sports College', 'Stock Broker', 'Teacher', 'Trained Doctor', 'Treasure Hunter', 'Trucker', 'University Graduate', 'Vehicle Nut', 'Wise Guy (2)',
         // ESPIONAGE SUPPLEMENT
-        'Insurgent'
+        'Corporate Security', 'Insurgent', 'Wage Slave',
+        // EXPLORATION SUPPLEMENT
+        'Big Game Hunter', 'Survivalist', 'Xenobiologist',
+        // MILITARY SUPPLEMENT
+        'Federal Reservist', 'Slave Soldier', 'Military Courier', 'Drone Controller',
+        // SUPER TRADERS SUPPLEMENT
+        'Disgraced Banker', 'Labour Slave', 'Pit Fighter', 'Smuggler'
     ],
 
     backgroundStats: {
@@ -388,11 +394,108 @@ export default {
         },
 
         /////////////////// ESPIONAGE SUPPLEMENT
+        corporateSecurity: {
+            cost: 1,
+            bonuses: {
+                20: [ 'security' ],
+                10: [ 'dodge', 'energyWeapons', 'fighting' ]
+            }
+        },
         insurgent: {
             cost: 1,
             bonuses: {
                 20: [ 'bluff' ],
                 10: [ 'fighting', 'security', 'stealth' ]
+            }
+        },
+        wageSlave: {
+            cost: 1,
+            bonuses: {
+                20: [  ],
+                10: [ 'bargain', 'computer', 'cultureAndLaw', 'diplomacy', 'security' ]
+            }
+        },
+
+        /////////////////// EXPLORATION SUPPLEMENT
+        bigGameHunter: {
+            cost: 1,
+            bonuses: {
+                20: [ 'stealth', 'survival' ],
+                10: [ 'kineticWeapons' ]
+            }
+        },
+        castaway: {
+            cost: 1,
+            bonuses: {
+                20: [ 'survival' ],
+                10: [ 'melee' ]
+            },
+            enhancements: [ 'survivalist' ]
+        },
+        xenobiologist: {
+            cost: 1,
+            bonuses: {
+                20: [ 'science', 'medicine' ],
+                10: [ 'planetaryKnowledge' ]
+            }
+        },
+        /////////////////// MILITARY SUPPLEMENT
+        federalReservist: {
+            cost: 1,
+            bonuses: {
+                20: [  ],
+                10: [ 'dodge', 'fighting', 'intimidate', 'kineticWeapons', 'stealth' ]
+            }
+        },
+        slaveSoldier: {
+            cost: 1,
+            bonuses: {
+                20: [  ],
+                10: [ 'bluff', 'charm', 'dodge', 'energyWeapons', 'vehicleWeapons' ]
+            }
+        },
+        militaryCourier: {
+            cost: 1,
+            bonuses: {
+                20: [  ],
+                10: [ 'bluff', 'navigation', 'spaceshipPiloting', 'vehiclePiloting', 'vehicleWeapons' ]
+            }
+        },
+        droneController: {
+            cost: 1,
+            bonuses: {
+                20: [ 'cyber' ],
+                10: [ 'computer' ]
+            }
+        },
+        /////////////////// SUPER TRADERS SUPPLEMENT
+        disgracedBanker: {
+            cost: 1,
+            bonuses: {
+                20: [ 'trading' ],
+                10: [ 'dodge', 'energyWeapons', 'tactics' ]
+            }
+        },
+        labourSlave: {
+            cost: 1,
+            bonuses: {
+                20: [  ],
+                10: [ 'fighting' ]
+            },
+            enhancements: [ 'strong', 'tough' ]
+        },
+        pitFighter: {
+            cost: 1,
+            bonuses: {
+                20: [ 'charm' ],
+                10: [ 'bluff', 'fighting', 'parry' ]
+            }
+        },
+        smuggler: {
+            cost: 1,
+            bonuses: {
+                20: [  ],
+                10: [ 'bargain', 'spaceshipPiloting', 'systems', 'tactics', 'vehiclePiloting' ]
             }
         }
     },

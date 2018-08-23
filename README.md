@@ -33,7 +33,7 @@ ______________________________________________________________________
 - Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
   - *If confirmed, reduce value down to 40*
   - Natural Genius
-- ADD FUNCTIONALITY: Cyborg, partner, Gene Mod Baby, Self Taught, University Graduate
+- ADD FUNCTIONALITY: Cyborg, Partner, Gene Mod Baby, Self Taught, University Graduate
   - Add cyborg options
   - Add partner options
 - ADD FUNCTIONALITY: Enhancements from backgrounds
@@ -49,7 +49,7 @@ ______________________________________________________________________
     - Armor
     - Clothing
     - Items
-- Display Enhancements
+<!-- - Display Enhancements -->
 - Display Cybernetics
 - End of Adventure screen
 - Rank up screen

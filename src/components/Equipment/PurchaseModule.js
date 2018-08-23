@@ -6,6 +6,7 @@ import { importCharacter } from '../../redux/characterReducer';
 import ranged from '../../data/ranged_weapons.json';
 import melee from '../../data/melee_weapons.json';
 import grenades from '../../data/grenades.json';
+import armor from '../../data/armor.json';
 import './purchaseModule.css';
 
 class PurchaseModule extends Component {
@@ -39,7 +40,8 @@ class PurchaseModule extends Component {
         let ammo = this.state.ammo !== 'N/A' ? this.state.ammo : null
         let url = type === 'ranged' ? '/api/addRanged'
                     : type === 'melee' ? '/api/addMelee'
-                    : type === 'grenades' && '/api/addGrenade'
+                    : type === 'grenades' ? '/api/addGrenade'
+                    : type === 'armor' && '/api/addArmor'
 
         if( equipId >= 1 ) {
             let value = credits - cost;
@@ -56,7 +58,8 @@ class PurchaseModule extends Component {
 
         let equipment = type === 'ranged' ? _.orderBy( ranged, ['name'] )
                         : type === 'melee' ? _.orderBy( melee, ['name'] )
-                        : type === 'grenades' ? _.orderBy( grenades, ['name'] ) : null
+                        : type === 'grenades' ? _.orderBy( grenades, ['name'] )
+                        : type=== 'armor' ? _.orderBy( armor, ['name'] ) : null
 
         let equipOptions = equipment.map( (equip, i) => {
             const { id, cost, name } = equip
@@ -72,7 +75,10 @@ class PurchaseModule extends Component {
 
                 <input value={this.state.cost} onChange={e => this.handleMoney(e)} />
 
-                { type !== 'grenades' && <input value={this.state.alias} onChange={e => this.handleAlias(e)} /> }
+                { type === 'ranged' || type === 'melee'
+                    ? <input value={this.state.alias} onChange={e => this.handleAlias(e)} />
+                    : null
+                }
 
                 <button onClick={() => this.buyEquipment()} disabled={!characterIsSaved}>Purchase</button>
             </div>

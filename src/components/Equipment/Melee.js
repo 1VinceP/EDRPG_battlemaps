@@ -20,9 +20,8 @@ class Melee extends Component {
     sellEquipment( id, cost ) {
         const { userid, uid, cid, credits } = this.props
 
-        if( userid == uid ) { // Check if user is logged in and owns the character
+        if( userid === uid * 1 ) { // Check if user is logged in and owns the character
             if( id != 1 ) {
-                console.log( id )
                 let value = prompt('Sell value (standard 70% of purchase cost)', Math.round(cost * .7))
 
                 if( value && credits !== 'N/A' ) {
@@ -38,7 +37,8 @@ class Melee extends Component {
     }
 
     render() {
-        const { id, name, alias, bonus, finesse, damage, notes, cost } = this.props.details
+        const { userid, uid } = this.props;
+        const { id, name, alias, bonus, finesse, damage, notes, cost, location } = this.props.details
         const { showEdit } = this.state
 
         return (
@@ -63,8 +63,22 @@ class Melee extends Component {
 
                     <div className='ei-bottom'>
                         <div className='ei-notes'>Notes: {notes}</div>
-                        <button className='ei-bottom-button' onClick={e => this.handleEdit(e)}>{showEdit ? 'Save' : 'Edit'} Nickname</button>
                     </div>
+
+                    { userid == uid
+                        ? <div className='ei-bottom ei-base'>
+                            <button className='ei-bottom-button' onClick={e => this.handleEdit(e)}>{showEdit ? 'Save' : 'Edit'} Nickname</button>
+                            <div>
+                                Location: <select>
+                                    <option>Self (equipped)</option>
+                                    <option>Self (holstered)</option>
+                                    <option>Bag</option>
+                                    <option>Ship</option>
+                                </select>
+                            </div>
+                        </div>
+                        : <div className='ei-bottom ei-base'><div />Location: {location}</div>
+                    }
                 </section>
 
             </div>

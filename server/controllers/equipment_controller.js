@@ -14,9 +14,9 @@ module.exports = {
     },
 
     saveRanged: ( req, res ) => {
-        const { id, current_ammo, alias } = req.body.weapon;
+        const { id, current_ammo, alias, location } = req.body.weapon;
 
-        req.app.get('db').equipment.update_ranged({ id, current_ammo, alias })
+        req.app.get('db').equipment.update_ranged({ id, current_ammo, alias, location })
             .then( () => {
                 console.log( chalk.blue('ranged update!') );
                 res.sendStatus(200);
@@ -47,9 +47,9 @@ module.exports = {
     },
 
     saveMelee: ( req, res ) => {
-        const { id, alias } = req.body.weapon;
+        const { id, alias, location } = req.body.weapon;
 
-        req.app.get('db').equipment.update_melee({ id, alias })
+        req.app.get('db').equipment.update_melee({ id, alias, location })
             .then( () => {
                 console.log( chalk.blue('melee update!') );
                 res.sendStatus(200);
@@ -87,6 +87,24 @@ module.exports = {
                 console.log( 'Grenade Delete' );
                 res.sendStatus(200);
             } )
+            .catch( err => console.log( err ) );
+    },
+
+    addArmor: ( req, res ) => {
+        const { cid } = req.params;
+        const { id, value } = req.body;
+
+        req.app.get('db').equipment.add_armor({ id, cid, value })
+            .then( () => res.sendStatus(200) )
+            .catch( err => console.log( err ) );
+    },
+
+    deleteArmor: ( req, res ) => {
+        const { id, cid } = req.params;
+        const { value } = req.query;
+
+        req.app.get('db').equipment.delete_armor({ id, cid, value })
+            .then( () => res.sendStatus(200) )
             .catch( err => console.log( err ) );
     }
 

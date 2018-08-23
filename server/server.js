@@ -81,6 +81,7 @@ app.get( '/auth/logout', authController.logout );
 app.get( '/api/userCharacters/:uid', charController.getCharacters );
 app.get( '/api/character/:cid/:cname', charController.getCharacter );
 app.post( '/api/addCharacter/:uid', charController.addCharacter );
+
 app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter );
 app.delete( '/api/deleteCharacter/:userid/:uid/:cid', validateSave, charController.deleteCharacter );
 
@@ -88,6 +89,7 @@ app.delete( '/api/deleteCharacter/:userid/:uid/:cid', validateSave, charControll
 app.post( '/api/addRanged/:userid/:cid', validateSave, equipController.addRanged );
 app.post( '/api/addMelee/:userid/:cid', validateSave, equipController.addMelee );
 app.post( '/api/addGrenade/:userid/:cid', validateSave, equipController.addGrenade );
+app.post( '/api/addArmor/:userid/:cid', validateSave, equipController.addArmor );
 app.put( '/api/saveRanged/:userid/:cid', validateSave, equipController.saveRanged );
 app.put( '/api/saveMelee/:userid/:cid', validateSave, equipController.saveMelee );
 app.delete(
@@ -98,6 +100,9 @@ app.delete(
 );
 app.delete(
     '/api/deleteGrenade/:userid/:uid/:cid/:id', validateSave, equipController.deleteGrenade
+);
+app.delete(
+    '/api/deleteArmor/:userid/:uid/:cid/:id', validateSave, equipController.deleteArmor
 );
 
 // creating function at end of file for readability

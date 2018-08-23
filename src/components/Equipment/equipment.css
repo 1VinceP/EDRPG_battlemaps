@@ -205,6 +205,15 @@
         align-items: center;
     }
 
+    .ei-base {
+        font-size: 10px;
+    }
+    .ei-base select {
+        font-size: 10px;
+        height: 16px;
+        border-color: #007bff;
+    }
+
     /* Hiding labels on larger screens */
     .ei-bonus::before {
         display: none;
