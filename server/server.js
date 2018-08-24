@@ -11,6 +11,7 @@ const express = require('express')
 const authController = require('./controllers/auth_controller');
 const charController = require('./controllers/character_controller');
 const equipController = require('./controllers/equipment_controller');
+const dataController = require('./controllers/data_controller');
 
 const validateSave = require('./middlewares/validateSave');
 
@@ -84,6 +85,10 @@ app.post( '/api/addCharacter/:uid', charController.addCharacter );
 
 app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter );
 app.delete( '/api/deleteCharacter/:userid/:uid/:cid', validateSave, charController.deleteCharacter );
+
+// DATA ENDPOINTS
+app.get( '/api/getKarma', dataController.getKarma );
+app.get( '/api/getEnhance', dataController.getEnhance );
 
 // EQUIPMENT ENDPOINTS
 app.post( '/api/addRanged/:userid/:cid', validateSave, equipController.addRanged );

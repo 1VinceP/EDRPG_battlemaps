@@ -7,6 +7,7 @@ import { importCharacter, updateInfo, assignCheck, useKarma, saveCharacter } fro
 import { normalizeString } from '../../utils/helperMethods';
 import karmaData from '../../data/karma.json';
 import rangedData from '../../data/ranged_weapons.json';
+import ScrollContainer from '../../components/Scroll/ScrollContainer';
 import SkillContainer from '../../components/SkillContainer/SkillContainer';
 import StatContainer from '../../components/StatContainer/StatContainer'
 import Equipment from '../../components/Equipment/Equipment';
@@ -25,9 +26,6 @@ class CharacterSheet extends Component {
     }
 
     handleInfo( e ) {
-        // const { name, value } = e.target
-
-        // this.setState({ character: {...this.state.character, [name]: value} })
         this.props.updateInfo( e )
     }
 
@@ -68,53 +66,9 @@ class CharacterSheet extends Component {
         }
     }
 
-    //////////////////// RENDER METHODS
-    renderKarma() {
-        const { selectedKarma } = this.state
-        const { character, userid } = this.props
-
-        return character.karmic_abilities.map( ( karma, i ) => {
-            let details
-
-            for( let key in karmaData ) {
-                if( _.camelCase(key) === _.camelCase( karma ) ) {
-                    details = karmaData[key]
-                }
-            }
-
-            return (
-                <div key={i} className={selectedKarma === i ? 'cs-karma cs-selected-karma' : 'cs-karma cs-unselected-karma' } onClick={() => this.selectKarma(i)}>
-                    <div>{normalizeString(karma)}</div>
-                    <div>{details.cost}</div>
-                    <div className={selectedKarma === i ? 'cs-kd cs-kd-show' : 'cs-kd cs-kd-hide' }>
-                        <div>{details.effect}</div>
-                        <div style={{ fontStyle: 'italic', color: '#f0f' }}>{normalizeString(details.situation)} - {normalizeString(details.type)}</div>
-                        { userid === character.userid * 1 && <button className='cs-k-button' onClick={() => this.props.useKarma(character.current_karma, details.cost)}>Use this ability</button> }
-                    </div>
-                </div>
-            )
-        } )
-    }
-
-    renderBackgrounds() {
-
-        return this.props.character.backgrounds.map( (bg, i) => {
-            return <StatContainer key={i} stat={bg} border='#faa500' />
-        })
-    }
-
-    renderEnhancements() {
-
-        return this.props.character.enhancements.map( (en, i) => {
-            let large = false
-            if( i > 5 ) { let large = true }
-            return <StatContainer key={i} stat={en} border='#54e4fd' large={large} />
-        } )
-    }
-
     render() {
         const { showSkills } = this.state
-        const { character, characterIsSaved, userid } = this.props
+        const { character, characterIsSaved, userid, updateInfo } = this.props
 
         console.log( character )
 
@@ -125,7 +79,7 @@ class CharacterSheet extends Component {
                         <p>Karma</p>
                         <div>
                             { userid === character.userid * 1
-                                ? <div><input id='karma' value={character.current_karma} type='number' max={character.max_karma} name='current_karma' onChange={e => this.handleInfo(e)} /> / {character.max_karma}</div>
+                                ? <div><input id='karma' value={character.current_karma} type='number' max={character.max_karma} name='current_karma' onChange={e => updateInfo(e)} /> / {character.max_karma}</div>
                                 : <div>{character.current_karma} / {character.max_karma}</div>
                             }
 
@@ -135,7 +89,7 @@ class CharacterSheet extends Component {
                         <p>Endurance</p>
                         <div>
                             { userid === character.userid * 1
-                                ? <div><input id='endurance' value={character.current_endurance} type='number' max={character.max_endurance} name='current_endurance' onChange={e => this.handleInfo(e)} /> / {character.max_endurance}</div>
+                                ? <div><input id='endurance' value={character.current_endurance} type='number' max={character.max_endurance} name='current_endurance' onChange={e => updateInfo(e)} /> / {character.max_endurance}</div>
                                 : <div>{character.current_endurance} / {character.max_endurance}</div>
                             }
 
@@ -147,7 +101,7 @@ class CharacterSheet extends Component {
 
                     <div className='cs-rank'>
                         <div>{character.rank}</div>
-                        <input value={character.rank_points} name='rank_points' onChange={e => this.handleInfo(e)} />
+                        <input value={character.rank_points} name='rank_points' onChange={e => updateInfo(e)} />
                     </div>
 
                     <div className='cs-defence'>
@@ -181,7 +135,11 @@ class CharacterSheet extends Component {
                     <section className='cs-body-col'>
                         {/* Karma section */}
                         <div className='cs-karmas'>
-                            {this.renderKarma()}
+                            <ScrollContainer
+                                list={character.karmic_abilities}
+                                border='#7d00d1'
+                                type='karma'
+                            />
                         </div>
 
                         {/* Skills section */}
@@ -189,7 +147,6 @@ class CharacterSheet extends Component {
                             {showSkills ? 'Hide' : 'Show' } skills
                         </button>
                         <div className={showSkills ? 'cs-skills-show' : 'cs-skills-hide'}>
-                        {/* <div className='cs-skills-show'> */}
                             <SkillContainer title='Personal' skills={character.personal} onCheck={s => this.onCheck(s)} checkedArr={character.checked} />
                             <SkillContainer title='Vehicle' skills={character.vehicle} onCheck={s => this.onCheck(s)} checkedArr={character.checked} />
                             <SkillContainer title='Intelligence' skills={character.intelligence} onCheck={s => this.onCheck(s)} checkedArr={character.checked} />
@@ -201,13 +158,16 @@ class CharacterSheet extends Component {
                     {/* Equipment section */}
                     <section className='cs-body-col cs-body-col-equip'>
                         <div className='cs-backgrounds'>
-                            <StatContainer
-                                stats={this.props.character.backgrounds}
-                                border='#faa500'
+                            <ScrollContainer
+                                list={character.backgrounds}
+                                type='bg'
+                                small
                             />
-                            <StatContainer
-                                stats={this.props.character.enhancements}
+                            <ScrollContainer
+                                list={character.enhancements}
                                 border='#54e4fd'
+                                type='enhance'
+                                small
                             />
                         </div>
                         <Equipment ownedData={character.ranged_weapons} bonuses={character.personal} type='ranged' />

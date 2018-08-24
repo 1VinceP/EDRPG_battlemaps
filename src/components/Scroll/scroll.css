@@ -1,0 +1,45 @@
+@keyframes scrollSelect {
+    from { z-index: 3; transform: scale(1); box-shadow: 3px 3px 6px #0008; }
+    to { transform: scale(1.1); box-shadow: 6px 6px 10px #0008; }
+}
+
+@keyframes scrollDeselect {
+    from { z-index: 3; transform: scale(1.1); box-shadow: 6px 6px 10px #0008; }
+    to { z-index: 3; transform: scale(1); box-shadow: 3px 3px 6px #0008; }
+}
+
+@keyframes dropSelect {
+    from {
+        height: 0px;
+        padding: 0px 10px;
+        visibility: hidden;
+        box-shadow: none;
+        top: 23px;
+    }
+    to {
+        height: var(--drop-height);
+        padding: 10px;
+        visibility: visible;
+        box-shadow: 6px 6px 10px #0008;
+        top: 19.5px;
+    }
+}
+
+@keyframes dropDeselect {
+    from {
+        height: var(--drop-height);
+        padding: 10px;
+        visibility: visible; z-index: 2;
+        transform: scale(.96);
+        box-shadow: 6px 6px 10px #0008;
+        top: 19.5px;
+}
+    to {
+        height: 0px;
+        padding: 0px 10px;
+        visibility: hidden; z-index: 4;
+        transform: scale(1);
+        box-shadow: none;
+        top: 23px;
+    }
+}
