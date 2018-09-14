@@ -78,8 +78,8 @@ class CharacterDisplay extends Component {
                         {
                             user.userid === character.userid
                                 && character.locked
-                                ? <button onClick={() => this.handleLock(true)}>Unlock Character</button>
-                                : <button onClick={() => this.handleLock(false)}>Lock Character</button>
+                                ? <button onClick={() => this.handleLock(false)}>Unlock Character</button>
+                                : <button onClick={() => this.handleLock(true)}>Lock Character</button>
                         }
                     </Header>
 

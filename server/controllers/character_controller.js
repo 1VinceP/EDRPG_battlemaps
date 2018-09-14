@@ -109,10 +109,11 @@ module.exports = {
     },
 
     handleLock: ( req, res ) => {
-        const { locked } = req.body;
-        const { cid } = req.params
+        const { locked, cid } = req.body;
 
-        req.app.get('db').handle_lock([locked, cid])
+        console.log( locked, cid )
+
+        req.app.get('db').character.handle_lock([locked, cid])
             .then( () => res.sendStatus(200) );
     },
 
