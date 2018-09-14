@@ -5,6 +5,8 @@
     position: fixed;
     z-index: 3;
     display: flex;
+    top: 0;
+    left: 0;
 }
 
 .menu-button {

@@ -108,6 +108,14 @@ module.exports = {
             .catch( err => console.log( err ) );
     },
 
+    handleLock: ( req, res ) => {
+        const { locked } = req.body;
+        const { cid } = req.params
+
+        req.app.get('db').handle_lock([locked, cid])
+            .then( () => res.sendStatus(200) );
+    },
+
     deleteCharacter: ( req, res ) => {
         const { uid, cid } = req.params;
 

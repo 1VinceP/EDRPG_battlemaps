@@ -108,15 +108,16 @@ class CreateCharacter extends Component {
         const { backgrounds, enhancements } = this.state
         let num = name.split(' ')[1] // The number of the background
         let flatEnhance = _.flattenDeep( enhancements )
-        // let newEnhance = []
         let cost
+        let newVal = _.camelCase( value.split('(')[0] ) || ''
 
         for( let key in backgroundStats ) {
-            if( key === _.camelCase( value ) ) {
+            if( key === _.camelCase( newVal ) || newVal === '' ) {
 
                 // Remove the skill bonus when a filled slot is changed
                 if( backgrounds[num] ) {
-                    let oldBg = _.camelCase(backgrounds[num])
+                    let oldBg = _.camelCase( backgrounds[num].split('(')[0] )
+                    // Remove enhancements
                     if( backgroundStats[oldBg].hasOwnProperty( 'enhancements' ) ) {
                         for( let i = 0; i < backgroundStats[oldBg].enhancements.length; i++ ) {
                             for( let j = flatEnhance.length; j >= 0; j-- ) {
@@ -128,20 +129,15 @@ class CreateCharacter extends Component {
                     }
                     backgroundStats[oldBg].bonuses[10].forEach( skill => this.updateSkills( skill, -10 )) // Remove +10 bonuses
                     backgroundStats[oldBg].bonuses[20].forEach( skill => this.updateSkills( skill, -20 )) // Remove +20 bonuses
-                    for( let prop in backgrounds ) {
-                        if( backgrounds[prop] === value ) {
-                            resetSelect( name )
-                            toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
-                            this.updateBgToState( num, '', 0 )
-                            return;
-                        }
-                    }
                 }
 
                 for( let prop in backgrounds ) {
-                    if( backgrounds[prop] === value ) {
+                    if( backgrounds[prop] === value ) { // This is not newVal because the value string is saved as the bg title
+                        console.log( prop )
                         resetSelect( name )
-                        toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
+                        if( newVal !== '' ) {
+                            toasty( `"${backgrounds[prop]}" is already assigned as a background, and will not provide an additional bonus` )
+                        }
                         this.updateBgToState( num, '', 0 )
                         return;
                     }
@@ -153,9 +149,10 @@ class CreateCharacter extends Component {
                 }
 
                 // Apply the new skill bonus
-                cost = backgroundStats[key].cost // cost = 1
+                cost = backgroundStats[key].cost // typeof cost === number
                 backgroundStats[key].bonuses[10].forEach( skill => this.updateSkills( skill, 10 ))
                 backgroundStats[key].bonuses[20].forEach( skill => this.updateSkills( skill, 20 ))
+                console.log( cost )
             }
         }
 
@@ -163,9 +160,10 @@ class CreateCharacter extends Component {
         this.updateBgToState( num, value, cost )
     }
     updateBgToState = ( num, value, cost ) => {
+        let newCost = cost ? cost : 0
         this.setState({
             backgrounds: { ...this.state.backgrounds, [num]: value },
-            bgCosts: { ...this.state.bgCosts, [num]: cost }
+            bgCosts: { ...this.state.bgCosts, [num]: newCost }
         })
     }
 
@@ -177,7 +175,9 @@ class CreateCharacter extends Component {
 
         for( let key in karmas ) {
             if( karmas[key] === value ) {
-                toasty( `"${normalizeString( karmas[key] )}" has already been chosen. Please pick another karmic ability` )
+                if( value !== '' ) {
+                    toasty( `"${normalizeString( karmas[key] )}" has already been chosen. Please pick another karmic ability` )
+                }
                 resetSelect( name )
                 this.setState({ karmas: { ...karmas, [num]: '' } })
                 return;

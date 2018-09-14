@@ -73,6 +73,11 @@ export default ( state = initialState, action ) => {
 }
 
 export function importCharacter( cid, name ) {
+    // const instance = axios.create({
+    //     baseURL: `/api/character/${cid * 1}/${name}`,
+    //     timeout: 3000
+    // })
+
     let character = axios.get( `/api/character/${cid * 1}/${name}` )
     .then( response => {
         if( !response.data ) {

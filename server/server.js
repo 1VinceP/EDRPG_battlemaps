@@ -17,6 +17,8 @@ const validateSave = require('./middlewares/validateSave');
 
 let app = express();
 
+app.use( express.static( `${__dirname}/../build` ) );
+
 app.use( bodyParser.json() );
 app.use( session({
     secret: process.env.SESSION_SECRET,
@@ -83,7 +85,11 @@ app.get( '/api/userCharacters/:uid', charController.getCharacters );
 app.get( '/api/character/:cid/:cname', charController.getCharacter );
 app.post( '/api/addCharacter/:uid', charController.addCharacter );
 
+// validateSave requires the user's userid and the character's userid (uid)
+// The userid must be on params
+// The uid may be on params or in the body
 app.put( '/api/saveCharacter/:userid/:cid', validateSave, charController.saveCharacter );
+app.put( '/api/handleLock/:userid/:uid', validateSave, charController.handleLock );
 app.delete( '/api/deleteCharacter/:userid/:uid/:cid', validateSave, charController.deleteCharacter );
 
 // DATA ENDPOINTS

@@ -149,6 +149,7 @@
     outline: none;
     color: #ddd;
     background: var(--second-bg);
+    margin-top: 20px;
 }
 
 .cs-skills-show {

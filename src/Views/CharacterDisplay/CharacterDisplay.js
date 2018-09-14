@@ -29,16 +29,31 @@ class CharacterDisplay extends Component {
     }
 
     componentDidUpdate( prevProps, prevState ) {
-        // if( prevState.activeTab !== this.state.activeTab )
-        //     this.getCharacter()
-        if( prevProps.character.name && prevProps.character.name !== this.props.character.name ) {
-            console.log( `Character changed from ${prevProps.character.name} to ${this.props.character.name}` )
+        const { character, user } = this.props
+
+        if( prevProps.character.cid && prevProps.character.cid !== character.cid ) {
+            console.log( `Character changed from ${prevProps.character.name} to ${character.name}` )
             this.getCharacter()
+        }
+        if( character.locked && user.userid !== character.userid * 1 ) {
+            this.props.history.push('/locked')
+            console.log( `%cThis character is locked to ${character.userid}, and you (${user.userid}) do not have permission`, 'color: red;' );
+        }
+        else {
+            console.log( `%cUser ${user.userid} is allowed to access character ${character.cid}`, 'color: lime;' )
         }
     }
 
     componentWillUnmount() {
         console.log( 'UNMOUNTING' )
+    }
+
+    handleLock( val ) {
+        const { character, user } = this.props
+        let body = { locked: val, cid: character.cid }
+
+        axios.put( `/api/handleLock/${user.userid}/${character.userid}`, body )
+            .then( () => this.getCharacter() )
     }
 
     switchContent = ( tabName ) => {
@@ -56,10 +71,15 @@ class CharacterDisplay extends Component {
                 <div className='display-main'>
                     <Header>
                         { user.userid === character.userid
-                            ? characterIsSaved === 'pending'
+                            && characterIsSaved === 'pending'
                                 ? <div style={{color: '#fff'}}>Saving...</div>
                                 : <button onClick={() => this.props.saveCharacter( character, user.userid )} disabled={!!characterIsSaved}>Save Character</button>
-                            : null
+                        }
+                        {
+                            user.userid === character.userid
+                                && character.locked
+                                ? <button onClick={() => this.handleLock(true)}>Unlock Character</button>
+                                : <button onClick={() => this.handleLock(false)}>Lock Character</button>
                         }
                     </Header>
 

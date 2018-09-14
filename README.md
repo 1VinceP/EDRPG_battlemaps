@@ -19,7 +19,8 @@ This is currently a work in progress. Please open an issue on this repo to repor
 
 ______________________________________________________________________
 ## Todo
-- Update demo
+- Finish building "Locked Character" page
+- Add 'fighting' to all new characters
 - Improve location data for items
 
 ### Combat maps
@@ -29,39 +30,39 @@ ______________________________________________________________________
 - ? Add character combat
 
 ### Character Creator
-- Ability to remove backgrounds/karmas
 - Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
   - *If confirmed, reduce value down to 40*
   - Natural Genius
 - ADD FUNCTIONALITY: Cyborg, Partner, Gene Mod Baby, Self Taught, University Graduate
   - Add cyborg options
   - Add partner options
-- ADD FUNCTIONALITY: Enhancements from backgrounds
+<!-- - Ability to remove backgrounds/karmas -->
+<!-- - ADD FUNCTIONALITY: Enhancements from backgrounds -->
 
 ### Character Sheet
-<!-- - Able to save equipment -->
-<!-- - Fix fire weapon -->
-<!-- - Display backgrounds -->
 - Buy/sell Equipment
-    <!-- - Ranged -->
-    <!-- - Melee -->
-    <!-- - Grenades -->
     - Armor
     - Clothing
     - Items
-<!-- - Display Enhancements -->
+    <!-- - Ranged -->
+    <!-- - Melee -->
+    <!-- - Grenades -->
 - Display Cybernetics
 - End of Adventure screen
 - Rank up screen
 - Style for tablets
+<!-- - Display Enhancements -->
+<!-- - Able to save equipment -->
+<!-- - Fix fire weapon -->
+<!-- - Display backgrounds -->
 
 ### Spaceship Sheet
 
 ### Vehicle Sheet
 
 ### Navbar
-- Add dice roller
 - Add media player
+<!-- - Add dice roller -->
 
 ### Database
 - Add Speed

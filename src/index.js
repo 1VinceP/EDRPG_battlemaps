@@ -3,14 +3,24 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 
+import { ThemeProvider } from 'react-jss';
 import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import store from './store';
 
+const theme = {
+    viewBackground: '#313132',
+    eliteOrange: '#faa500',
+    karmaPurple: ''
+}
+
 ReactDOM.render(
-<Provider store={store}>
-    <HashRouter>
-            <App />
-    </HashRouter>
-</Provider>, document.getElementById('root'));
+    <ThemeProvider theme={theme}>
+        <Provider store={store}>
+            <HashRouter>
+                    <App />
+            </HashRouter>
+        </Provider>
+    </ThemeProvider>
+, document.getElementById('root'));
