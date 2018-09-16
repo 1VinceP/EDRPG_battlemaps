@@ -153,7 +153,8 @@ export default {
             bonuses: {
                 20: [  ],
                 10: [  ]
-            }
+            },
+            enhancements: [ ]
         },
         gymFreak: {
             cost: 1,
@@ -318,7 +319,8 @@ export default {
             bonuses: {
                 20: [  ],
                 10: [  ]
-            }
+            },
+            enhancements: [ ]
         },
         shipHand: {
             cost: 1,

@@ -24,18 +24,20 @@ ______________________________________________________________________
 - Improve location data for items
 
 ### Combat maps
-- Add all remaining ships ( now only missing Huge size and Beyond 3.2 ships )
+- Add all remaining ships ( Huge, Krait Mk II, Alliance Challenger, Alliance Crusader )
 - Add vehicles
 - Add vehicle tips
 - ? Add character combat
 
 ### Character Creator
-- Throw alerts when the save button is clicked if skills are over 40 w/o Nat Gen
-  - *If confirmed, reduce value down to 40*
-  - Natural Genius
+- Manage skills over 40
 - ADD FUNCTIONALITY: Cyborg, Partner, Gene Mod Baby, Self Taught, University Graduate
   - Add cyborg options
   - Add partner options
+  <!-- - Gene Mody Baby -->
+  <!-- - Self Taught -->
+  <!-- - University Graduate -->
+- Rank up screen
 <!-- - Ability to remove backgrounds/karmas -->
 <!-- - ADD FUNCTIONALITY: Enhancements from backgrounds -->
 
@@ -57,12 +59,14 @@ ______________________________________________________________________
 <!-- - Display backgrounds -->
 
 ### Spaceship Sheet
+- Finish character
 
 ### Vehicle Sheet
+- Finish character
 
 ### Navbar
 - Add media player
 <!-- - Add dice roller -->
 
 ### Database
-- Add Speed
+<!-- - Add Speed -->

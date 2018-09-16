@@ -13,8 +13,9 @@ import './createCharacter.css';
 
 
 class CreateCharacter extends Component {
+    bgData = {}
     state = {
-        userCharCount: 0,
+        userCharCount: 0, // how many character's the user currently has
 
         name: '',
         rank: 'Harmless',
@@ -95,6 +96,10 @@ class CreateCharacter extends Component {
             axios.get( `/api/userCharacters/${this.props.user.userid}` )
                 .then( res => this.setState({ userCharCount: res.data.length }) )
         }
+
+
+        this.bgData = Object.assign( {}, data.backgroundStats )
+        // console.log( this.bgData )
     }
 
     // Updates the character name
@@ -102,14 +107,88 @@ class CreateCharacter extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    handleGraduate = () => {
+        const { backgrounds } = this.state
+
+        for( let prop in backgrounds ) {
+            if( backgrounds[prop] === 'University Graduate' ) { // This is not newVal because the value string is saved as the bg title
+                console.log( 'THIS IS A DUPLICATE' )
+                return;
+            }
+        }
+
+        this.bgData.universityGraduate.bonuses[20] = [];
+        this.bgData.universityGraduate.bonuses[10] = [];
+
+        let twenty = prompt( 'Which intelligence skill would you like to increase by 20?' );
+        let ten = prompt( 'Which intelligence skill would you like to increase by 10?' );
+        let alsoTen = prompt( 'Which intelligence skill would you like to increase by 10?' );
+
+        this.bgData.universityGraduate.bonuses[20].push( _.camelCase( twenty ) );
+        this.bgData.universityGraduate.bonuses[10].push( _.camelCase( ten ) );
+        this.bgData.universityGraduate.bonuses[10].push( _.camelCase( alsoTen ) );
+    }
+
+    handleGeneMod() {
+        const { backgrounds } = this.state
+
+        for( let prop in backgrounds ) {
+            if( backgrounds[prop] === 'Gene Mod Baby' ) { // This is not newVal because the value string is saved as the bg title
+                console.log( 'THIS IS A DUPLICATE' )
+                return;
+            }
+        }
+
+        this.bgData.geneModBaby.enhancements = []
+
+        let en1 = prompt( 'Which enhancement would you like?' );
+        let en2 = prompt( 'Which enhancement (different than the first) would you like?' );
+
+        this.bgData.geneModBaby.enhancements.push( _.camelCase( en1 ) );
+        this.bgData.geneModBaby.enhancements.push( _.camelCase( en2 ) );
+    }
+
+    handleSelfTaught() {
+        const { backgrounds } = this.state
+
+        for( let prop in backgrounds ) {
+            if( backgrounds[prop] === 'Self Taught' ) { // This is not newVal because the value string is saved as the bg title
+                console.log( 'THIS IS A DUPLICATE' )
+                return;
+            }
+        }
+
+        this.bgData.selfTaught.bonuses[10] = []
+        this.bgData.selfTaught.enhancements = []
+
+        let ten = prompt( 'Which skill would you like to increase by 10?' );
+        let alsoTen = prompt( 'Which skill (different than the first) would you like to increase by 10?' );
+        let en = prompt( 'Which enhancement would you like?' );
+
+        this.bgData.selfTaught.bonuses[10].push( _.camelCase( ten ) );
+        this.bgData.selfTaught.bonuses[10].push( _.camelCase( alsoTen ) );
+        this.bgData.selfTaught.enhancements.push( _.camelCase( en ) );
+    }
+
     // Updates the character background and stats
     handleBg( e ) {
-        const { backgroundStats } = data, { name, value } = e.target // value is background name
+        let backgroundStats = this.bgData
         const { backgrounds, enhancements } = this.state
+        // const { backgroundStats } = data,
+        const { name, value } = e.target // value is background name
         let num = name.split(' ')[1] // The number of the background
         let flatEnhance = _.flattenDeep( enhancements )
         let cost
         let newVal = _.camelCase( value.split('(')[0] ) || ''
+
+        if( newVal === 'universityGraduate' )
+            this.handleGraduate();
+        else if( newVal === 'geneModBaby' )
+            this.handleGeneMod();
+        else if( newVal === 'selfTaught' )
+            this.handleSelfTaught();
+
+        console.log( backgroundStats )
 
         for( let key in backgroundStats ) {
             if( key === _.camelCase( newVal ) || newVal === '' ) {
@@ -131,6 +210,7 @@ class CreateCharacter extends Component {
                     backgroundStats[oldBg].bonuses[20].forEach( skill => this.updateSkills( skill, -20 )) // Remove +20 bonuses
                 }
 
+                // Prevent background from being added if it already exists
                 for( let prop in backgrounds ) {
                     if( backgrounds[prop] === value ) { // This is not newVal because the value string is saved as the bg title
                         console.log( prop )
@@ -237,10 +317,13 @@ class CreateCharacter extends Component {
 
     /////////////////////////// RENDER METHODS
     renderSkillRow( section ) {
-        let skills = []
+        let skills = [] // [{ key: dodge, value: 20 }...]
         for( let key in section ) {
             skills.push({ key, value: section[key] })
         }
+
+        let enhanceArr = _.flattenDeep( this.state.enhancements )
+        let genius = /naturalGenius [(](.*)[)]/g.exec( enhanceArr.join(' ') ) // Find teh type of natural genius, if any
 
         return skills.map( (skill, i) => {
             let name = normalizeString( skill.key )
@@ -261,6 +344,8 @@ class CreateCharacter extends Component {
                 color = '#46545a'
             if( skill.value <= 10 )
                 color = '#fff'
+            if( genius && skill.key === genius['1'] ) // change color if natural genius
+                color = '#f0f'
 
             return (
                 <div key={i} style={{ color }}>
