@@ -135,11 +135,14 @@ class CharacterSheet extends Component {
                     <section className='cs-body-col'>
                         {/* Karma section */}
                         <div className='cs-karmas'>
-                            <ScrollContainer
-                                list={character.karmic_abilities}
-                                border='#7d00d1'
-                                type='karma'
-                            />
+                            { character.karmic_abilities.length > 0
+                                ? <ScrollContainer
+                                    list={character.karmic_abilities}
+                                    border='#7d00d1'
+                                    type='karma'
+                                />
+                                : <div className='no-scrolls'>Karma</div>
+                            }
                         </div>
 
                         {/* Skills section */}
@@ -163,12 +166,15 @@ class CharacterSheet extends Component {
                                 type='bg'
                                 small
                             />
-                            <ScrollContainer
-                                list={character.enhancements}
-                                border='#54e4fd'
-                                type='enhance'
-                                small
-                            />
+                            { character.enhancements.length > 0
+                                ? <ScrollContainer
+                                    list={character.enhancements}
+                                    border='#54e4fd'
+                                    type='enhance'
+                                    small
+                                />
+                                : <div className='no-scrolls'>Enhancements</div>
+                            }
                         </div>
                         <Equipment ownedData={character.ranged_weapons} bonuses={character.personal} type='ranged' />
                         <Equipment ownedData={character.melee_weapons} bonuses={character.personal} type='melee' />

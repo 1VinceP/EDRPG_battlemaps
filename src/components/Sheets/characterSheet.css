@@ -171,6 +171,17 @@
     margin-bottom: 20px;
 }
 
+.no-scrolls {
+    width: 50%;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: var(--second-bg);
+    text-shadow: 2px 2px 4px #222;
+}
+
 @media (min-width: 750px) {
     .cs-info {
         /* margin-top: 60px; */
@@ -208,5 +219,9 @@
         margin-top: 16px;
         padding-top: 16px;
         border-top: 1px solid #777;
+    }
+
+    .no-scrolls {
+        font-size: 32px;
     }
 }
