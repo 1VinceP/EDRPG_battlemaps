@@ -27,8 +27,30 @@ export default theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         color: '#fff',
-        padding: '20px'
+        padding: '20px',
+        '& .character-name': {
+            fontSize: 26,
+            marginBottom: 40
+        },
+        '& .main-increase': {
+            width: '60%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            '& .endurance': {
+                padding: [3, 6],
+                borderLeft: `1px solid ${theme.enduringRed}`,
+                borderBottom: `1px solid ${theme.enduringRed}`,
+                borderRadius: theme.radius,
+            },
+            '& .karma': {
+                padding: [3, 6],
+                borderRight: `1px solid ${theme.karmicPurple}`,
+                borderBottom: `1px solid ${theme.karmicPurple}`,
+                borderRadius: theme.radius
+            }
+        },
     },
+
 
     '@media (max-width: 750px)': {
 
