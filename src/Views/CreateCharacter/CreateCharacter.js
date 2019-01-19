@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { ToastContainer, Slide, toast } from 'react-toastify';
 import { findFalse, manageEnhancements, normalizeString, resetSelect, reduceToTotal, toasty } from '../../utils/helperMethods';
 import Header from '../../components/Header/Header';
+import RankUp from '../../components/RankUp/RankUp';
+import SkillBooster from '../../components/SkillBooster/SkillBooster';
 import data from '../../data/characterData';
 import karmaData from '../../data/karma.json';
 import initialState from '../../data/initialStates';
@@ -15,7 +17,7 @@ import './createCharacter.css';
 class CreateCharacter extends Component {
     bgData = {}
     state = {
-        userCharCount: 0, // how many character's the user currently has
+        userCharCount: 0, // how many character's the user currently has,
 
         name: '',
         rank: 'Harmless',
@@ -279,13 +281,13 @@ class CreateCharacter extends Component {
                 toasty( `"${skill}" is already assigned to a different value and will not receive anymore points` )
                 resetSelect( name )
                 this.setState({ learning: { ...this.state.learning, [bonus]: '' } })
-                learning[bonus] ? this.updateSkills( learning[bonus], -bonus ) : null
+                if( learning[bonus] ) this.updateSkills( learning[bonus], -bonus )
                 return;
             }
         }
 
         // Remove the bonus when a filled slot is changed
-        learning[bonus] ? this.updateSkills( learning[bonus], -bonus ) : null
+        if( learning[bonus] ) this.updateSkills( learning[bonus], -bonus )
 
         // Set a slot to be filled and apply the bonus
         this.setState({ learning: { ...this.state.learning, [bonus]: skill } })
@@ -358,17 +360,18 @@ class CreateCharacter extends Component {
     }
 
     renderLearning() {
-        let skillOptions = _.orderBy( data.skills ).map( (skill, i) => <option key={i} value={skill}>{skill}</option> )
         let display = []
 
         for( let i = 10; i > 0; i-- ) {
             display.push( (
-                <div key={i} className='each-learn'>
-                    <div>{i}</div>
-                    <select name={`learning ${i}`} onChange={e => this.handleLearning(e, i)} selected={this.state.learning[i]}>
-                        {skillOptions}
-                    </select>
-                </div>
+                <SkillBooster
+                    key={i}
+                    skills={data.skills}
+                    // index={i}
+                    val={i}
+                    selected={this.state.learning[i]}
+                    change={e => this.handleLearning(e, i)}
+                />
             ) )
         }
 
@@ -463,7 +466,9 @@ class CreateCharacter extends Component {
 
         return (
             <div className='character-main'>
-                <Header />
+                <Header>
+                    <RankUp name={this.state.name} character={this.state} />
+                </Header>
 
                 <ToastContainer transition={Slide} autoClose={3000} style={{ fontSize: '12px', top: '30px' }} />
 
@@ -612,7 +617,6 @@ class CreateCharacter extends Component {
                     <button id='character-reset' onClick={() => this.resetState()}>Reset</button>
                     <button id='character-save' onClick={() => this.saveCharacter()} disabled={!this.props.user.userid}>Save</button>
                 </section>
-
             </div>
         )
     }

@@ -11,6 +11,7 @@ import store from './store';
 
 const theme = {
     viewBackground: '#313132',
+    darkBackground: '#212121',
     eliteOrange: '#faa500',
     karmaPurple: ''
 }

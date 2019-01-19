@@ -1,10 +1,10 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
 import authReducer from './redux/authReducer';
 import characterReducer from './redux/characterReducer';
 import reducer from './redux/shipReducer';
 
-let reducers = combineReducers({
+const reducers = combineReducers({
     auth: authReducer,
     character: characterReducer,
     ship: reducer
@@ -12,6 +12,8 @@ let reducers = combineReducers({
 
 export default createStore(
     reducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware( promiseMiddleware() )
+    compose(
+        applyMiddleware( promiseMiddleware() ),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
 );

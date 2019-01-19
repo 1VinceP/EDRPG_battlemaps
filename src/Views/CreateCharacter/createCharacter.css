@@ -176,23 +176,6 @@
 .character-learning > div:first-child {
     margin-bottom: 3px;
 }
-.each-learn {
-    display: flex;
-    margin-bottom: -1px;
-}
-.each-learn div {
-    width: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #faa500;
-    border-radius: 3px;
-    border-right: none;
-    background: #212121;
-}
-.each-learn select {
-    width: 100%;
-}
 
 .character-equipment {
     width: 100%;

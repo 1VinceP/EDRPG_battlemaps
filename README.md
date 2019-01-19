@@ -32,11 +32,11 @@ ______________________________________________________________________
 ### Character Creator
 - Manage skills over 40
 - ADD FUNCTIONALITY: Cyborg, Partner, Gene Mod Baby, Self Taught, University Graduate
-  - Add cyborg options
-  - Add partner options
-  <!-- - Gene Mody Baby -->
-  <!-- - Self Taught -->
-  <!-- - University Graduate -->
+    - Add cyborg options
+    - Add partner options
+    <!-- - Gene Mody Baby -->
+    <!-- - Self Taught -->
+    <!-- - University Graduate -->
 - Rank up screen
 <!-- - Ability to remove backgrounds/karmas -->
 <!-- - ADD FUNCTIONALITY: Enhancements from backgrounds -->
@@ -57,6 +57,8 @@ ______________________________________________________________________
 <!-- - Able to save equipment -->
 <!-- - Fix fire weapon -->
 <!-- - Display backgrounds -->
+
+### Character Rank Up
 
 ### Spaceship Sheet
 - Finish character

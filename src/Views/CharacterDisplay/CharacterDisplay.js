@@ -5,6 +5,7 @@ import { importCharacter, updateInfo, saveCharacter } from '../../redux/characte
 import { commaFormatted } from '../../utils/helperMethods';
 import Header from '../../components/Header/Header';
 import Tabs from '../../components/Tabs/Tabs';
+import RankUp from '../../components/RankUp/RankUp';
 import CharacterSheet from '../../components/Sheets/CharacterSheet';
 import SpaceshipSheet from '../../components/Sheets/SpaceshipSheet';
 import VehicleSheet from '../../components/Sheets/VehicleSheet';
@@ -15,7 +16,7 @@ class CharacterDisplay extends Component {
         view: 'character',
         spaceships: [],
         vehicles: [],
-        activeTab: ''
+        activeTab: '',
     }
 
     componentDidMount() {
@@ -62,6 +63,10 @@ class CharacterDisplay extends Component {
         })
     }
 
+    verifyUser() {
+        return this.props.user.userid === this.props.character.userid
+    }
+
     render() {
         const { activeTab } = this.state
         const { character, user, updateInfo, characterIsSaved } = this.props
@@ -70,17 +75,23 @@ class CharacterDisplay extends Component {
             return (
                 <div className='display-main'>
                     <Header>
-                        { user.userid === character.userid
-                            && characterIsSaved === 'pending'
+                        { this.verifyUser()
+                            ? characterIsSaved === 'pending'
                                 ? <div style={{color: '#fff'}}>Saving...</div>
                                 : <button onClick={() => this.props.saveCharacter( character, user.userid )} disabled={!!characterIsSaved}>Save Character</button>
+                            : null
                         }
-                        {
-                            user.userid === character.userid
-                                && character.locked
+                        { this.verifyUser()
+                            ? character.locked
                                 ? <button onClick={() => this.handleLock(false)}>Unlock Character</button>
                                 : <button onClick={() => this.handleLock(true)}>Lock Character</button>
+                            : null
                         }
+                        {/* { this.verifyUser() && this.props.characterIsSaved
+                            ? <RankUp character={character} name={character.name} />
+                            : null
+                        } */}
+                        <RankUp character={character} name={character.name} />
                     </Header>
 
                     <div className='display-body'>
