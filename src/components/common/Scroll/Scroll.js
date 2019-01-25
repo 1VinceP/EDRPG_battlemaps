@@ -1,8 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { useKarma } from '../../redux/characterReducer';
-import { normalizeString } from '../../utils/helperMethods';
+import { useKarma } from '../../../redux/characterReducer';
+import { normalizeString } from '../../../utils/helperMethods';
 
 function Scroll({
     type, item, border, selected, onSelect, useKarma, index, data, small, // component props
