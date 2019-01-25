@@ -7,7 +7,7 @@ import { importCharacter, updateInfo, assignCheck, useKarma, saveCharacter } fro
 import { normalizeString } from '../../utils/helperMethods';
 import karmaData from '../../data/karma.json';
 import rangedData from '../../data/ranged_weapons.json';
-import ScrollContainer from '../../components/Scroll/ScrollContainer';
+import ScrollContainer from '../../components/common/Scroll/ScrollContainer';
 import SkillContainer from '../../components/SkillContainer/SkillContainer';
 import StatContainer from '../../components/StatContainer/StatContainer'
 import Equipment from '../../components/Equipment/Equipment';
