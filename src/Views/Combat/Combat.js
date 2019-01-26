@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
+import PropTypes from 'prop-types';
+
 import { addShip, changeBackground } from '../../redux/shipReducer';
 import { OutlineButton } from '../../components/common';
 import Ship from '../../components/Ship/Ship';
@@ -11,30 +13,47 @@ import lists from '../../data/items';
 import styles from './combatStyles';
 
 class Combat extends Component {
+   static propTypes = {
+      actions: PropTypes.func,
+      addShip: PropTypes.func,
+      changeBackground: PropTypes.func,
+      visible: PropTypes.array,
+      combatBg: PropTypes.string,
+   }
+
+   static defaultProps = {
+      addShip: () => { },
+      changeBackground: () => { },
+      visible: [],
+      combatBg: 'space',
+   }
+
    state = {
       shipToCreate: '',
-      tipOverlay: false
+      tipOverlay: false,
    }
 
    createShip(name) {
-      const { spaceships } = lists
+      const { addShip } = this.props;
+      const { spaceships } = lists;
+
       for (let key in spaceships) {
          if (key === name) {
-            let ship = { ...spaceships[key] }
-            let index = this.props.visible.length
-            this.props.addShip(ship, index)
-         }
-      }
+            let ship = { ...spaceships[key] };
+            let index = this.props.visible.length;
+            addShip(ship, index);
+         };
+      };
    }
 
    displayTips() {
-      this.setState({ tipOverlay: !this.state.tipOverlay })
+      this.setState({ tipOverlay: !this.state.tipOverlay });
    }
 
    renderShips() {
       return this.props.visible.map((ship, i) => {
-         return <Ship ship={ship} key={i} />
-      })
+         return <Ship ship={ship} key={i} />;
+      });
    }
 
    render() {
@@ -46,18 +65,18 @@ class Combat extends Component {
       const map = combatBg === 'space'
          ? space
          : combatBg === 'land'
-         ? land
-         : mixed
+            ? land
+            : mixed;
 
       const mapOptions = lists.maps.map((name, i) => {
-         return <option key={i} className={optionDropdown} value={name.toLowerCase()}>{name}</option>
-      })
+         return <option key={i} className={optionDropdown} value={name.toLowerCase()}>{name}</option>;
+      });
       const shipOptions = lists.shipNames.map((name, i) => {
-         return <option key={i} className={optionDropdown} value={_.camelCase(name)}>{name}</option>
-      })
+         return <option key={i} className={optionDropdown} value={_.camelCase(name)}>{name}</option>;
+      });
       const vehicleOptions = lists.vehicleNames.map((name, i) => {
-         return <option key={i} className={optionDropdown} value={_.camelCase(name)}>{name}</option>
-      })
+         return <option key={i} className={optionDropdown} value={_.camelCase(name)}>{name}</option>;
+      });
 
       return (
          <div className={map}>
@@ -75,6 +94,7 @@ class Combat extends Component {
                   {this.state.tipOverlay ? 'Hide Tips' : 'Show Tips'}
                </OutlineButton>
             </Header>
+
             <section className={combatContent}>
                {this.renderShips()}
                <div className={this.state.tipOverlay ? 'combat-tips' : 'hide-tips'}>
@@ -82,7 +102,7 @@ class Combat extends Component {
                </div>
             </section>
          </div>
-      )
+      );
    }
 }
 
@@ -91,8 +111,13 @@ function mapStateToProps(state) {
 
    return {
       visible,
-      combatBg
+      combatBg,
    };
 }
 
-export default injectSheet(styles)(connect(mapStateToProps, { addShip, changeBackground })(Combat));
+const actions = {
+   addShip,
+   changeBackground,
+}
+
+export default injectSheet(styles)(connect(mapStateToProps, actions)(Combat));
