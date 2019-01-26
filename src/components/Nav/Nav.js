@@ -1,46 +1,59 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import injectSheet from 'react-jss';
 import { handleNav } from '../../redux/shipReducer';
 import DiceRoller from './DiceRoller';
-import './nav.css';
+import { OutlineButton } from '../common';
+import styles from './navStyles';
 
-class Nav extends Component {
-    state = {
+function Nav({ classes, navOpen, handleNav, user }) {
+   const { navShow, navHide, navContainer } = classes;
 
-    }
+   return (
+      <div className={navOpen ? navShow : navHide}>
+         <div className={navContainer}>
+            {!user.userid
+               ? <a href={process.env.REACT_APP_LOGIN} className='link'><OutlineButton isNav>Login</OutlineButton></a>
+               : <div className='username'>{user.username}</div>
+            }
 
+            <div className='spacer' />
+            <Link to='/' className='link'>
+               <OutlineButton isNav onClick={() => handleNav(!navOpen)}>Combat Maps</OutlineButton>
+            </Link>
+            <Link to='/createcharacter' className='link'>
+               <OutlineButton isNav onClick={() => handleNav(!navOpen)}>Character Creator</OutlineButton>
+            </Link>
+            <Link to='/playercharacters' className='link'>
+               <OutlineButton isNav onClick={() => handleNav(!navOpen)}>Your Characters</OutlineButton>
+            </Link>
 
-    render() {
-        const { navOpen, handleNav } = this.props
+            {user.userid
+               && <>
+                  <div className='spacer' />
+                  <a href={process.env.REACT_APP_LOGOUT} className='link'>
+                     <OutlineButton isNav border='#f44e42' color='red'>
+                        Logout
+                     </OutlineButton>
+                  </a>
+               </>
+            }
 
-        return (
-            <div className={navOpen ? 'nav-main nav-show' : 'nav-main'}>
-                <div className='nav-container'>
-                    { !this.props.user.userid
-                        ? <a href={process.env.REACT_APP_LOGIN} className='link'><button className='nav-link nav-auth'>Login</button></a>
-                        : <a href={process.env.REACT_APP_LOGOUT} className='link'><button className='nav-link nav-auth'>Logout</button></a>
-                    }
-                    <div className='nav-spacer' />
-                    <Link to='/' className='link'><div className='nav-link' onClick={() => handleNav(!navOpen)}>Combat Maps</div></Link>
-                    <Link to='/createcharacter' className='link'><div className='nav-link' onClick={() => handleNav(!navOpen)}>Character Creator</div></Link>
-                    <Link to='/playercharacters' className='link'><div className='nav-link' onClick={() => handleNav(!navOpen)}>Your Characters</div></Link>
-
-                    <DiceRoller />
-                </div>
-            </div>
-        )
-    }
+            <DiceRoller />
+         </div>
+      </div>
+   )
 }
 
-function mapStateToProps( state ) {
-    const { navOpen } = state.ship;
-    const { user } = state.auth
+function mapStateToProps(state) {
+   const { navOpen } = state.ship;
+   const { user } = state.auth
 
-    return {
-        navOpen,
-        user
-    };
+   return {
+      navOpen,
+      user
+   };
 }
 
-export default connect( mapStateToProps, { handleNav } )(Nav);
+export default injectSheet(styles)(connect(mapStateToProps, { handleNav })(Nav));
