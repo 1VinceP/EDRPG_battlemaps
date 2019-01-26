@@ -1,6 +1,6 @@
 let initialState = {
     visible: [],
-    combatBg: 'space-main',
+    combatBg: 'space',
     navOpen: false,
     user: {
         username: '',

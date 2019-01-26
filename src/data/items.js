@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-let context = require.context('../assets/tokens', true, /\.(png)$/)
+const context = require.context('../assets/tokens', true, /\.(png)$/)
 let files = {}
 
 context.keys().forEach( filename => {
@@ -10,7 +10,7 @@ context.keys().forEach( filename => {
 
 export default {
     maps: [
-        'Space-main', 'Land-main', 'Mixed-main'
+        'Space', 'Land', 'Mixed',
     ],
 
     shipNames: [

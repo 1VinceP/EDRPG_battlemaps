@@ -1,13 +1,19 @@
 import React from 'react';
-import './tips.css';
+import injectSheet from 'react-jss';
 
-export default function Tips() {
+import styles from './tipsStyles';
+
+function Tips({ classes }) {
+   const {
+      tipsBox, tipsCol,
+      green, periwinkle, magenta, cyan, orange, red,
+   } = classes;
 
     return (
-        <div className='tips-box'>
-            <section className='tips-col'>
+        <div className={tipsBox}>
+            <section className={tipsCol}>
                 <h1>Personal Combat</h1>
-                <div className='tip green'>
+                <div className={`tip ${green}`}>
                     <h2>Actions</h2>
                     <h3>Movement</h3>
                     <p>You may move a certain distance equal to your speed</p>
@@ -30,7 +36,7 @@ export default function Tips() {
                     <h3>Reload</h3>
                     <p>Reload a weapon. You must have a free hand, but can stow a one-handed weapon to do this. If you reload a heavy weapon, you may not reload and move in the same turn</p>
                 </div>
-                <div className='tip periwinkle'>
+                <div className={`tip ${periwinkle}`}>
                     <h2>Other Actions</h2>
                     <h3>Aiming</h3>
                     <p>Instead of moving and attacking, you may take aim. Declare your target. If you maintain aim through your next turn (keep line of sight, don't take damage, etc), gain +5 to hit</p>
@@ -62,7 +68,7 @@ export default function Tips() {
                     <h3>Zero-G Rush</h3>
                     <p>Turn off Magboots and travel 16m in one direction. Attacks have -1 To Hit. At the end of your turn, decide to gain control or keep drifting. Gain control: Difficulty 10 (12 if no magboots or flying). If you succeed, you stop. If you fail, keep drifting, or crash and spin if you run into anything. If you keep drifting, move another 16m at the start of your next turn. If you crash and spin, take 1D10 damage and lose next turn. If you hit an enemy, they also take 1D10 damage and are knocked over if they are the same size or smaller. You must attempt to regain control at the end of each turn, or keep spinning</p>
                 </div>
-                <div className='tip orange'>
+                <div className={`tip ${orange}`}>
                     <h2>Damage</h2>
                     <h3>Being Knocked Over</h3>
                     <p>Except for energy weapons, a damage roll of 10 will knock the target over. Starting your turn knocked over means you can move half your speed, or spend all your movement speed standing up. Attack bonuses are not applied this turn</p>
@@ -79,7 +85,7 @@ export default function Tips() {
                     <h3>Divide Fire</h3>
                     <p>Optional. Choose a target at least 8m away. Roll to hit applies to all targets (friend or foe) within 6m of target. Damage is halved against all targets hit</p>
                 </div>
-                <div className='tip red'>
+                <div className={`tip ${red}`}>
                     <h2>Death and Dying</h2>
                     <h3>Summary</h3>
                     <p>If your endurance is less than or equal to 0, you become unconscious and drop anything you are holding. You die when your endurance becomes a negative number equal to half your total endurance. If you are at 0 or were knocked out by a fighting attack, you are not bleeding out. Otherwise, you are</p>
@@ -98,16 +104,16 @@ export default function Tips() {
                 </div>
             </section>
 
-            <section className='tips-col'>
+            <section className={tipsCol}>
                 <h1>Vehicle Combat</h1>
                 <div className='tip'>
                     {/* <h2></h2> */}
                 </div>
             </section>
 
-            <section className='tips-col'>
+            <section className={tipsCol}>
                 <h1>Spaceship Combat</h1>
-                <div className='tip green'>
+                <div className={`tip ${green}`}>
                     <h2>Equipment Actions</h2>
                     <h3>Activate Shield Cell Bank</h3>
                     <p>
@@ -127,7 +133,7 @@ export default function Tips() {
                     <h3>Deploy Mines</h3>
                     <p>When deploying mines, enemy ships that dogfight you will risk taking damage until the start of your next turn</p>
                 </div>
-                <div className='tip periwinkle'>
+                <div className={`tip ${periwinkle}`}>
                     <h2>Recharge Shields</h2>
                     <h3>Shield is active</h3>
                     <p>Shield normally recharges at 5 points per turn. Shield Cell Banks and floating bonuses may increase this rate</p>
@@ -135,7 +141,7 @@ export default function Tips() {
                     <h3>Shield is inactive</h3>
                     <p>Shields recharge at the same rate, but don't provide any protection until turned back on. This does not happen until they charge up to 50% of it's starting value</p>
                 </div>
-                <div className='tip magenta'>
+                <div className={`tip ${magenta}`}>
                     <h2>Combat Actions</h2>
                     <h3>Broadsides - Up Close -> Up Close</h3>
                     <p>Chose a target in the Up Close zone. Fire a turret. On a hit, fire another turret at it or choose another target. On a miss, you must select another target. Continue this pattern until all your turrets have been fired or you have run out of targets</p>
@@ -171,7 +177,7 @@ export default function Tips() {
                     <h3>Strafe - At Distance -> Any</h3>
                     <p>Choose a target that is not disengaging or fleeing. Fire all your weapons one at a time. If you miss with a weapon you cannot attack anymore. After attacking you move Up Close but immediately begin a disengage action</p>
                 </div>
-                <div className='tip cyan'>
+                <div className={`tip ${cyan}`}>
                     <h2>Other Effects/actions</h2>
                     <h3>Dodging Mines</h3>
                     <p>When rolling to dogfight, you must exceed the difficulty of the mine launcher, or hit a mine. If you lose, you also the dogfight and take damage from the mine</p>
@@ -185,7 +191,7 @@ export default function Tips() {
                     <h3>Abandoning Ship</h3>
                     <p>All crew and yourself pile into escape pods. There are only enough pods for you and the total crew compliment. Other people must be left behind. If the ship is still intact on your next turn, other passengers eject themselves wearing only their spacesuits</p>
                 </div>
-                <div className='tip orange'>
+                <div className={`tip ${orange}`}>
                     <h2>Damage</h2>
                     <h3>Taking Damage</h3>
                     <p>All damage is first applied to shields, then the hull once the shields are down. Burst weapons deal an extra 5 damage for each point they exceed the target's defence score</p>
@@ -196,7 +202,7 @@ export default function Tips() {
                     <h3>Damaging Components</h3>
                     <p>If your To Hit roll results in a 10 while attacking the hull, you score a critical hit. In addition to damaging the hull, you also damage a component. Roll on the special table for this (pg. 69 of the Core Rulebook) to determine what you hit. If the components strength is reduced to 0, it ceases to function and all bonuses/effects are lost</p>
                 </div>
-                <div className='tip red'>
+                <div className={`tip ${red}`}>
                     <h2>Ship Destruction</h2>
                     <h3>Cargo Ejection</h3>
                     <p>A small ship scatters 1D10 cargo, a medium ship 2D10, a large ship 3D10 - up to the max cargo aboard the ship</p>
@@ -211,3 +217,5 @@ export default function Tips() {
         </div>
     )
 }
+
+export default injectSheet(styles)(Tips);

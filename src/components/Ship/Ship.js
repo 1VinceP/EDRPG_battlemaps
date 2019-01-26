@@ -1,110 +1,139 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
+import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
-import { updateShipPos, changeSides, handleName, handleActive } from '../../redux/shipReducer';
-import './ship.css';
+import PropTypes from 'prop-types';
+
+import {
+   updateShipPos, changeSides, handleName, handleActive
+} from '../../redux/shipReducer';
+import styles from './shipStyles';
 
 class Ship extends Component {
-    state = {
-        side: 'friendly',
-        name: '',
-        active: ''
-    }
+   static propTypes = {
+      updateShipPos: PropTypes.func,
+      changeSides: PropTypes.func,
+      handleName: PropTypes.func,
+      handleActive: PropTypes.func,
+      ship: PropTypes.object,
+   }
 
-    componentDidMount() {
-        const { side, name, active } = this.props.ship
+   static defaultProps = {
+      updateShipPos: () => {},
+      changeSides: () => {},
+      handleName: () => {},
+      handleActive: () => {},
+      ship: {},
+   }
 
-        this.setState({ side, name, active })
-    }
+   state = {
+      side: 'friendly',
+      name: '',
+      active: '',
+   }
 
-    handleDrag = (e, ui) => {
-        const { x, y } = this.props.ship.deltaPosition
+   componentDidMount() {
+      const { ship: { side, name, active } } = this.props;
 
-        this.props.updateShipPos( { id: this.props.ship.index, x: x + ui.deltaX, y: y + ui.deltaY } )
-    }
+      this.setState({ side, name, active });
+   }
 
-    changeSides() {
-        const { index, side } = this.props.ship
+   handleDrag = (e, ui) => {
+      const {
+         ship: {
+            index,
+            deltaPosition: { x, y },
+         },
+         updateShipPos,
+      } = this.props;
 
-        if( side === 'friendly' ) {
-            this.props.changeSides( index, 'enemy' )
-            this.setState({ side: 'enemy' })
-        }
-        else {
-            this.props.changeSides( index, 'friendly' )
-            this.setState({ side: 'friendly' })
-        }
-    }
+      updateShipPos({
+         id: index,
+         x: x + ui.deltaX,
+         y: y + ui.deltaY
+      });
+   }
 
-    handleName( e ) {
-        this.setState({ name: e.target.value })
-    }
+   changeSides() {
+      const { ship: { index, side } } = this.props;
 
-    deleteShip() {
-        const { index } = this.props.ship
+      if (side === 'friendly') {
+         this.props.changeSides(index, 'enemy');
+         this.setState({ side: 'enemy' });
+      }
+      else {
+         this.props.changeSides(index, 'friendly');
+         this.setState({ side: 'friendly' });
+      }
+   }
 
-        this.setState({ active: 'ship-deleted' })
-        this.props.handleActive( index, 'ship-deleted' )
-    }
+   handleName(e) {
+      this.setState({ name: e.target.value });
+   }
 
-    render() {
-        const { ship } = this.props
+   deleteShip() {
+      const {
+         ship: { index },
+         handleActive,
+      } = this.props;
 
-        let inputWidth = ship.size === 's' || ship.size === 'slf' ? '200%' : '130%'
-        let inputOffset = ship.size === 's' || ship.size === 'slf' ? '-50%' : '-15%'
+      this.setState({ active: 'ship-deleted' });
+      handleActive(index, 'ship-deleted');
+   }
 
-        let style = {
-            height: ship.height,
-            width: ship.width,
-            color: 'white',
-            position: 'absolute',
-            // border: '1px solid #0f0',
-            top: '30px',
-            left: '30px',
-            zIndex: 1,
-            paddingBottom: '3px'
-        }
-        let styleBg = {
-            height: '100%',
-            width: '100%',
-            background: `url( ${ship.image} ) no-repeat`,
-            backgroundSize: 'contain'
-        }
-        let styleButton = {
-            height: '18px',
-            width: inputWidth,
-            marginLeft: inputOffset,
-            background: 'rgba(0, 0, 0, 0.6)',
-            outline: 'none',
-            color: '#ccc',
-            borderRadius: '0, 0, 7px 7px',
-        }
-        let styleInput = {
-            height: '18px',
-            width: inputWidth,
-            marginTop: '3px',
-            marginLeft: inputOffset,
-            background: 'none',
-            border: 'none',
-            outline: 'none',
-            borderBottom: this.state.side === 'friendly' ? '1px solid #0f0' : '1px solid #f00',
-            color: '#fff',
-            textAlign: 'center',
-            fontSize: '12px'
-        }
+   render() {
+      const { classes, ship } = this.props;
+      const { deltaPosition: { x, y } } = ship;
+      const {
+         friendly, enemy, style, styleBg, styleButton,
+         shipDeleted, shipChange, styleInput,
+      } = classes;
 
-        const { deltaPosition: { x, y } } = ship
-        return (
-            <Draggable bounds='parent' handle='.ship-handle' onDrag={this.handleDrag} defaultPosition={{x, y}}>
-                <div className={`${this.state.side} ${this.state.active}`} style={style}>
-                    <div className='ship-handle' style={styleBg} />
-                    <input style={styleInput} value={this.state.name} onChange={e => this.handleName(e)} onBlur={() => this.props.handleName( ship.index, this.state.name )} />
-                    <button className='ship-change' style={styleButton} onClick={() => this.changeSides()}>Change sides</button>
-                    <button className='ship-change ship-delete' style={styleButton} onClick={() => this.deleteShip( ship.index )}>Remove</button>
-                </div>
-            </Draggable>
-        )
-    }
+      const side = this.state.side === 'friendly'
+         ? friendly
+         : enemy;
+      const active = this.state.active === 'ship-deleted'
+         ? shipDeleted
+         : '';
+
+      return (
+         <Draggable
+            bounds='parent'
+            handle='.ship-handle'
+            onDrag={this.handleDrag}
+            defaultPosition={{ x, y }}
+         >
+            <div className={`${side} ${active} ${style}`}>
+               <div className={`ship-handle ${styleBg}`} />
+               <input
+                  className={styleInput}
+                  value={this.state.name}
+                  onChange={e => this.handleName(e)}
+                  onBlur={() => this.props.handleName(ship.index, this.state.name)}
+               />
+               <button
+                  className={`${shipChange} ${styleButton}`}
+                  onClick={() => this.changeSides()}
+               >
+                  Change sides
+               </button>
+               <button
+                  className={`${shipChange} ${styleButton}`}
+                  onClick={() => this.deleteShip(ship.index)}
+               >
+                  Remove
+               </button>
+            </div>
+         </Draggable>
+      )
+   }
 }
 
-export default connect( null, { updateShipPos, changeSides, handleName, handleActive } )(Ship);
+const actions = {
+   updateShipPos,
+   changeSides,
+   handleName,
+   handleActive,
+}
+
+export default injectSheet(styles)(connect(null, actions)(Ship));
