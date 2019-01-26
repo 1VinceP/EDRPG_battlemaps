@@ -11,10 +11,17 @@ import styles from './RankUpStyles';
 
 class RankUp extends Component {
    static propTypes = {
+      applyRankUp: PropTypes.func.isRequired,
       character: PropTypes.object.isRequired,
       name: PropTypes.string.isRequired,
       open: PropTypes.bool,
-      applyRankUp: PropTypes.func.isRequired
+   }
+
+   static defaultProps = {
+      applyRankUp: () => {},
+      character: {},
+      name: '',
+      open: false,
    }
 
    state = {
